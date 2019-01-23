@@ -1,8 +1,10 @@
-New features [2019/01/21]:
+New features
+
+[2019/01/21]:
 - timesteps settings for simulation file;
 - building indoor temperature for simulation file;
-- terrain (early adopter).
-- move building component for terrain.
+- terrain (early adopter);
+- move building component for terrain;
 
-New features [2019/01/23]:
-- LBC settings.
+[2019/01/23]:
+- LBC settings;
