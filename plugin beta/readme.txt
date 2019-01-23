@@ -3,3 +3,6 @@ New features [2019/01/21]:
 - building indoor temperature for simulation file;
 - terrain (early adopter).
 - move building component for terrain.
+
+New features [2019/01/23]:
+- LBC settings.
