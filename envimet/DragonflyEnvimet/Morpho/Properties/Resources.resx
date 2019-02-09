@@ -130,6 +130,9 @@
   <data name="envimetBuildingsVisualizerIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetBuildingsVisualizerIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="envimetBuildingTempIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\envimetBuildingTempIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="envimetBuilingIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetBuilingIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -151,6 +154,9 @@
   <data name="envimetLocationIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetLocationIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="envimetMoveUpIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\envimetMoveUpIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="envimetNestingGridIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetNestingGridIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -169,10 +175,22 @@
   <data name="envimetSpacesIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetSpacesIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="envimetTerrainIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\envimetTerrainIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="envimetTimestepsTempIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\envimetTimestepsTempIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="envimetWorkspaceFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetWorkspaceFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="envimetXMLreader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetXMLreader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="envimetLBCtypeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\envimetLBCtypeIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="envimetSoilSettingsIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\envimetSoilSettingsIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -31,12 +31,20 @@ namespace DragonflyEnvimet
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("_mainSettings", "_mainSettings", "Location data which comes from \"Dragonfly Envimet Location\" component.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("simpleForcing_", "simpleForcing_", "Location data which comes from \"Dragonfly Envimet Location\" component.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("_mainSettings", "_mainSettings", "Basic setting of the simulation file which comes from \"DF Envimet Config MainSettings\" component..", GH_ParamAccess.item);
+            pManager.AddGenericParameter("simpleForcing_", "simpleForcing_", "Simple forcing condition which comes from \"DF Envimet Config SimpleForcing\" component.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("timestepsSettings_", "timestepsSettings_", "Timestep settings, important for radiation. it comes from \"DF Envimet Timesteps Settings\" component.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("buildingTemp_", "buildingTemp_", "Building indoor temperature setting. Output of \"DF Envimet Building Temp\" component.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("lbcTypes_", "lbcTypes_", "Boudary condition to use. Output of \"DF Envimet Timesteps Settings\" component.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("soilSettings_", "soilSettings_", "Initial condition to use for soil. Output of \"DF Envimet Soil Settings\" component.", GH_ParamAccess.item);
 
             pManager.AddBooleanParameter("parallel_", "parallel_", "Set True to increase the speed of calculation of ENVI_MET.\nThis option does not work with Basic version.\nDefault value is \"True\".", GH_ParamAccess.item, true);
             pManager.AddBooleanParameter("_runIt", "_runIt", "Set runIt to True to write SIMX file.\nDefault value is \"False\".", GH_ParamAccess.item, false);
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
+            pManager[3].Optional = true;
+            pManager[4].Optional = true;
+            pManager[5].Optional = true;
         }
 
         /// <summary>
@@ -58,16 +66,47 @@ namespace DragonflyEnvimet
             List<double> _dryBulbTemperature = new List<double>();
             List<double> _relativeHumidity = new List<double>();
 
+            envimetSimulationFile.Building buildingTemp = null;
+            envimetSimulationFile.BoundaryCondition lbcSettings = null;
+            envimetSimulationFile.SoilTemp soilSettings = null;
+
+
             bool parallel_ = false;
             bool _runIt = false;
 
             envimetSimulationFile.MainSettings baseSetting = new envimetSimulationFile.MainSettings();
+
+            envimetSimulationFile.TimeStepsSettings timestepsSettings = new envimetSimulationFile.TimeStepsSettings();
+
+
+
+            if (buildingTemp != null)
+            {
+                buildingTemp = new envimetSimulationFile.Building();
+            }
+
+            if (lbcSettings != null)
+            {
+                lbcSettings = new envimetSimulationFile.BoundaryCondition();
+            }
+
+            if (soilSettings != null)
+            {
+                soilSettings = new envimetSimulationFile.SoilTemp();
+            }
+
+
             envimetSimulationFile.SampleForcingSettings simpleForcing = new envimetSimulationFile.SampleForcingSettings(_dryBulbTemperature, _relativeHumidity);
 
             DA.GetData(0, ref baseSetting);
             DA.GetData(1, ref simpleForcing);
-            DA.GetData(2, ref parallel_);
-            DA.GetData(3, ref _runIt);
+            DA.GetData(2, ref timestepsSettings);
+            DA.GetData(3, ref buildingTemp);
+            DA.GetData(4, ref lbcSettings);
+            DA.GetData(5, ref soilSettings);
+
+            DA.GetData(6, ref parallel_);
+            DA.GetData(7, ref _runIt);
 
             // action
             // preparation
@@ -136,6 +175,50 @@ namespace DragonflyEnvimet
                     string[] parallelValue = new string[] { "ALL" };
 
                     WriteINX.xmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
+                }
+
+
+                // TimeSteps section
+                if (timestepsSettings.Dt_step02 != 0)
+                {
+                    string timestepTitle = "TimeSteps";
+                    string[] timestepTag = new string[] { "sunheight_step01", "sunheight_step02", "dt_step00", "dt_step01", "dt_step02" };
+                    string[] timestepValue = new string[] { timestepsSettings.Sunheight_step01.ToString(), timestepsSettings.Sunheight_step02.ToString(), timestepsSettings.Dt_step00.ToString(), timestepsSettings.Dt_step01.ToString(), timestepsSettings.Dt_step02.ToString() };
+
+                    WriteINX.xmlSection(xWriter, timestepTitle, timestepTag, timestepValue, 0, empty);
+                }
+
+
+                // Building section
+                if (buildingTemp != null)
+                {
+                    string buildingTempTitle = "Building";
+                    string[] buildingTempTag = new string[] { "indoorTemp", "indoorConst" };
+                    string[] buildingTempValue = new string[] { buildingTemp.IndoorTemp.ToString(), buildingTemp.IndoorConst.ToString() };
+
+                    WriteINX.xmlSection(xWriter, buildingTempTitle, buildingTempTag, buildingTempValue, 0, empty);
+                }
+
+
+                // LBC section
+                if (lbcSettings != null)
+                {
+                    string lbcTitle = "LBC";
+                    string[] lbcTag = new string[] { "LBC_TQ", "LBC_TKE" };
+                    string[] lbcValue = new string[] { lbcSettings.LBC_TQ.ToString(), lbcSettings.LBC_TKE.ToString() };
+
+                    WriteINX.xmlSection(xWriter, lbcTitle, lbcTag, lbcValue, 0, empty);
+                }
+
+
+                // Soil section
+                if (soilSettings != null)
+                {
+                    string soilTitle = "Soil";
+                    string[] soilTag = new string[] { "tempUpperlayer", "tempMiddlelayer", "tempDeeplayer", "tempBedrockLayer", "waterUpperlayer", "waterMiddlelayer", "waterDeeplayer", "waterBedrockLayer" };
+                    string[] soilValue = new string[] { soilSettings.TempUpperlayer.ToString(), soilSettings.TempMiddlelayer.ToString(), soilSettings.TempDeeplayer.ToString(), soilSettings.TempBedrockLayer.ToString(), soilSettings.WaterUpperlayer.ToString(), soilSettings.WaterMiddlelayer.ToString(), soilSettings.WaterDeeplayer.ToString(), soilSettings.WaterBedrockLayer.ToString() };
+
+                    WriteINX.xmlSection(xWriter, soilTitle, soilTag, soilValue, 0, empty);
                 }
 
 

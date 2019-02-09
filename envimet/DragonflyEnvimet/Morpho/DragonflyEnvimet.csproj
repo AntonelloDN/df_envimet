@@ -68,6 +68,12 @@
   <ItemGroup>
     <Compile Include="Buildings.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="MoveBuilding.cs" />
+    <Compile Include="BuildingTemp.cs" />
+    <Compile Include="LBCsettings.cs" />
+    <Compile Include="SoilSettings.cs" />
+    <Compile Include="TimestepsSettings.cs" />
+    <Compile Include="Terrain.cs" />
     <Compile Include="VisualizeBuildings.cs" />
     <Compile Include="Plant2d.cs" />
     <Compile Include="Plant3d.cs" />
@@ -157,6 +163,24 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetTerrainIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetMoveUpIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetBuildingTempIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetTimestepsTempIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetLBCtypeIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetSoilSettingsIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

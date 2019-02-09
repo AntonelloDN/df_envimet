@@ -40,6 +40,8 @@ namespace Morpho
             pManager.AddGenericParameter("envimet2dPlants_", "envimet2dPlants_", "Connect the output of \"Dragonfly Envimet 2d Plant\".", GH_ParamAccess.item);
             pManager.AddGenericParameter("envimet3dPlants_", "envimet3dPlants_", "Connect the output of \"Dragonfly Envimet 3d Plant\".", GH_ParamAccess.item);
             pManager.AddGenericParameter("envimetSources_", "envimetSources_", "Connect the output of \"Dragonfly Envimet Source\".", GH_ParamAccess.item);
+            pManager.AddGenericParameter("envimetTerrain_", "envimetTerrain_", "Connect the output of \"Dragonfly Envimet Terrain\".", GH_ParamAccess.item);
+
             pManager.AddTextParameter("fileName_", "fileName_", "The file name that you would like the envimet model to be saved as. Default name is \"DragonflyEnvimet\".", GH_ParamAccess.item, "DragonflyEnvimet");
             pManager.AddBooleanParameter("_runIt", "_runIt", "Set to \"True\" to run the component and generate the envimet model.", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("viewGridXY_", "viewGridXY_", "Set to \"True\" to run the view XY grid.", GH_ParamAccess.item, false);
@@ -50,9 +52,11 @@ namespace Morpho
             pManager[7].Optional = true;
             pManager[8].Optional = true;
             pManager[9].Optional = true;
-            pManager[11].Optional = true;
+            pManager[10].Optional = true;
+
             pManager[12].Optional = true;
             pManager[13].Optional = true;
+            pManager[14].Optional = true;
         }
 
         /// <summary>
@@ -73,9 +77,9 @@ namespace Morpho
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // INPUT
-
+            envimetGrid.Dem envimetTerrain_ = null;
             // surface
-            List<Mesh> baseSurfMesh = new List<Mesh>();
+            List <Mesh> baseSurfMesh = new List<Mesh>();
 
             // building
             List<Mesh> bgeo = new List<Mesh>();
@@ -126,6 +130,10 @@ namespace Morpho
             envimetGrid.Element2dMatrix envimet2dPlants_ = new envimetGrid.Element2dMatrix(p2ddefmat, p2dmat, p2dgeo);
             envimetGrid.ThreeDimensionalPlants envimet3dPlants_ = new envimetGrid.ThreeDimensionalPlants(p3ddefmat, p3dmat, p3dgeo);
             envimetGrid.Element2dMatrix envimetSources_ = new envimetGrid.Element2dMatrix(srcdefmat, srcmat, srcgeo);
+            if (envimetTerrain_ != null)
+            {
+                envimetTerrain_ = new envimetGrid.Dem();
+            }
 
             DA.GetData(0, ref _envimetFolder);
             DA.GetData(1, ref _envimetLocation);
@@ -136,11 +144,13 @@ namespace Morpho
             DA.GetData(6, ref envimet2dPlants_);
             DA.GetData(7, ref envimet3dPlants_);
             DA.GetData(8, ref envimetSources_);
-            DA.GetData(9, ref fileName_);
-            DA.GetData(10, ref _runIt);
-            DA.GetData(11, ref viewGridXY_);
-            DA.GetData(12, ref viewGridXZ_);
-            DA.GetData(13, ref viewGridYZ_);
+            DA.GetData(9, ref envimetTerrain_);
+
+            DA.GetData(10, ref fileName_);
+            DA.GetData(11, ref _runIt);
+            DA.GetData(12, ref viewGridXY_);
+            DA.GetData(13, ref viewGridXZ_);
+            DA.GetData(14, ref viewGridYZ_);
 
             // actions
             if (_envimentGrid.Surface == null)
@@ -174,7 +184,7 @@ namespace Morpho
 
             if (_runIt == true)
             { 
-                envimentManagment.WriteINX.INXwriteMethod(fullName, _envimentGrid, nestingGrid_, _envimetLocation, _envimetBuidings, envimet2dPlants_, _envimetSoils, envimetSources_, envimet3dPlants_);
+                envimentManagment.WriteINX.INXwriteMethod(fullName, _envimentGrid, nestingGrid_, _envimetLocation, _envimetBuidings, envimet2dPlants_, _envimetSoils, envimetSources_, envimet3dPlants_, envimetTerrain_);
                 DA.SetData(3, fullName);
             }
 

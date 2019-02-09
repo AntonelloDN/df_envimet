@@ -39,6 +39,22 @@ namespace envimetGrid
         public double MaxY { get; private set; }
         public int MaxZGrid { get; }
 
+        public string[] CheckZ
+        {
+            get
+            {
+                string[] checkZ = new string[ZNumbers.Length];
+
+                for (int i = 0; i < ZNumbers.Length; i++)
+                {
+                    checkZ[i] = ZNumbers[i].ToString("0.00");
+                }
+
+                return checkZ;
+
+            }
+        }
+
         public AutoGrid()
         {
             this.ZGrids = 15;
@@ -193,16 +209,15 @@ namespace envimetGrid
             return gridPoints;
         }
 
-        public int[,,] BasePoints(Mesh M, int index, double T, ref string buildingFlagAndNr)
+
+        public Point3d[] VoxelPoints(Mesh M, double T)
         {
             List<Plane> planes = new List<Plane>();
-            string[] checkZ = new string[ZNumbers.Length]; // for casting precision
 
             for (int i = 0; i < ZNumbers.Length; i++)
             {
                 Plane pl = new Plane(new Point3d(0, 0, ZNumbers[i]), Vector3d.ZAxis);
                 planes.Add(pl);
-                checkZ[i] = ZNumbers[i].ToString("0.00");
             }
 
             // internal method
@@ -232,23 +247,54 @@ namespace envimetGrid
 
             Point3d[] voxelPoints = Rhino.Geometry.Intersect.Intersection.ProjectPointsToBreps(volume, pointForProjection, Vector3d.ZAxis, T);
 
+            return voxelPoints;
+        }
+
+
+        public int[,,] VoxMatrixBuilding(Point3d[] buildingPoints, Point3d[] terrainPoints, int index, ref string buildingFlagAndNr)
+        {
             // bulk rect array
             int[,,] grid3d = new int[NumX + 1, NumY + 1, ZNumbers.Length];
 
-            foreach (Point3d pt in voxelPoints)
+            foreach (Point3d pt in buildingPoints)
             {
                 int valX = (int)Math.Round(((pt.X - this.MinX) / this.DimX), 0);
                 int valY = (int)Math.Round(((pt.Y - this.MinY) / this.DimY), 0);
-                int valZ = Array.IndexOf(checkZ, pt.Z.ToString("0.00"));
-                grid3d[valX, valY, valZ] = index;
-                buildingFlagAndNr += String.Format("{0},{1},{2},{3},{4}\n", valX, valY, valZ, 1, index);
-            }
+                
+                if (!terrainPoints.Contains(pt))
+                {
 
-            voxelPoints = null;
-            pointForProjection = null;
+                    int valZ = Array.IndexOf(CheckZ, pt.Z.ToString("0.00"));
+                    grid3d[valX, valY, valZ] = index;
+                    buildingFlagAndNr += String.Format("{0},{1},{2},{3},{4}\n", valX, valY, valZ, 1, index);
+
+                }
+            }
 
             return grid3d;
         }
+
+
+        public int[,,] VoxMatrixTerrain(Point3d[] terrainPoints, ref string terrainflag)
+        {
+            // bulk rect array
+            int[,,] grid3d = new int[NumX + 1, NumY + 1, ZNumbers.Length];
+            int index = 1;
+
+            foreach (Point3d pt in terrainPoints)
+            {
+                int valX = (int)Math.Round(((pt.X - this.MinX) / this.DimX), 0);
+                int valY = (int)Math.Round(((pt.Y - this.MinY) / this.DimY), 0);
+
+                int valZ = Array.IndexOf(CheckZ, pt.Z.ToString("0.00"));
+                terrainflag += String.Format("{0},{1},{2},{3}\n", valX, valY, valZ, "1.00000");
+                grid3d[valX, valY, valZ] = index;
+
+            }
+
+            return grid3d;
+        }
+
 
         public int[,] BasePoints2d(Brep Geo, int index, double T)
         {
@@ -709,14 +755,140 @@ namespace envimetGrid
 
             return grid2d;
         }
+
+
+        public static Rhino.Geometry.Mesh MoveBuildingsUp(Rhino.Geometry.Mesh mesh, Rhino.Geometry.Mesh terrain)
+        {
+
+            Rhino.Geometry.Transform xmoveTerrain;
+            Rhino.Geometry.Transform xmoveCentroid;
+
+            try
+            {
+
+                // first traslation
+                Point3d center = Rhino.Geometry.AreaMassProperties.Compute(mesh).Centroid;
+
+                Rhino.Geometry.Ray3d r = new Ray3d(center, Rhino.Geometry.Vector3d.ZAxis);
+
+                var intersec = Rhino.Geometry.Intersect.Intersection.MeshRay(terrain, r);
+
+                Point3d pt = r.PointAt(intersec);
+
+                if (intersec != 0.0)
+                {
+                    Rhino.Geometry.Vector3d vecCentroid = new Vector3d(0, 0, pt.Z - center.Z);
+                    xmoveCentroid = Rhino.Geometry.Transform.Translation(vecCentroid);
+                    mesh.Transform(xmoveCentroid);
+                }
+
+
+                // move to terrain
+                Rhino.Geometry.BoundingBox BBox = mesh.GetBoundingBox(true);
+                Rhino.Geometry.Mesh meshBox = Rhino.Geometry.Mesh.CreateFromBox(BBox, 1, 1, 1);
+
+                Rhino.Geometry.Line[] lines = Rhino.Geometry.Intersect.Intersection.MeshMeshFast(terrain, mesh);
+
+                Rhino.Geometry.Point3d minBBox = BBox.Min;
+
+                // dimension
+                double start = minBBox.Z;
+                double end = lines.Min(l => l.From.Z);
+
+
+                Rhino.Geometry.Vector3d vecTerrain = new Vector3d(0, 0, end - start);
+                xmoveTerrain = Rhino.Geometry.Transform.Translation(vecTerrain);
+            }
+            catch
+            {
+                xmoveTerrain = Rhino.Geometry.Transform.Translation(Rhino.Geometry.Vector3d.Zero);
+            }
+
+            mesh.Transform(xmoveTerrain);
+
+
+            return mesh;
+        }
+    }
+
+    /**********************************************************
+      ENVI_MET DEM
+    ***********************************************************/
+    public class Dem : AutoGrid
+    {
+        public Mesh TerrainMesh { get; set; }
+
+        public static Mesh CreateClosedMeshTerrain(Mesh surfTerrainMesh)
+        {
+            // bulk mesh
+            Mesh finalMesh = new Mesh();
+
+            // borders
+            Polyline[] arrayCrv1 = surfTerrainMesh.GetOutlines(Rhino.Geometry.Plane.WorldXY);
+            Polyline[] arrayCrv2 = surfTerrainMesh.GetNakedEdges();
+
+            Mesh baseMesh = Rhino.Geometry.Mesh.CreateFromClosedPolyline(arrayCrv1[0]);
+
+            // casting
+            Curve crv1 = arrayCrv1[0].ToNurbsCurve();
+            Curve crv2 = arrayCrv2[0].ToNurbsCurve();
+
+            // direction check
+            if (!Rhino.Geometry.Curve.DoDirectionsMatch(crv1, crv2))
+            {
+                crv1.Reverse();
+            }
+
+            // reset seam
+            double param;
+            crv1.ClosestPoint(crv2.PointAtStart, out param);
+            crv1.ChangeClosedCurveSeam(param);
+
+            Brep sideGeo = Brep.CreateFromLoft(new List<Curve>() { crv1, crv2 }, Point3d.Unset, Point3d.Unset, LoftType.Normal, false)[0];
+
+            var default_mesh_params = MeshingParameters.QualityRenderMesh;
+            var sideGeoMesh = Mesh.CreateFromBrep(sideGeo, default_mesh_params)[0];
+
+            finalMesh.Append(sideGeoMesh);
+            finalMesh.Append(surfTerrainMesh);
+            finalMesh.Append(baseMesh);
+
+            return finalMesh;
+        }
+        
+
+        public int[,] DemTop2d(int[,,] Data)
+        {
+
+            int[,] grid2d = new int[NumX + 1, NumY + 1];
+
+
+            for (int i = 0; i < NumX + 1; i++)
+            {
+                int[] up = new int[ZNumbers.Length];
+                for (int j = 0; j < NumY + 1; j++)
+                {
+                    for (int k = 0; k < ZNumbers.Length; k++)
+                    {
+                        up[k] = (Data[i, j, k] != 0) ? (int)Math.Round(ZNumbers[k], 0) : 0;
+                    }
+                    int max = up.Max();
+                    grid2d[i, j] = max;
+                }
+            }
+
+            return grid2d;
+        }
+
     }
 
 
+
     /**********************************************************
-      ENVI_MET 2d elements
+        ENVI_MET 2d elements
     ***********************************************************/
 
-    public class Element2dMatrix : AutoGrid
+        public class Element2dMatrix : AutoGrid
     {
 
         // variabili di istanza
@@ -1032,7 +1204,7 @@ namespace envimentManagment
 
         }
 
-        public static string BuildingCalculation(envimetGrid.BuildingMatrix edifici, envimetGrid.AutoGrid myGrid, double tol, ref string dbMatrix, ref string vBuildingMatrixId, ref string vBuildingMatrixBottom, ref string vBuildingMatrixUp, ref string dbGreenMatrix)
+        public static string BuildingCalculation(envimetGrid.BuildingMatrix edifici, envimetGrid.AutoGrid myGrid, double tol, Point3d[] terrainPoints, ref string dbMatrix, ref string vBuildingMatrixId, ref string vBuildingMatrixBottom, ref string vBuildingMatrixUp, ref string dbGreenMatrix)
         {
 
             // building calculation
@@ -1048,7 +1220,13 @@ namespace envimentManagment
                 try
                 {
                     int index = edifici.Buildings.IndexOf(m) + 1;
-                    int[,,] grid3d = myGrid.BasePoints(m, index, tol, ref buildingFlagAndNr);
+
+                    Point3d[] buildingPoints = myGrid.VoxelPoints(m, tol);
+
+                    int[,,] grid3d = myGrid.VoxMatrixBuilding(buildingPoints, terrainPoints, index, ref buildingFlagAndNr);
+
+                    //int[,,] grid3d = myGrid.BasePoints(m, index, tol, ref buildingFlagAndNr);
+
                     listaArray.Add(grid3d);
                 }
                 catch
@@ -1066,8 +1244,15 @@ namespace envimentManagment
                 int count = 1;
                 foreach (int index in greenBuildingsId)
                 {
-                    int[,,] grid3d = myGrid.BasePoints(edifici.Buildings[index], count, tol, ref buildingFlagAndNrGreen);
+
+                    Point3d[] buildingPoints = myGrid.VoxelPoints(edifici.Buildings[index], tol);
+
+                    int[,,] grid3d = myGrid.VoxMatrixBuilding(buildingPoints, terrainPoints, count, ref buildingFlagAndNrGreen);
+
                     listaArrayGreen.Add(grid3d);
+
+                    //int[,,] grid3d = myGrid.BasePoints(edifici.Buildings[index], count, tol, ref buildingFlagAndNrGreen);
+
                     count += 1;
                 }
                 // green
@@ -1110,7 +1295,8 @@ namespace envimentManagment
           envimetGrid.Element2dMatrix simpleplants2D,
           envimetGrid.Element2dMatrix soils2D,
           envimetGrid.Element2dMatrix sources2D,
-          envimetGrid.ThreeDimensionalPlants plants3D
+          envimetGrid.ThreeDimensionalPlants plants3D,
+          envimetGrid.Dem dem
           )
         {
 
@@ -1130,9 +1316,27 @@ namespace envimentManagment
             string vBuildingMatrixBottom = null;
             string vBuildingMatrixUp = null;
 
+            string terrainflag = null;
+            string terrainHeight = emptyMatrixZero;
+
 
             // calculation
-            string buildingFlagAndNr = WriteINX.BuildingCalculation(building, grid, tol, ref dbMatrix, ref vBuildingMatrixId, ref vBuildingMatrixBottom, ref vBuildingMatrixUp, ref dbGreenMatrix);
+            // terrain!
+            List<Point3d> terrainPoints = new List<Point3d>();
+            if (dem != null)
+            {
+                RhinoApp.WriteLine("OK");
+                terrainPoints = grid.VoxelPoints(dem.TerrainMesh, tol).ToList();
+
+                int[,,] grid3dDem = grid.VoxMatrixTerrain(terrainPoints.ToArray(), ref terrainflag);
+
+                int[,] demTop2d = dem.DemTop2d(grid3dDem);
+
+                terrainHeight = envimetGrid.AutoGrid.View2dMatrix(demTop2d);
+
+            }
+
+            string buildingFlagAndNr = WriteINX.BuildingCalculation(building, grid, tol, terrainPoints.ToArray(), ref dbMatrix, ref vBuildingMatrixId, ref vBuildingMatrixBottom, ref vBuildingMatrixUp, ref dbGreenMatrix);
 
             string ID_plants1D = null;
             if (simpleplants2D != null)
@@ -1287,8 +1491,8 @@ namespace envimentManagment
             // section dem (next release)
             string demTitle = "dem";
             string[] demDTag = new string[] { "terrainheight" };
-            string[] demValue = new string[] { emptyMatrixZero };
 
+            string[] demValue = new string[] { terrainHeight };
             WriteINX.xmlSection(xWriter, demTitle, demDTag, demValue, 1, attribute2dElements);
 
 
@@ -1358,7 +1562,7 @@ namespace envimentManagment
             // section dem3D (next release)
             string dem3DTitle = "dem3D";
             string[] dem3DTag = new string[] { "terrainflag" };
-            string[] dem3DValue = new string[] { "\n" };
+            string[] dem3DValue = new string[] { "\n" + terrainflag };
 
             WriteINX.xmlSection(xWriter, dem3DTitle, dem3DTag, dem3DValue, 2, attribute3dElementsTerrain);
 
@@ -1467,6 +1671,48 @@ namespace envimetSimulationFile
             this.totNumbers = temperature.Count;
         }
     }
+
+
+    public class TimeStepsSettings
+    {
+        public double Sunheight_step01 { get; set; }
+        public double Sunheight_step02 { get; set; }
+        public double Dt_step00 { get; set; }
+        public double Dt_step01 { get; set; }
+        public double Dt_step02 { get; set; }
+
+    }
+
+
+    public class Building
+    {
+        public double IndoorTemp { get; set; }
+        public double IndoorConst { get; set; }
+
+    }
+
+
+    public class BoundaryCondition
+    {
+        public double LBC_TQ { get; set; }
+        public double LBC_TKE { get; set; }
+
+    }
+
+
+    public class SoilTemp
+    {
+        public double TempUpperlayer { get; set; }
+        public double TempMiddlelayer { get; set; }
+        public double TempDeeplayer { get; set; }
+        public double TempBedrockLayer { get; set; }
+        public double WaterUpperlayer { get; set; }
+        public double WaterMiddlelayer { get; set; }
+        public double WaterDeeplayer { get; set; }
+        public double WaterBedrockLayer { get; set; }
+
+    }
+
 }
 
 /**********************************************************
