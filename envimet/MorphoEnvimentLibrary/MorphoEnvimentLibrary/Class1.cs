@@ -338,11 +338,11 @@ namespace envimetGrid
                 {
                     for (int j = 0; j < NumY + 1; j++)
                     {
-                        // Add cell togheter and overlap workaround
+                        // Add cell togheter and overlap workaround, last arrived win ;P
                         integerMatrix[i, j] += list[i, j];
-                        if (integerMatrix[i, j] >= arrayList.Count + 1)
+                        if (integerMatrix[i, j] >= arrayList.Count)
                         {
-                            integerMatrix[i, j] = integerMatrix[i, j] - 1;
+                            integerMatrix[i, j] = list[i, j];
                         }
                     }
                 }
