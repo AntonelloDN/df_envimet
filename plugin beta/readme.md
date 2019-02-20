@@ -13,4 +13,5 @@ New features
 - Soil init condition for simulation file;
 
 [2019/02/20]:
-- Edit building materials (E.g. for windows);
+- Edit building materials (E.g. for windows);<br>
+![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/EditBuildingMaterialComponent.png)
