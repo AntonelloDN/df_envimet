@@ -155,12 +155,14 @@ namespace Morpho
             // actions
             if (_envimentGrid.Surface == null)
             {
-                _envimentGrid.gZmethod(_envimetBuidings.Buildings); // INIT
+                _envimentGrid.CalcGridXY(_envimetBuidings.Buildings); // INIT
+                _envimentGrid.CalcGzDimension();
             }
             else
             {
                 baseSurfMesh.Add(_envimentGrid.Surface);
-                _envimentGrid.gZmethod(baseSurfMesh); // INIT
+                _envimentGrid.CalcGridXY(baseSurfMesh); // INIT
+                _envimentGrid.CalcGzDimension();
             }
 
 

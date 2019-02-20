@@ -5,6 +5,7 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Xml.Linq;
 using System.Linq;
+using envimentManagment;
 
 namespace DragonflyEnvimet
 {
@@ -29,6 +30,11 @@ namespace DragonflyEnvimet
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("_INXfileAddress", "_INXfileAddress", "Output of \"DF Envimet Spaces\".", GH_ParamAccess.item);
+            pManager.AddGenericParameter("_envimentGrid_", "_envimentGrid_", "Connect the output of \"Dragonfly Envimet Grid\".", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("innerOuter_", "innerOuter_", "True = AllPoints; False = Outer Points", GH_ParamAccess.item);
+
+            pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -48,53 +54,29 @@ namespace DragonflyEnvimet
             // INPUT
             // declaration
             string _INXfileAddress = null;
+            ReadEnvimet readInx = new ReadEnvimet();
+            envimetGrid.AutoGrid _envimentGrid_ = null;
+            bool innerOuter_ = true;
 
             DA.GetData(0, ref _INXfileAddress);
+            DA.GetData(1, ref _envimentGrid_);
+            DA.GetData(2, ref innerOuter_);
 
             // action
+            string word = (innerOuter_ == true) ? "buildingFlagAndNr" : "ID_wallDB";
             List<string> rowData = new List<string>();
 
             if (_INXfileAddress != null)
             {
                 try
                 {
-                    XDocument doc = XDocument.Load(_INXfileAddress);
-                    var descendants = doc.Descendants("buildingFlagAndNr");
-
-                    foreach (var item in descendants)
-                    {
-                        string itemString = item.Value;
-
-                        string[] listItem = itemString.Split('\n').Skip(1).ToArray();
-
-                        rowData = listItem.ToList();
-                        rowData.Remove("");
-                    }
-
-                    DA.SetDataList(0, generatePoints(rowData));
+                    DA.SetDataList(0, readInx.ExtractPointFromINX(_INXfileAddress, _envimentGrid_, word, ref rowData));
                 }
                 catch
                 {
                     this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Something went wrong... only output from DF Envimet Spaces are supported now.");
                 }
             }
-        }
-
-        public List<Point3d> generatePoints(List<string> righe)
-        {
-            List<Point3d> pts = new List<Point3d>();
-            foreach (string row in righe)
-            {
-                string[] selString = row.Split(',');
-                pts.Add(new Point3d(FromStringToDouble(selString[0]), FromStringToDouble(selString[1]), FromStringToDouble(selString[2])));
-            }
-
-            return pts;
-        }
-
-        public double FromStringToDouble(string inputString)
-        {
-            return Convert.ToDouble(inputString);
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿using Rhino;
 using System;
+using System.IO;
 using System.Xml;
+using System.Xml.Linq;
 using System.Linq;
 using System.Text;
 using Rhino.Geometry;
@@ -55,6 +57,7 @@ namespace envimetGrid
             }
         }
 
+
         public AutoGrid()
         {
             this.ZGrids = 15;
@@ -88,7 +91,8 @@ namespace envimetGrid
                 this.ExtDownYgrid = 2;
         }
 
-        public void gZmethod(List<Mesh> buildings)
+
+        public void CalcGridXY(List<Mesh> buildings)
         {
             double distLeft = this.ExtLeftXgrid * this.DimX;
             double distRight = this.ExtRightXgrid * this.DimX;
@@ -130,6 +134,12 @@ namespace envimetGrid
             // Reccalculate maxX/Y just for the bounding box fit the grid size/length
             this.MaxX = this.MinX + (NumX * this.DimX);
             this.MaxY = this.MinY + (NumY * this.DimY);
+
+        }
+
+
+        public void CalcGzDimension()
+        { 
 
             // Calculate z info
             // Preparation
@@ -177,6 +187,7 @@ namespace envimetGrid
             ZNumbers = gZ;
         }
 
+
         public List<Point3d> GridXY()
         {
             List<Point3d> gridPoints = new List<Point3d>();
@@ -186,6 +197,7 @@ namespace envimetGrid
                     gridPoints.Add(new Point3d((ix * this.DimX) + this.MinX, (iy * this.DimY) + this.MinY, ZNumbers[0]));
             return gridPoints;
         }
+
 
         public List<Point3d> GridXZ()
         {
@@ -197,6 +209,7 @@ namespace envimetGrid
 
             return gridPoints;
         }
+
 
         public List<Point3d> GridYZ()
         {
@@ -1633,7 +1646,147 @@ namespace envimentManagment
 
             return newFile;
         }
+
+
+        public static double FromStringToDouble(string inputString)
+        {
+            return Convert.ToDouble(inputString);
+        }
+
+        public static int FromStringToInt(string inputString)
+        {
+            return Convert.ToInt32(inputString);
+        }
+
+
+        public List<Point3d> generatePoints(List<string> rows, double dimX, double dimY, double minX, double minY)
+        {
+            List<Point3d> pts = new List<Point3d>();
+
+            foreach (string row in rows)
+            {
+                string[] selString = row.Split(',');
+                int zIndex = FromStringToInt(selString[2]);
+                double xVal = FromStringToDouble(selString[0]);
+                double yVal = FromStringToDouble(selString[1]);
+
+                pts.Add( new Point3d( (xVal * dimX) + minX, (yVal * dimY) + minY, envimetGrid.AutoGrid.ZNumbers[zIndex] ));
+            }
+
+            return pts;
+        }
+
+
+        public List<Point3d> ExtractPointFromINX(string INXfileAddress, envimetGrid.AutoGrid grid, string keyWord, ref List<string> rowData)
+        {
+
+            List<Point3d> pts = new List<Point3d>();
+            envimetGrid.AutoGrid newGrid;
+
+
+            // Handle invalid tags within INX
+            string myFile = File.ReadAllText(INXfileAddress);
+            myFile = myFile.Replace("3Dplants", "threeDplants");
+
+
+            // Parse XML
+            XDocument doc = XDocument.Parse(myFile);
+            var descendants = doc.Descendants(keyWord);
+
+            // get dimensions
+            double dimX = FromStringToDouble(doc.Root.Element("modelGeometry").Element("dx").Value);
+            double dimY = FromStringToDouble(doc.Root.Element("modelGeometry").Element("dy").Value);
+            double dimZ = FromStringToDouble(doc.Root.Element("modelGeometry").Element("dz-base").Value);
+
+            // next development
+            if (grid == null)
+            {
+                newGrid = new envimetGrid.AutoGrid();
+                newGrid.ZGrids = 999;
+                newGrid.DimZ = dimZ;
+                newGrid.CalcGzDimension();
+            }
+            else
+            {
+                newGrid = grid;
+            }
+
+
+            foreach (var item in descendants)
+            {
+                string itemString = item.Value;
+
+                string[] listItem = itemString.Split('\n').Skip(1).ToArray();
+
+                rowData = listItem.ToList();
+                rowData.Remove("");
+            }
+
+            return generatePoints(rowData, dimX, dimY, newGrid.MinX, newGrid.MinY);
+        }
+
+
+        public string RestoreInvalidTag(string filetext)
+        {
+            filetext = filetext.Replace("threeDplants", "3Dplants");
+            return filetext;
+        }
+
+
+        public static bool PointContainmentCheck(Point3d pt, Curve crv)
+        {
+            // project point to world XY
+            Rhino.Geometry.Transform xprj = Rhino.Geometry.Transform.PlanarProjection(Plane.WorldXY);
+            pt.Transform(xprj);
+
+            var coitainmentValue = crv.Contains(pt, Plane.WorldXY, 0.01);
+            bool val = (coitainmentValue == Rhino.Geometry.PointContainment.Inside) ? true : false;
+
+            return val;
+        }
+
+
+        public Mesh UnionMeshUtility(List<Mesh> meshes)
+        {
+            Mesh myMesh = new Mesh();
+
+            foreach (Mesh m in meshes)
+            {
+                myMesh.Append(m);
+            }
+
+            return myMesh;
+        }
+
+
+        public bool PointsInShapesCheck(Mesh meshUnion, Point3d testPoint)
+        {
+            return meshUnion.IsPointInside(testPoint, 0.01, false);
+        }
+
+
+        public string UpdateRowTextMaterial(string textRow, string materialX, string materialY, string materialZ)
+        {
+            string[] stringValues = textRow.Split(',');
+
+            UpdateMaterial(stringValues, 3, materialX);
+            UpdateMaterial(stringValues, 4, materialY);
+            UpdateMaterial(stringValues, 5, materialZ);
+
+            return String.Join(",", stringValues);
+        }
+
+
+        protected void UpdateMaterial(string[] rowText, int index, string materialDir)
+        {
+            if (materialDir != null && rowText[index] != String.Empty)
+            {
+                rowText[index] = materialDir;
+            }
+        }
+
     }
+
 }
 
 namespace envimetSimulationFile
