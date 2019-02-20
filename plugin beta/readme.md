@@ -11,3 +11,6 @@ New features
 
 [2019/02/09]:
 - Soil init condition for simulation file;
+
+[2019/02/20]:
+- Edit building materials (E.g. for windows);
