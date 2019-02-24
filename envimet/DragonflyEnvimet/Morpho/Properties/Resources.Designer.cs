@@ -243,6 +243,16 @@ namespace DragonflyEnvimet.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap envimetShadingHrzIcon {
+            get {
+                object obj = ResourceManager.GetObject("envimetShadingHrzIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap envimetSoilIcon {
             get {
                 object obj = ResourceManager.GetObject("envimetSoilIcon", resourceCulture);

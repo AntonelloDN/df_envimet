@@ -121,6 +121,17 @@ namespace Morpho
 
             myGrid.Surface = baseSurface_;
 
+            // because you are using nested class
+            var doc = OnPingDocument();
+            foreach (IGH_DocumentObject obj in doc.Objects)
+            {
+                if (obj.Name == "DF Envimet  3d Plant" || obj.Name == "DF Horizontal Overhang")
+                {
+                    obj.ExpireSolution(true);
+                }
+            }
+
+
             // OUTPUT
             //DA.SetData(0, (object)envimetBuildings);
             DA.SetData(0, myGrid);

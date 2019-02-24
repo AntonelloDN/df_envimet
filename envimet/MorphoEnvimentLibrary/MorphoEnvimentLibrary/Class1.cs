@@ -422,6 +422,7 @@ namespace envimetGrid
             }
             return visualMatrix;
         }
+
     }
 
     /**********************************************************
@@ -1014,6 +1015,87 @@ namespace envimetGrid
             this.Name = "NestingGrid";
         }
     }
+
+
+    /**********************************************************
+          ENVI_MET 2d Simple Wall 
+      ***********************************************************/
+
+    public class SimpleWall: Element2dMatrix
+    {
+
+        // They are managed as 2d z element for now
+        public double[] MinValueZ { get; private set; }
+
+        public SimpleWall(string defMat, List<string> customMat, List<Brep> geometry) : base(defMat, customMat, geometry)
+        {
+            this.MinValueZ = GenerateMinValueZ(geometry);
+        }
+
+        protected double[] GenerateMinValueZ(List<Brep> geometry)
+        {
+            double[] zMinValueGeo = new double[geometry.Count];
+
+            for (int i = 0; i < geometry.Count; i++)
+            {
+                // get bbox
+                Rhino.Geometry.BoundingBox bboxSrf = geometry[i].GetBoundingBox(true);
+
+                // take min point
+                Point3d minPoint = bboxSrf.Min;
+                double zValueGeo = minPoint.Z;
+
+                zMinValueGeo[i] = DiffArrayZdir(zValueGeo);
+
+            }
+            return zMinValueGeo;
+        }
+
+
+        protected int DiffArrayZdir(double num)
+        {
+            double[] newArr = new double[ZNumbers.Length];
+
+            for (int i = 0; i < newArr.Length; i++)
+            {
+                newArr[i] = Math.Abs(num - ZNumbers[i]);
+            }
+
+            int minIndex = Array.IndexOf(newArr, newArr.Min());
+
+            return minIndex;
+        }
+
+
+        public void SimpleWallStringCalcZdir(Brep Geo, int index, double T, envimetGrid.AutoGrid grid, ref string contentXml)
+        {
+
+            for (int i = 0; i < NumX + 1; i++)
+                for (int j = 0; j < NumY + 1; j++)
+                {
+                    Point3d point = new Point3d((i * grid.DimX) + grid.MinX, (j * grid.DimY) + grid.MinY, 0);
+                    Line ln = new Line(point, Rhino.Geometry.Vector3d.ZAxis, this.DimX * 2);
+
+                    // projection
+                    Transform projection = Rhino.Geometry.Transform.PlanarProjection(Rhino.Geometry.Plane.WorldXY);
+                    Geo.Transform(projection);
+
+                    Point3d[] intersection_points;
+                    Curve[] overlap_curves;
+
+                    if (Rhino.Geometry.Intersect.Intersection.CurveBrep(ln.ToNurbsCurve(), Geo, T, out overlap_curves, out intersection_points))
+                        if (overlap_curves.Length > 0 || intersection_points.Length > 0)
+                        {
+                            contentXml += String.Format("{0},{1},{2},{3},{4},{5}\n", i, j, this.MinValueZ[index], "", "", this.customMaterial[index]);
+                        }
+                }
+        }
+
+
+
+
+    }
+
 }
 
 /**********************************************************
@@ -1200,6 +1282,21 @@ namespace envimentManagment
 
         }
 
+
+        static public string SimpleWallHorizontalOverhangCalculation(envimetGrid.SimpleWall envimentObj, envimetGrid.AutoGrid myGrid, double tol)
+        {
+            string textXmlSimpleWall = null;
+
+            for (int i = 0; i < envimentObj.Geometries.Count; i++)
+            {
+                envimentObj.SimpleWallStringCalcZdir(envimentObj.Geometries[i], i, tol, myGrid, ref textXmlSimpleWall);
+            }
+
+            return textXmlSimpleWall;
+
+        }
+
+
         static public void Three3dCalculation(envimetGrid.ThreeDimensionalPlants envimentObj, envimetGrid.AutoGrid myGrid, double tol)
         {
 
@@ -1309,7 +1406,8 @@ namespace envimentManagment
           envimetGrid.Element2dMatrix soils2D,
           envimetGrid.Element2dMatrix sources2D,
           envimetGrid.ThreeDimensionalPlants plants3D,
-          envimetGrid.Dem dem
+          envimetGrid.Dem dem,
+          envimetGrid.SimpleWall simpleW
           )
         {
 
@@ -1371,6 +1469,17 @@ namespace envimentManagment
             else
             {
                 ID_sources = emptyMatrixNull;
+            }
+
+
+            string sparseMatrixSimpleWall = null;
+            if (simpleW != null)
+            {
+                sparseMatrixSimpleWall = "\n" + WriteINX.SimpleWallHorizontalOverhangCalculation(simpleW, grid, tol);
+            }
+            else
+            {
+                sparseMatrixSimpleWall = "\n";
             }
 
             // start with xml
@@ -1591,7 +1700,7 @@ namespace envimentManagment
             // section SingleWallDB (maybe next release)
             string SingleWallDBTitle = "SingleWallDB";
             string[] SingleWallDBTag = new string[] { "ID_singlewallDB" };
-            string[] SingleWallDBValue = new string[] { "\n" };
+            string[] SingleWallDBValue = new string[] { sparseMatrixSimpleWall };
 
             WriteINX.xmlSection(xWriter, SingleWallDBTitle, SingleWallDBTag, SingleWallDBValue, 2, attribute3dElementsWallDB);
 

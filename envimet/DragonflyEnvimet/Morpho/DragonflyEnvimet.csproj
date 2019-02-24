@@ -47,7 +47,8 @@
     <Reference Include="Grasshopper, Version=6.0.18016.23451, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803, processorArchitecture=MSIL">
       <HintPath>..\packages\Grasshopper.6.0.18016.23451\lib\net45\Grasshopper.dll</HintPath>
     </Reference>
-    <Reference Include="MorphoEnvimentLibrary">
+    <Reference Include="MorphoEnvimentLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>.\MorphoEnvimentLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.UI, Version=6.0.18016.23451, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
@@ -71,6 +72,7 @@
     <Compile Include="BuildingTemp.cs" />
     <Compile Include="LBCsettings.cs" />
     <Compile Include="EditBuildingMaterial.cs" />
+    <Compile Include="PlanarSingleWallZ.cs" />
     <Compile Include="SoilSettings.cs" />
     <Compile Include="TimestepsSettings.cs" />
     <Compile Include="Terrain.cs" />
@@ -184,6 +186,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\envimetEditBuildingMaterial.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetShadingHrzIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,19 +5,19 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using envimetGrid;
 
-namespace Morpho
+namespace DragonflyEnvimet
 {
-    public class Plant3d : GH_Component
+    public class PlanarSingleWallZ : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public Plant3d()
-          : base("DF Envimet  3d Plant", "DFEnvimet3dPlant",
-              "Use this component to generate inputs for \"Dragonfly Envimet Spaces\"",
+        public PlanarSingleWallZ()
+          : base("DF Horizontal Overhang", "DFhorizontalOverhang",
+              "Use this component to horizontal overangs \"Dragonfly Envimet Spaces\".",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_26_2018";
+            this.Message = "VER 0.0.03\nFEB_24_2019";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -27,8 +27,8 @@ namespace Morpho
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("_plant3D", "_plant3D", "Geometry that represent ENVI-Met plant 3d.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.list);
-            pManager.AddTextParameter("_plant3Did_", "_plant3Did_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"LB ENVI - Met Read Library\".\nDefault is PINETREE.", GH_ParamAccess.list);
+            pManager.AddBrepParameter("_horizontalPlanarSurface", "_horizontalPlanarSurface", "Horizoantal planar surface that represent ENVI-Met horazontal overhang 2d. Geometry must be horizonatal planar Surface or Brep.\nTry to generate planar shadings using Ladybug!", GH_ParamAccess.list);
+            pManager.AddTextParameter("_singleWallId_", "_singleWallId_", "ENVI-Met single wall id. You can use \"id outputs\" which comes from \"LB ENVI - Met Read Library\".\nDefault is 0000XX.", GH_ParamAccess.list, "000001");
             pManager[1].Optional = true;
         }
 
@@ -37,7 +37,7 @@ namespace Morpho
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("envimet3dPlants", "envimet3dPlants", "Connect this output to \"Morpho Spaces\" in order to add 3d plants to ENVI-Met model.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("envimetShadings", "envimetShadings", "Connect this output to \"Dragonfly Envimet Spaces\" in order to add horizontal overhang to ENVI-Met model.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -48,18 +48,25 @@ namespace Morpho
         {
             // INPUT
             // declaration
-            List<Brep> _plant3D = new List<Brep>();
-            List<string> _plant3Did_ = new List<string>();
+            List<Brep> geo = new List<Brep>();
+            List<string> ids = new List<string>();
 
-            DA.GetDataList<Brep>(0, _plant3D);
-            DA.GetDataList<string>(1, _plant3Did_);
+            DA.GetDataList<Brep>(0, geo);
+            DA.GetDataList<string>(1, ids);
 
             // actions
-            //envimetGrid.ThreeDimensionalPlants trees = new envimetGrid.ThreeDimensionalPlants("0000C2,.PINETREE", _plant3Did_, _plant3D);
-            envimetGrid.ThreeDimensionalPlants trees = new envimetGrid.ThreeDimensionalPlants("0000C2,.PINETREE", _plant3Did_, _plant3D);
+            try
+            {
+                envimetGrid.SimpleWall hrShadings = new envimetGrid.SimpleWall("000001", ids, geo);
 
-            // OUTPUT
-            DA.SetData(0, trees);
+                // OUTPUT
+                DA.SetData(0, hrShadings);
+            }
+            catch
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Something went wrong... please check if there are null inputs.");
+            }
+
         }
 
         /// <summary>
@@ -71,7 +78,7 @@ namespace Morpho
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return DragonflyEnvimet.Properties.Resources.envimet3dPlantIcon;
+                return DragonflyEnvimet.Properties.Resources.envimetShadingHrzIcon;
             }
         }
 
@@ -80,7 +87,7 @@ namespace Morpho
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("c350b9ba-b231-40b0-af27-2e7d7f00e49d"); }
+            get { return new Guid("9056a9bd-4d6e-42c2-8c5b-a3fbc48ddf1d"); }
         }
     }
 }

@@ -89,21 +89,31 @@ namespace Morpho
             DA.GetDataList<string>(7, greenRoofMaterial_);
 
             // actions
-            envimetGrid.BuildingMatrix envimetBuildings = new envimetGrid.BuildingMatrix(_buildings, wallMaterial_, roofMaterial_, commonWallMaterial_, commonRoofMaterial_, greenBuildingsId_, greenWallMaterial_, greenRoofMaterial_);
-
-            foreach (Mesh m in envimetBuildings.Buildings)
+            try
             {
-                if (!(m.IsClosed))
+                envimetGrid.BuildingMatrix envimetBuildings = new envimetGrid.BuildingMatrix(_buildings, wallMaterial_, roofMaterial_, commonWallMaterial_, commonRoofMaterial_, greenBuildingsId_, greenWallMaterial_, greenRoofMaterial_);
+
+                foreach (Mesh m in envimetBuildings.Buildings)
                 {
-                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Please provide closed geometries");
-                    return;
+                    if (!(m.IsClosed))
+                    {
+                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Please provide closed geometries");
+                        return;
+                    }
                 }
+
+
+                // OUTPUT
+                //DA.SetData(0, (object)envimetBuildings);
+                DA.SetData(0, envimetBuildings);
+
+            }
+            catch
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Something went wrong... connect valid geometries.");
             }
 
 
-            // OUTPUT
-            //DA.SetData(0, (object)envimetBuildings);
-            DA.SetData(0, envimetBuildings);
         }
 
         /// <summary>
