@@ -1,4 +1,4 @@
-Here you can find a beta version of dragonfly components. They will be released in official Dragonfly Legacy as soon as they are stable enough.
+Here you can find a beta version of dragonfly components. They will be released in official Dragonfly Legacy as soon as they are tested enough.
 
 ## Installation
 
