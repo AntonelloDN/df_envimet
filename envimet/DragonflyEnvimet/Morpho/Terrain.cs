@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimetGrid;
+using envimetGeometry;
 
 namespace DragonflyEnvimet
 {
@@ -52,9 +52,9 @@ namespace DragonflyEnvimet
 
             DA.GetData(0, ref _terrain);
 
-            envimetGrid.Dem envimetTerrain = new envimetGrid.Dem();
+            envimetGeometry.Dem envimetTerrain = new envimetGeometry.Dem();
 
-            envimetTerrain.TerrainMesh = envimetGrid.Dem.CreateClosedMeshTerrain(_terrain);
+            envimetTerrain.TerrainMesh = envimetGeometry.Dem.CreateClosedMeshTerrain(_terrain);
 
             // OUTPUT
             DA.SetData(0, envimetTerrain);

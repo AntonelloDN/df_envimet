@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Xml.Linq;
-using System.Linq;
 using System.IO;
-using envimentManagment;
+using editEnvimetObject;
 
 namespace DragonflyEnvimet
 {
@@ -59,8 +58,9 @@ namespace DragonflyEnvimet
             // INPUT
             // declaration
             string _INXfileAddress = null;
-            ReadEnvimet readInx = new ReadEnvimet();
-            envimetGrid.AutoGrid _envimentGrid = null;
+            EditEnvimetBuilding editEnvimetBuilding = new EditEnvimetBuilding();
+
+            envimetGeometry.AutoGrid _envimentGrid = null;
             Curve crv = null;
             List<Mesh> meshes = new List<Mesh>();
             string matx = "000000";
@@ -91,23 +91,28 @@ namespace DragonflyEnvimet
                     if (runIt)
                     {
                         // create a list of points
-                        List<Point3d> points = readInx.ExtractPointFromINX(_INXfileAddress, _envimentGrid, word, ref rowData);
-                        Mesh testShapes = readInx.UnionMeshUtility(meshes);
+                        List<Point3d> points = editEnvimetBuilding.ExtractPointFromINX(_INXfileAddress, _envimentGrid, word, ref rowData);
+                        Mesh testShapes = editEnvimetBuilding.UnionMeshUtility(meshes);
 
 
                         // every row is a series of numbers and text separated by comma
                         string[] newValueText = new string[points.Count];
                         for (int i = 0; i < points.Count; i++)
                         {
-                            if (envimentManagment.ReadEnvimet.PointContainmentCheck(points[i], crv))
+                            if (EditEnvimetBuilding.PointContainmentCheck(points[i], crv))
                             {
+
+                                CellMaterial newMaterial;
+                                newMaterial.MaterialX = matx;
+                                newMaterial.MaterialY = maty;
+                                newMaterial.MaterialZ = matz;
 
                                 if (meshes.Count > 0)
                                 {
 
-                                    if (readInx.PointsInShapesCheck(testShapes, points[i]))
+                                    if (editEnvimetBuilding.PointsInShapesCheck(testShapes, points[i]))
                                     {
-                                        newValueText[i] = readInx.UpdateRowTextMaterial(rowData[i], matx, maty, matz);
+                                        newValueText[i] = editEnvimetBuilding.UpdateRowTextMaterial(rowData[i], newMaterial);
                                     }
                                     else
                                     {
@@ -117,7 +122,7 @@ namespace DragonflyEnvimet
                                 }
                                 else
                                 {
-                                    newValueText[i] = readInx.UpdateRowTextMaterial(rowData[i], matx, maty, matz);
+                                    newValueText[i] = editEnvimetBuilding.UpdateRowTextMaterial(rowData[i], newMaterial);
                                 }
 
 
@@ -154,7 +159,7 @@ namespace DragonflyEnvimet
                         wall.SetValue(newValue);
 
 
-                        string finalText = readInx.RestoreInvalidTag(doc.ToString());
+                        string finalText = editEnvimetBuilding.RestoreInvalidTag(doc.ToString());
 
                         // write file in a new destination
                         System.IO.File.WriteAllText(_INXfileAddress, finalText);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimetGrid;
+using envimetGeometry;
 
 namespace DragonflyEnvimet
 {
@@ -57,7 +57,7 @@ namespace DragonflyEnvimet
             // actions
             try
             {
-                envimetGrid.SimpleWall hrShadings = new envimetGrid.SimpleWall("000001", ids, geo);
+                envimetGeometry.SimpleWall hrShadings = new envimetGeometry.SimpleWall("000001", ids, geo);
 
                 // OUTPUT
                 DA.SetData(0, hrShadings);

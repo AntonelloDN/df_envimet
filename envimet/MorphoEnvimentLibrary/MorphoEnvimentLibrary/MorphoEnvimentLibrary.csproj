@@ -59,7 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="EditEnvimetGeometry.cs" />
+    <Compile Include="EnvimetGeometry.cs" />
+    <Compile Include="IntegrationLbLayer.cs" />
+    <Compile Include="SimulationFile.cs" />
+    <Compile Include="EnvimetFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

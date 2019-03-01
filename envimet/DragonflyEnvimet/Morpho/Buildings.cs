@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimetGrid;
+using envimetGeometry;
 
 // In order to load the result of this wizard, you will also need to
 // add the output bin/ folder of this project to the list of loaded
@@ -91,7 +91,7 @@ namespace Morpho
             // actions
             try
             {
-                envimetGrid.BuildingMatrix envimetBuildings = new envimetGrid.BuildingMatrix(_buildings, wallMaterial_, roofMaterial_, commonWallMaterial_, commonRoofMaterial_, greenBuildingsId_, greenWallMaterial_, greenRoofMaterial_);
+                envimetGeometry.BuildingMatrix envimetBuildings = new envimetGeometry.BuildingMatrix(_buildings, wallMaterial_, roofMaterial_, commonWallMaterial_, commonRoofMaterial_, greenBuildingsId_, greenWallMaterial_, greenRoofMaterial_);
 
                 foreach (Mesh m in envimetBuildings.Buildings)
                 {

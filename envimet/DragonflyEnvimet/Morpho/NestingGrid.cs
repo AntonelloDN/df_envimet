@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimetGrid;
+using envimetGeometry;
 
 namespace Morpho
 {
@@ -57,7 +57,7 @@ namespace Morpho
             DA.GetData(2, ref soilProfileB_);
 
             // actions
-            envimetGrid.NestingGrid nGrid = new envimetGrid.NestingGrid();
+            envimetGeometry.NestingGrid nGrid = new envimetGeometry.NestingGrid();
 
             if (numNestingGrid_ != 0)
                 nGrid.NumNestingGrid = numNestingGrid_;

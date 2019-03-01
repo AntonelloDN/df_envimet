@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimetGrid;
+using envimetGeometry;
 
 namespace Morpho
 {
@@ -84,7 +84,7 @@ namespace Morpho
 
 
             // actions
-            envimetGrid.AutoGrid myGrid = new envimetGrid.AutoGrid();
+            envimetGeometry.AutoGrid myGrid = new envimetGeometry.AutoGrid();
 
             if (_telescope_ != 0)
             {

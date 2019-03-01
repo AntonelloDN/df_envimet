@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimetGrid;
+using envimetGeometry;
 
 namespace Morpho
 {
@@ -54,7 +54,7 @@ namespace Morpho
             DA.GetDataList<string>(1, _sourceId_);
 
             // actions
-            envimetGrid.Element2dMatrix sources = new envimetGrid.Element2dMatrix("", _sourceId_, _source);
+            envimetGeometry.Element2dMatrix sources = new envimetGeometry.Element2dMatrix("", _sourceId_, _source);
 
             // OUTPUT
             DA.SetData(0, sources);

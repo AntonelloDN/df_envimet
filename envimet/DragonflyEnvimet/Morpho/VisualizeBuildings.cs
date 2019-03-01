@@ -5,7 +5,8 @@ using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Xml.Linq;
 using System.Linq;
-using envimentManagment;
+using editEnvimetObject;
+using envimetGeometry;
 
 namespace DragonflyEnvimet
 {
@@ -54,8 +55,8 @@ namespace DragonflyEnvimet
             // INPUT
             // declaration
             string _INXfileAddress = null;
-            ReadEnvimet readInx = new ReadEnvimet();
-            envimetGrid.AutoGrid _envimentGrid_ = null;
+            EditEnvimetBuilding readInx = new EditEnvimetBuilding();
+            envimetGeometry.AutoGrid _envimentGrid_ = null;
             bool innerOuter_ = true;
 
             DA.GetData(0, ref _INXfileAddress);

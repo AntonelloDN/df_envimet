@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
-using envimetGrid;
+using envimetGeometry;
 
 namespace DragonflyEnvimet
 {
@@ -55,7 +55,7 @@ namespace DragonflyEnvimet
             DA.GetData(1, ref _terrain);
 
 
-            var xBuildings = _buildings.Select(m => envimetGrid.BuildingMatrix.MoveBuildingsUp(m, _terrain)).ToList();
+            var xBuildings = _buildings.Select(m => envimetGeometry.BuildingMatrix.MoveBuildingsUp(m, _terrain)).ToList();
 
             // OUTPUT
             DA.SetDataList(0, xBuildings);

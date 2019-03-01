@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimentManagment;
+using envimentFileManagement;
 
 namespace Morpho
 {
@@ -58,11 +58,11 @@ namespace Morpho
             DA.GetData(2, ref ENVImetInstallFolder_);
 
             // actions
-            string mainDirectory = envimentManagment.WorkspaceFolderLB.findENVI_MET(ENVImetInstallFolder_);
+            string mainDirectory = envimentFileManagement.WorkspaceFolderLB.FindENVI_MET(ENVImetInstallFolder_);
 
             if (mainDirectory != null)
             {
-                envimentManagment.WorkspaceFolderLB myFile = new envimentManagment.WorkspaceFolderLB(_workspaceFolder, _projectName_);
+                envimentFileManagement.WorkspaceFolderLB myFile = new envimentFileManagement.WorkspaceFolderLB(_workspaceFolder, _projectName_);
                 string fullFolder = myFile.WorkspaceFolderLBwrite(mainDirectory);
 
                 DA.SetData(0, fullFolder);

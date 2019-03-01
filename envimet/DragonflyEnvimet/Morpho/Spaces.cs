@@ -6,9 +6,11 @@ using Rhino.Geometry;
 using System.Xml;
 using System.Text;
 using System.Linq;
-using envimetGrid;
+using envimetGeometry;
 using envimentIntegration;
-using envimentManagment;
+using envimentFileManagement;
+
+
 namespace Morpho
 {
     public class Spaces : GH_Component
@@ -81,7 +83,7 @@ namespace Morpho
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // INPUT
-            envimetGrid.Dem envimetTerrain_ = null;
+            envimetGeometry.Dem envimetTerrain_ = null;
             // surface
             List <Mesh> baseSurfMesh = new List<Mesh>();
 
@@ -132,20 +134,20 @@ namespace Morpho
 
 
             envimentIntegration.LocationFromLB _envimetLocation = new envimentIntegration.LocationFromLB(loc, rotation);
-            envimetGrid.AutoGrid _envimentGrid = new envimetGrid.AutoGrid();
-            envimetGrid.BuildingMatrix _envimetBuidings = new envimetGrid.BuildingMatrix(bgeo, wallmat, roofmat, cwallmat, croofomat, idgreen, greenwallmat, greenroofmat);
-            envimetGrid.Element2dMatrix _envimetSoils = new envimetGrid.Element2dMatrix(bsoilmat, soilmat, sgeo);
-            envimetGrid.NestingGrid nestingGrid_ = new envimetGrid.NestingGrid();
-            envimetGrid.Element2dMatrix envimet2dPlants_ = new envimetGrid.Element2dMatrix(p2ddefmat, p2dmat, p2dgeo);
-            envimetGrid.ThreeDimensionalPlants envimet3dPlants_ = new envimetGrid.ThreeDimensionalPlants(p3ddefmat, p3dmat, p3dgeo);
-            envimetGrid.Element2dMatrix envimetSources_ = new envimetGrid.Element2dMatrix(srcdefmat, srcmat, srcgeo);
+            envimetGeometry.AutoGrid _envimentGrid = new envimetGeometry.AutoGrid();
+            envimetGeometry.BuildingMatrix _envimetBuidings = new envimetGeometry.BuildingMatrix(bgeo, wallmat, roofmat, cwallmat, croofomat, idgreen, greenwallmat, greenroofmat);
+            envimetGeometry.Element2dMatrix _envimetSoils = new envimetGeometry.Element2dMatrix(bsoilmat, soilmat, sgeo);
+            envimetGeometry.NestingGrid nestingGrid_ = new envimetGeometry.NestingGrid();
+            envimetGeometry.Element2dMatrix envimet2dPlants_ = new envimetGeometry.Element2dMatrix(p2ddefmat, p2dmat, p2dgeo);
+            envimetGeometry.ThreeDimensionalPlants envimet3dPlants_ = new envimetGeometry.ThreeDimensionalPlants(p3ddefmat, p3dmat, p3dgeo);
+            envimetGeometry.Element2dMatrix envimetSources_ = new envimetGeometry.Element2dMatrix(srcdefmat, srcmat, srcgeo);
 
             if (envimetTerrain_ != null)
             {
-                envimetTerrain_ = new envimetGrid.Dem();
+                envimetTerrain_ = new envimetGeometry.Dem();
             }
 
-            envimetGrid.SimpleWall envimetShadings_ = new envimetGrid.SimpleWall(shdefmat, shmat, shgeo);
+            envimetGeometry.SimpleWall envimetShadings_ = new envimetGeometry.SimpleWall(shdefmat, shmat, shgeo);
 
 
             DA.GetData(0, ref _envimetFolder);
@@ -200,7 +202,7 @@ namespace Morpho
 
             if (_runIt == true)
             { 
-                envimentManagment.WriteINX.INXwriteMethod(fullName, _envimentGrid, nestingGrid_, _envimetLocation, _envimetBuidings, envimet2dPlants_, _envimetSoils, envimetSources_, envimet3dPlants_, envimetTerrain_, envimetShadings_);
+                envimentFileManagement.WriteINX.INXwriteMethod(fullName, _envimentGrid, nestingGrid_, _envimetLocation, _envimetBuidings, envimet2dPlants_, _envimetSoils, envimetSources_, envimet3dPlants_, envimetTerrain_, envimetShadings_);
                 DA.SetData(3, fullName);
             }
 

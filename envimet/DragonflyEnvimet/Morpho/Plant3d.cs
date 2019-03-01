@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using envimetGrid;
+using envimetGeometry;
 
 namespace Morpho
 {
@@ -56,7 +56,7 @@ namespace Morpho
 
             // actions
             //envimetGrid.ThreeDimensionalPlants trees = new envimetGrid.ThreeDimensionalPlants("0000C2,.PINETREE", _plant3Did_, _plant3D);
-            envimetGrid.ThreeDimensionalPlants trees = new envimetGrid.ThreeDimensionalPlants("0000C2,.PINETREE", _plant3Did_, _plant3D);
+            envimetGeometry.ThreeDimensionalPlants trees = new envimetGeometry.ThreeDimensionalPlants("0000C2,.PINETREE", _plant3Did_, _plant3D);
 
             // OUTPUT
             DA.SetData(0, trees);

@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Rhino.Geometry;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using System.IO;
-using System.Text;
 using System.Linq;
-using envimentManagment;
+using envimentFileManagement;
 
 namespace DragonflyEnvimet
 {
@@ -109,7 +105,7 @@ namespace DragonflyEnvimet
 
 
             // action
-            string mainDirectory = envimentManagment.WorkspaceFolderLB.findENVI_MET(ENVImetInstallFolder_);
+            string mainDirectory = envimentFileManagement.WorkspaceFolderLB.FindENVI_MET(ENVImetInstallFolder_);
 
             if (mainDirectory != null)
             {
@@ -118,8 +114,8 @@ namespace DragonflyEnvimet
                 ReadEnvimet metafile = new ReadEnvimet() { Metaname = dbFile };
 
                 // destination file
-                string destinationFolder = envimentManagment.WorkspaceFolderLB.getSetDestinationFolder();
-                string readbleXml = metafile.writeReadebleEDXFile(destinationFolder, "database", ".xml");
+                string destinationFolder = envimentFileManagement.WorkspaceFolderLB.CreateDestinationFolder();
+                string readbleXml = metafile.WriteReadebleEDXFile(destinationFolder, "database", ".xml");
 
                 XDocument xml = XDocument.Load(readbleXml);
 

@@ -7,7 +7,7 @@ using System.Xml;
 using System.Text;
 using System.Linq;
 using envimetSimulationFile;
-using envimentManagment;
+using envimentFileManagement;
 
 namespace DragonflyEnvimet
 {
@@ -131,7 +131,7 @@ namespace DragonflyEnvimet
                 string[] headerTag = new string[] { "filetype", "version", "revisiondate", "remark", "encryptionlevel" };
                 string[] headerValue = new string[] { "SIMX", "1", revisionDate, "Created with lb_envimet", "0" };
 
-                WriteINX.xmlSection(xWriter, headerTitle, headerTag, headerValue, 0, empty);
+                WriteINX.CreateXmlSection(xWriter, headerTitle, headerTag, headerValue, 0, empty);
 
 
                 // Main section
@@ -153,7 +153,7 @@ namespace DragonflyEnvimet
                     baseSetting.RelativeHumidity.ToString()
                   };
 
-                WriteINX.xmlSection(xWriter, mainTitle, mainTag, mainValue, 0, empty);
+                WriteINX.CreateXmlSection(xWriter, mainTitle, mainTag, mainValue, 0, empty);
 
 
                 // SimpleForcing section
@@ -163,7 +163,7 @@ namespace DragonflyEnvimet
                     string[] sfTag = new string[] { "TAir", "Qrel" };
                     string[] sfValue = new string[] { simpleForcing.Temperature, simpleForcing.RelativeHumidity };
 
-                    WriteINX.xmlSection(xWriter, sfTitle, sfTag, sfValue, 0, empty);
+                    WriteINX.CreateXmlSection(xWriter, sfTitle, sfTag, sfValue, 0, empty);
                 }
 
 
@@ -174,7 +174,7 @@ namespace DragonflyEnvimet
                     string[] parallelTag = new string[] { "CPUdemand" };
                     string[] parallelValue = new string[] { "ALL" };
 
-                    WriteINX.xmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
+                    WriteINX.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
                 }
 
 
@@ -185,7 +185,7 @@ namespace DragonflyEnvimet
                     string[] timestepTag = new string[] { "sunheight_step01", "sunheight_step02", "dt_step00", "dt_step01", "dt_step02" };
                     string[] timestepValue = new string[] { timestepsSettings.Sunheight_step01.ToString(), timestepsSettings.Sunheight_step02.ToString(), timestepsSettings.Dt_step00.ToString(), timestepsSettings.Dt_step01.ToString(), timestepsSettings.Dt_step02.ToString() };
 
-                    WriteINX.xmlSection(xWriter, timestepTitle, timestepTag, timestepValue, 0, empty);
+                    WriteINX.CreateXmlSection(xWriter, timestepTitle, timestepTag, timestepValue, 0, empty);
                 }
 
 
@@ -196,7 +196,7 @@ namespace DragonflyEnvimet
                     string[] buildingTempTag = new string[] { "indoorTemp", "indoorConst" };
                     string[] buildingTempValue = new string[] { buildingTemp.IndoorTemp.ToString(), buildingTemp.IndoorConst.ToString() };
 
-                    WriteINX.xmlSection(xWriter, buildingTempTitle, buildingTempTag, buildingTempValue, 0, empty);
+                    WriteINX.CreateXmlSection(xWriter, buildingTempTitle, buildingTempTag, buildingTempValue, 0, empty);
                 }
 
 
@@ -207,7 +207,7 @@ namespace DragonflyEnvimet
                     string[] lbcTag = new string[] { "LBC_TQ", "LBC_TKE" };
                     string[] lbcValue = new string[] { lbcSettings.LBC_TQ.ToString(), lbcSettings.LBC_TKE.ToString() };
 
-                    WriteINX.xmlSection(xWriter, lbcTitle, lbcTag, lbcValue, 0, empty);
+                    WriteINX.CreateXmlSection(xWriter, lbcTitle, lbcTag, lbcValue, 0, empty);
                 }
 
 
@@ -218,7 +218,7 @@ namespace DragonflyEnvimet
                     string[] soilTag = new string[] { "tempUpperlayer", "tempMiddlelayer", "tempDeeplayer", "tempBedrockLayer", "waterUpperlayer", "waterMiddlelayer", "waterDeeplayer", "waterBedrockLayer" };
                     string[] soilValue = new string[] { soilSettings.TempUpperlayer.ToString(), soilSettings.TempMiddlelayer.ToString(), soilSettings.TempDeeplayer.ToString(), soilSettings.TempBedrockLayer.ToString(), soilSettings.WaterUpperlayer.ToString(), soilSettings.WaterMiddlelayer.ToString(), soilSettings.WaterDeeplayer.ToString(), soilSettings.WaterBedrockLayer.ToString() };
 
-                    WriteINX.xmlSection(xWriter, soilTitle, soilTag, soilValue, 0, empty);
+                    WriteINX.CreateXmlSection(xWriter, soilTitle, soilTag, soilValue, 0, empty);
                 }
 
 
