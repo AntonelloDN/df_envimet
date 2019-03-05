@@ -25,6 +25,13 @@ ENHANCEMENT REQUEST RELEASED:
 [2019/02/09]*:
 - Soil init condition for simulation file;
 
+[2019/02/20]*:
+- Edit building materials (E.g. for windows);
+
+[2019/02/24]*:
+- Horizontal overhang;
+
+
 CONTACTS: antonellodinunzio@gmail.com
 
 *BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet
