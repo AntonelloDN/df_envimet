@@ -34,3 +34,8 @@ What will happen to your existing gh files? Some components are the same of the 
 
 [2019/02/24]:
 - Horizontal overhang;
+
+[2019/03/06]:
+- Run simulation directly with Grasshopper;
+- Output file timing settings;
+- LBC settings for simulation file - removed because of latest ENVI_MET 4.4.1;
