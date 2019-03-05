@@ -223,6 +223,16 @@ namespace DragonflyEnvimet.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap envimetOutputTimingIcon {
+            get {
+                object obj = ResourceManager.GetObject("envimetOutputTimingIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap envimetReadLib {
             get {
                 object obj = ResourceManager.GetObject("envimetReadLib", resourceCulture);
@@ -236,6 +246,16 @@ namespace DragonflyEnvimet.Properties {
         internal static System.Drawing.Bitmap envimetRunINXIcon {
             get {
                 object obj = ResourceManager.GetObject("envimetRunINXIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap envimetRunSimulationIcon {
+            get {
+                object obj = ResourceManager.GetObject("envimetRunSimulationIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

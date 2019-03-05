@@ -6,17 +6,61 @@ namespace envimetSimulationFile
 {
     public class MainSettings
     {
+
+        private int simulationDuration;
+        private double specificHumidity;
+        private double relativeHumidity;
+
         public string SimName { get; set; }
         public string INXfileAddress { get; set; }
         public string StartDate { get; set; }
         public string StartTime { get; set; }
-        public int SimDuration { get; set; }
+
+        public int SimDuration
+        {
+            get {return simulationDuration;}
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("You cannot insert negative numbers");
+                }
+                simulationDuration = value;
+            }
+        }
         public double WindSpeed { get; set; }
         public double WindDir { get; set; }
         public double Roughness { get; set; }
         public double InitialTemperature { get; set; }
-        public double SpecificHumidity { get; set; }
-        public double RelativeHumidity { get; set; }
+        public double SpecificHumidity
+        {
+            get
+            { return specificHumidity; }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("You cannot insert negative numbers");
+                }
+                specificHumidity = value;
+            }
+        }
+        public double RelativeHumidity
+        {
+            get
+            { return relativeHumidity; }
+            set
+            {
+
+                if (value < 0 || value > 100)
+                {
+                    throw new ArgumentException("Relative humidity go from 0 to 100.");
+                }
+                relativeHumidity = value;
+            }
+        }
+
+
     }
 
 
@@ -58,14 +102,6 @@ namespace envimetSimulationFile
     }
 
 
-    public class BoundaryCondition
-    {
-        public double LBC_TQ { get; set; }
-        public double LBC_TKE { get; set; }
-
-    }
-
-
     public class SoilTemp
     {
         public double TempUpperlayer { get; set; }
@@ -76,6 +112,40 @@ namespace envimetSimulationFile
         public double WaterMiddlelayer { get; set; }
         public double WaterDeeplayer { get; set; }
         public double WaterBedrockLayer { get; set; }
+
+    }
+
+
+    public class OutputTiming
+    {
+        private int mainFileTiming;
+        private int textFileTiming;
+
+        public int MainFiles
+        {
+            get {return mainFileTiming; }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Value has to be greater than 0");
+                }
+                mainFileTiming = value;
+            }
+        }
+        public int TextFiles
+        {
+            get { return textFileTiming; }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("You cannot insert negative numbers");
+                }
+                textFileTiming = value;
+            }
+        }
+        public int InclNestingGrids { get; set; }
 
     }
 

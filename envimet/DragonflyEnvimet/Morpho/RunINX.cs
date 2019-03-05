@@ -56,6 +56,7 @@ namespace DragonflyEnvimet
             // exe
             if (_runIt)
                 Process.Start(_INXfileAddress);
+
         }
 
         /// <summary>

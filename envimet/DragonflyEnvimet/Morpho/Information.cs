@@ -48,7 +48,7 @@ namespace Morpho
 
             client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
 
-            Stream data = client.OpenRead("https://raw.githubusercontent.com/AntonelloDN/lb_envimet/master/extra/info.txt");
+            Stream data = client.OpenRead("https://raw.githubusercontent.com/AntonelloDN/df_envimet/master/plugin%20beta/extra/info.txt");
             StreamReader reader = new StreamReader(data);
             string message = reader.ReadToEnd();
             DA.SetData(0, message);

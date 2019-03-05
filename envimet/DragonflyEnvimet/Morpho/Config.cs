@@ -35,8 +35,8 @@ namespace DragonflyEnvimet
             pManager.AddGenericParameter("simpleForcing_", "simpleForcing_", "Simple forcing condition which comes from \"DF Envimet Config SimpleForcing\" component.", GH_ParamAccess.item);
             pManager.AddGenericParameter("timestepsSettings_", "timestepsSettings_", "Timestep settings, important for radiation. it comes from \"DF Envimet Timesteps Settings\" component.", GH_ParamAccess.item);
             pManager.AddGenericParameter("buildingTemp_", "buildingTemp_", "Building indoor temperature setting. Output of \"DF Envimet Building Temp\" component.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("lbcTypes_", "lbcTypes_", "Boudary condition to use. Output of \"DF Envimet Timesteps Settings\" component.", GH_ParamAccess.item);
             pManager.AddGenericParameter("soilSettings_", "soilSettings_", "Initial condition to use for soil. Output of \"DF Envimet Soil Settings\" component.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("outputSettings_", "outputSettings_", "Output interval of files. Output of \"DF Envimet Output interval Settings\" component.", GH_ParamAccess.item);
 
             pManager.AddBooleanParameter("parallel_", "parallel_", "Set True to increase the speed of calculation of ENVI_MET.\nThis option does not work with Basic version.\nDefault value is \"True\".", GH_ParamAccess.item, true);
             pManager.AddBooleanParameter("_runIt", "_runIt", "Set runIt to True to write SIMX file.\nDefault value is \"False\".", GH_ParamAccess.item, false);
@@ -67,8 +67,8 @@ namespace DragonflyEnvimet
             List<double> _relativeHumidity = new List<double>();
 
             envimetSimulationFile.Building buildingTemp = null;
-            envimetSimulationFile.BoundaryCondition lbcSettings = null;
             envimetSimulationFile.SoilTemp soilSettings = null;
+            envimetSimulationFile.OutputTiming outputTiming = null;
 
 
             bool parallel_ = false;
@@ -85,14 +85,14 @@ namespace DragonflyEnvimet
                 buildingTemp = new envimetSimulationFile.Building();
             }
 
-            if (lbcSettings != null)
-            {
-                lbcSettings = new envimetSimulationFile.BoundaryCondition();
-            }
-
             if (soilSettings != null)
             {
                 soilSettings = new envimetSimulationFile.SoilTemp();
+            }
+
+            if (outputTiming != null)
+            {
+                outputTiming = new envimetSimulationFile.OutputTiming();
             }
 
 
@@ -102,43 +102,46 @@ namespace DragonflyEnvimet
             DA.GetData(1, ref simpleForcing);
             DA.GetData(2, ref timestepsSettings);
             DA.GetData(3, ref buildingTemp);
-            DA.GetData(4, ref lbcSettings);
-            DA.GetData(5, ref soilSettings);
+            DA.GetData(4, ref soilSettings);
+            DA.GetData(5, ref outputTiming);
 
             DA.GetData(6, ref parallel_);
             DA.GetData(7, ref _runIt);
 
             // action
-            // preparation
-            var now = DateTime.Now;
-            string revisionDate = now.ToString("yyyy.MM.dd HH:mm:ss");
-            string destination = System.IO.Path.GetDirectoryName(baseSetting.INXfileAddress);
-            string fileName = System.IO.Path.Combine(destination, baseSetting.SimName + ".simx");
-            string[] empty = { };
-            int simulationDuration = (simpleForcing.TotNumbers != 0) ? simpleForcing.TotNumbers : baseSetting.SimDuration;
 
             if (_runIt)
             {
-                XmlTextWriter xWriter = new XmlTextWriter(fileName, Encoding.UTF8);
+                try
+                {
 
-                // root
-                xWriter.WriteStartElement("ENVI-MET_Datafile");
-                xWriter.WriteString("\n ");
+                    var now = DateTime.Now;
+                    string revisionDate = now.ToString("yyyy.MM.dd HH:mm:ss");
+                    string destination = System.IO.Path.GetDirectoryName(baseSetting.INXfileAddress);
+                    string fileName = System.IO.Path.Combine(destination, baseSetting.SimName + ".simx");
+                    string[] empty = { };
+                    int simulationDuration = (simpleForcing.TotNumbers != 0) ? simpleForcing.TotNumbers : baseSetting.SimDuration;
 
-                // contents
-                // Header section
-                string headerTitle = "Header";
-                string[] headerTag = new string[] { "filetype", "version", "revisiondate", "remark", "encryptionlevel" };
-                string[] headerValue = new string[] { "SIMX", "1", revisionDate, "Created with lb_envimet", "0" };
+                    XmlTextWriter xWriter = new XmlTextWriter(fileName, Encoding.UTF8);
 
-                WriteINX.CreateXmlSection(xWriter, headerTitle, headerTag, headerValue, 0, empty);
+                    // root
+                    xWriter.WriteStartElement("ENVI-MET_Datafile");
+                    xWriter.WriteString("\n ");
+
+                    // contents
+                    // Header section
+                    string headerTitle = "Header";
+                    string[] headerTag = new string[] { "filetype", "version", "revisiondate", "remark", "encryptionlevel" };
+                    string[] headerValue = new string[] { "SIMX", "1", revisionDate, "Created with lb_envimet", "0" };
+
+                    WriteINX.CreateXmlSection(xWriter, headerTitle, headerTag, headerValue, 0, empty);
 
 
-                // Main section
-                string mainTitle = "mainData";
-                string[] mainTag = new string[] { "simName", "INXFile", "filebaseName", "outDir", "startDate", "startTime", "simDuration", "windSpeed", "windDir", "z0", "T_H", "Q_H", "Q_2m" };
-                string[] mainValue = new string[]
-                  { baseSetting.SimName,
+                    // Main section
+                    string mainTitle = "mainData";
+                    string[] mainTag = new string[] { "simName", "INXFile", "filebaseName", "outDir", "startDate", "startTime", "simDuration", "windSpeed", "windDir", "z0", "T_H", "Q_H", "Q_2m" };
+                    string[] mainValue = new string[]
+                      { baseSetting.SimName,
                     baseSetting.INXfileAddress,
                     baseSetting.SimName,
                     " ",
@@ -151,82 +154,86 @@ namespace DragonflyEnvimet
                     baseSetting.InitialTemperature.ToString(),
                     baseSetting.SpecificHumidity.ToString(),
                     baseSetting.RelativeHumidity.ToString()
-                  };
+                      };
 
-                WriteINX.CreateXmlSection(xWriter, mainTitle, mainTag, mainValue, 0, empty);
+                    WriteINX.CreateXmlSection(xWriter, mainTitle, mainTag, mainValue, 0, empty);
 
 
-                // SimpleForcing section
-                if (simpleForcing.TotNumbers != 0)
-                {
-                    string sfTitle = "SimpleForcing";
-                    string[] sfTag = new string[] { "TAir", "Qrel" };
-                    string[] sfValue = new string[] { simpleForcing.Temperature, simpleForcing.RelativeHumidity };
+                    // SimpleForcing section
+                    if (simpleForcing.TotNumbers != 0)
+                    {
+                        string sfTitle = "SimpleForcing";
+                        string[] sfTag = new string[] { "TAir", "Qrel" };
+                        string[] sfValue = new string[] { simpleForcing.Temperature, simpleForcing.RelativeHumidity };
 
-                    WriteINX.CreateXmlSection(xWriter, sfTitle, sfTag, sfValue, 0, empty);
+                        WriteINX.CreateXmlSection(xWriter, sfTitle, sfTag, sfValue, 0, empty);
+                    }
+
+
+                    // Parallel section
+                    if (parallel_)
+                    {
+                        string parallelTitle = "Parallel";
+                        string[] parallelTag = new string[] { "CPUdemand" };
+                        string[] parallelValue = new string[] { "ALL" };
+
+                        WriteINX.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
+                    }
+
+
+                    // TimeSteps section
+                    if (timestepsSettings.Dt_step02 != 0)
+                    {
+                        string timestepTitle = "TimeSteps";
+                        string[] timestepTag = new string[] { "sunheight_step01", "sunheight_step02", "dt_step00", "dt_step01", "dt_step02" };
+                        string[] timestepValue = new string[] { timestepsSettings.Sunheight_step01.ToString(), timestepsSettings.Sunheight_step02.ToString(), timestepsSettings.Dt_step00.ToString(), timestepsSettings.Dt_step01.ToString(), timestepsSettings.Dt_step02.ToString() };
+
+                        WriteINX.CreateXmlSection(xWriter, timestepTitle, timestepTag, timestepValue, 0, empty);
+                    }
+
+
+                    // Building section
+                    if (buildingTemp != null)
+                    {
+                        string buildingTempTitle = "Building";
+                        string[] buildingTempTag = new string[] { "indoorTemp", "indoorConst" };
+                        string[] buildingTempValue = new string[] { buildingTemp.IndoorTemp.ToString(), buildingTemp.IndoorConst.ToString() };
+
+                        WriteINX.CreateXmlSection(xWriter, buildingTempTitle, buildingTempTag, buildingTempValue, 0, empty);
+                    }
+
+
+                    // Soil section
+                    if (soilSettings != null)
+                    {
+                        string soilTitle = "Soil";
+                        string[] soilTag = new string[] { "tempUpperlayer", "tempMiddlelayer", "tempDeeplayer", "tempBedrockLayer", "waterUpperlayer", "waterMiddlelayer", "waterDeeplayer", "waterBedrockLayer" };
+                        string[] soilValue = new string[] { soilSettings.TempUpperlayer.ToString(), soilSettings.TempMiddlelayer.ToString(), soilSettings.TempDeeplayer.ToString(), soilSettings.TempBedrockLayer.ToString(), soilSettings.WaterUpperlayer.ToString(), soilSettings.WaterMiddlelayer.ToString(), soilSettings.WaterDeeplayer.ToString(), soilSettings.WaterBedrockLayer.ToString() };
+
+                        WriteINX.CreateXmlSection(xWriter, soilTitle, soilTag, soilValue, 0, empty);
+                    }
+
+                    // OutputTiming section
+                    if (outputTiming != null)
+                    {
+                        string outputTimingTitle = "OutputTiming";
+                        string[] outputTimingTag = new string[] { "mainFiles", "textFiles", "inclNestingGrids"};
+                        string[] outputTimingValue = new string[] { outputTiming.MainFiles.ToString(), outputTiming.TextFiles.ToString(), outputTiming.InclNestingGrids.ToString() };
+
+                        WriteINX.CreateXmlSection(xWriter, outputTimingTitle, outputTimingTag, outputTimingValue, 0, empty);
+                    }
+
+
+                    // close root and file
+                    xWriter.WriteEndElement();
+                    xWriter.Close();
+
+                    DA.SetData(0, fileName);
                 }
-
-
-                // Parallel section
-                if (parallel_)
+                catch
                 {
-                    string parallelTitle = "Parallel";
-                    string[] parallelTag = new string[] { "CPUdemand" };
-                    string[] parallelValue = new string[] { "ALL" };
-
-                    WriteINX.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
+                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Please provide a valid mainSettings.");
                 }
-
-
-                // TimeSteps section
-                if (timestepsSettings.Dt_step02 != 0)
-                {
-                    string timestepTitle = "TimeSteps";
-                    string[] timestepTag = new string[] { "sunheight_step01", "sunheight_step02", "dt_step00", "dt_step01", "dt_step02" };
-                    string[] timestepValue = new string[] { timestepsSettings.Sunheight_step01.ToString(), timestepsSettings.Sunheight_step02.ToString(), timestepsSettings.Dt_step00.ToString(), timestepsSettings.Dt_step01.ToString(), timestepsSettings.Dt_step02.ToString() };
-
-                    WriteINX.CreateXmlSection(xWriter, timestepTitle, timestepTag, timestepValue, 0, empty);
-                }
-
-
-                // Building section
-                if (buildingTemp != null)
-                {
-                    string buildingTempTitle = "Building";
-                    string[] buildingTempTag = new string[] { "indoorTemp", "indoorConst" };
-                    string[] buildingTempValue = new string[] { buildingTemp.IndoorTemp.ToString(), buildingTemp.IndoorConst.ToString() };
-
-                    WriteINX.CreateXmlSection(xWriter, buildingTempTitle, buildingTempTag, buildingTempValue, 0, empty);
-                }
-
-
-                // LBC section
-                if (lbcSettings != null)
-                {
-                    string lbcTitle = "LBC";
-                    string[] lbcTag = new string[] { "LBC_TQ", "LBC_TKE" };
-                    string[] lbcValue = new string[] { lbcSettings.LBC_TQ.ToString(), lbcSettings.LBC_TKE.ToString() };
-
-                    WriteINX.CreateXmlSection(xWriter, lbcTitle, lbcTag, lbcValue, 0, empty);
-                }
-
-
-                // Soil section
-                if (soilSettings != null)
-                {
-                    string soilTitle = "Soil";
-                    string[] soilTag = new string[] { "tempUpperlayer", "tempMiddlelayer", "tempDeeplayer", "tempBedrockLayer", "waterUpperlayer", "waterMiddlelayer", "waterDeeplayer", "waterBedrockLayer" };
-                    string[] soilValue = new string[] { soilSettings.TempUpperlayer.ToString(), soilSettings.TempMiddlelayer.ToString(), soilSettings.TempDeeplayer.ToString(), soilSettings.TempBedrockLayer.ToString(), soilSettings.WaterUpperlayer.ToString(), soilSettings.WaterMiddlelayer.ToString(), soilSettings.WaterDeeplayer.ToString(), soilSettings.WaterBedrockLayer.ToString() };
-
-                    WriteINX.CreateXmlSection(xWriter, soilTitle, soilTag, soilValue, 0, empty);
-                }
-
-
-                // close root and file
-                xWriter.WriteEndElement();
-                xWriter.Close();
-
-                DA.SetData(0, fileName);
             }
         }
 

@@ -70,8 +70,9 @@
     <Compile Include="Grid.cs" />
     <Compile Include="MoveBuilding.cs" />
     <Compile Include="BuildingTemp.cs" />
-    <Compile Include="LBCsettings.cs" />
     <Compile Include="EditBuildingMaterial.cs" />
+    <Compile Include="ConsoleSimulation.cs" />
+    <Compile Include="OutputTimingSettings.cs" />
     <Compile Include="PlanarSingleWallZ.cs" />
     <Compile Include="SoilSettings.cs" />
     <Compile Include="TimestepsSettings.cs" />
@@ -189,6 +190,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\envimetShadingHrzIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\envimetRunSimulationIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetOutputTimingIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

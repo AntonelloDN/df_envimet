@@ -62,8 +62,8 @@ namespace Morpho
 
             if (mainDirectory != null)
             {
-                envimentFileManagement.WorkspaceFolderLB myFile = new envimentFileManagement.WorkspaceFolderLB(_workspaceFolder, _projectName_);
-                string fullFolder = myFile.WorkspaceFolderLBwrite(mainDirectory);
+                envimentFileManagement.WorkspaceFolderLB dirEnvimetModel = new envimentFileManagement.WorkspaceFolderLB(_workspaceFolder, _projectName_);
+                string fullFolder = dirEnvimetModel.WorkspaceFolderLBwrite(mainDirectory);
 
                 DA.SetData(0, fullFolder);
             }

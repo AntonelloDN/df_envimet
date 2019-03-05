@@ -112,6 +112,44 @@ namespace envimentFileManagement
         }
 
 
+        public static string CreateFolderWithBase(string mainFolder, string sysBase)
+        {
+            string envimetMainFolder = mainFolder.Replace("sys.basedata", "");
+
+            return System.IO.Path.Combine(envimetMainFolder, sysBase);
+        }
+
+
+        public static void WriteBatchFile(string mainFolderWithBase, string projectPath, string simulationPath)
+        {
+            // gen elements
+            string simulationFileName = System.IO.Path.GetFileName(simulationPath);
+            string projectFolderName = System.IO.Path.GetFileName(projectPath);
+
+            // batch abs path
+            string fullPathBatch = GetBatchFilePath(projectPath);
+
+            string[] contentOfBatch = { String.Format("cd {0}\nenvimet4_console.exe {1} {1} {2}\npause", mainFolderWithBase, projectFolderName, simulationFileName) };
+
+            System.IO.File.WriteAllLines(fullPathBatch, contentOfBatch);
+
+        }
+
+
+        public static string GetBatchFilePath(string projectPath)
+        {
+            return System.IO.Path.Combine(projectPath, "envimetSimulation.bat");
+        }
+
+
+        public static void DeleteBatchFile(string projectPath)
+        {
+            // delete file
+            System.IO.File.Delete(GetBatchFilePath(projectPath));
+
+        }
+
+
         public static string CreateDestinationFolder()
         {
             string appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
