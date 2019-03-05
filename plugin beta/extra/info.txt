@@ -1,0 +1,30 @@
+A series of components to connect Ladybug and Gismo to ENVI_MET for urban microclimatic analysis.
+Original project's name: lb_envimet
+
+FEATURES:
+- Modeling 3D buildings with Grasshopper to generate ENVI_MET model areas;
+- Integration with other plugins such as Ladybug, Gismo or web app like cadmapper (https://cadmapper.com/);
+- Using EPW file to feed simulation file;
+- Generating SIM file.
+
+ENHANCEMENT REQUEST RELEASED:
+[2018/01/03]
+- Equidistant grid limit from 35 to 999;
+- New Surface input for DF Envimet Grid;
+- Grid based on surface;
+
+[2019/01/21]*:
+- Timesteps settings for simulation file;
+- Building indoor temperature for simulation file;
+- Terrain (early adopter);
+- Move building component for terrain;
+
+[2019/01/23]*:
+- LBC settings for simulation file;
+
+[2019/02/09]*:
+- Soil init condition for simulation file;
+
+CONTACTS: antonellodinunzio@gmail.com
+
+*BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet
