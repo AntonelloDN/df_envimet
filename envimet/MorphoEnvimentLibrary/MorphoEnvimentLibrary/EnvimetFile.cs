@@ -6,6 +6,7 @@ using System.Text;
 using Rhino.Geometry;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using envimetGeometry;
 
 
 namespace envimentFileManagement
@@ -244,7 +245,7 @@ namespace envimentFileManagement
         }
 
 
-        static public void Three3dCalculation(envimetGeometry.ThreeDimensionalPlants envimentObj, envimetGeometry.AutoGrid myGrid, double tol)
+        static public List<string[]> Three3dCalculation(envimetGeometry.ThreeDimensionalPlants envimentObj, envimetGeometry.AutoGrid myGrid, double tol)
         {
 
             List<int[,]> elementList = new List<int[,]>();
@@ -257,7 +258,9 @@ namespace envimentFileManagement
             }
 
             int[,] integerMatrix = myGrid.mergeMatrix2d(elementList);
-            envimentObj.GenerateLists(integerMatrix);
+            List<string[]> propertiesTree = envimentObj.GenerateLists(integerMatrix);
+
+            return propertiesTree;
 
         }
 
@@ -537,17 +540,18 @@ namespace envimentFileManagement
             // section plant3d
             if (plants3D != null)
             {
-                WriteINX.Three3dCalculation(plants3D, grid, tol);
+                List<string[]> propertiesTree = WriteINX.Three3dCalculation(plants3D, grid, tol);
 
-                for (int i = 0; i < plants3D.PropertiesTree.Count; i++)
+                for (int i = 0; i < propertiesTree.Count; i++)
                 {
 
                     string plants3DTitle = "3Dplants";
                     string[] plants3DTag = new string[] { "rootcell_i", "rootcell_j", "rootcell_k", "plantID", "name", "observe" };
-                    string[] plants3DValue = new string[] { plants3D.PropertiesTree[i][0], plants3D.PropertiesTree[i][1], plants3D.PropertiesTree[i][2], plants3D.PropertiesTree[i][3], plants3D.PropertiesTree[i][4], plants3D.PropertiesTree[i][5] };
+                    string[] plants3DValue = new string[] { propertiesTree[i][0], propertiesTree[i][1], propertiesTree[i][2], propertiesTree[i][3], propertiesTree[i][4], propertiesTree[i][5] };
 
                     WriteINX.CreateXmlSection(xWriter, plants3DTitle, plants3DTag, plants3DValue, 0, empty);
                 }
+                
             }
 
 

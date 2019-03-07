@@ -976,12 +976,7 @@ namespace envimetGeometry
 
     public class ThreeDimensionalPlants : Element2dMatrix
     {
-        private List<string[]> propertiesTree = new List<string[]>();
 
-        public List<string[]> PropertiesTree
-        {
-            get { return propertiesTree; }
-        }
         public List<Brep> Threes { get; set; }
 
         public ThreeDimensionalPlants(string defaultMaterial, List<string> customMaterialList, List<Brep> geometries) : base(defaultMaterial, customMaterialList, geometries)
@@ -989,8 +984,10 @@ namespace envimetGeometry
             this.Threes = geometries;
         }
 
-        public void GenerateLists(int[,] Data)
+        public List<string[]> GenerateLists(int[,] Data)
         {
+            List<string[]> propertiesTree = new List<string[]>();
+
             for (int i = 0; i < NumX + 1; i++)
             {
                 for (int j = NumY; j > 0; j--)
@@ -998,11 +995,13 @@ namespace envimetGeometry
                     if (Data[i, j] != 0)
                     {
                         string[] idAndDescription = this.customMaterial[Data[i, j] - 1].Split(',');
-                        this.propertiesTree.Add(new string[] { (i + 1).ToString(), (j + 1).ToString(), "0", idAndDescription[0], idAndDescription[1], "0" });
+                        propertiesTree.Add(new string[] { (i + 1).ToString(), (j + 1).ToString(), "0", idAndDescription[0], idAndDescription[1], "0" });
                     }
                 }
             }
+            return propertiesTree;
         }
+
     }
 
     public class NestingGrid
