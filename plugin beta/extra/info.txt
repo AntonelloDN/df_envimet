@@ -20,7 +20,7 @@ ENHANCEMENT REQUEST RELEASED:
 - Move building component for terrain;
 
 [2019/01/23]*:
-- LBC settings for simulation file;
+- LBC settings for simulation file [REMOVED];
 
 [2019/02/09]*:
 - Soil init condition for simulation file;
