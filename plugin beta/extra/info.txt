@@ -37,7 +37,7 @@ ENHANCEMENT REQUEST RELEASED:
 - LBC settings for simulation file - removed because of latest ENVI_MET 4.4.1;
 
 [2019/05/11]:
-- Read Model Material Library (DB);
+- Read User DB Library;
 
 CONTACTS: antonellodinunzio@gmail.com
 
