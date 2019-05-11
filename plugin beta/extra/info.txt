@@ -20,7 +20,7 @@ ENHANCEMENT REQUEST RELEASED:
 - Move building component for terrain;
 
 [2019/01/23]*:
-- LBC settings for simulation file;
+- LBC settings for simulation file [REMOVED];
 
 [2019/02/09]*:
 - Soil init condition for simulation file;
@@ -36,6 +36,8 @@ ENHANCEMENT REQUEST RELEASED:
 - Output file timing settings;
 - LBC settings for simulation file - removed because of latest ENVI_MET 4.4.1;
 
+[2019/05/11]:
+- Read Model Material Library (DB);
 
 CONTACTS: antonellodinunzio@gmail.com
 
