@@ -80,12 +80,14 @@ namespace envimentFileManagement
             System.IO.File.WriteAllLines(projectFileInFolder, textProjectFileInFolder);
 
             // edbFileInFolder
-            string[] textEdbFileInFolder = {"<ENVI-MET_Datafile>", "<Header>", "<filetype>DATA</filetype>",
+            if (!System.IO.File.Exists(edbFileInFolder))
+            {
+                string[] textEdbFileInFolder = {"<ENVI-MET_Datafile>", "<Header>", "<filetype>DATA</filetype>",
         "<version>1</version>", String.Format("<revisiondate>{0}</revisiondate>", now.ToString("yyyy-MM-dd HH:mm:ss")),
         "<remark>Envi-Data</remark>", "<encryptionlevel>1701377</encryptionlevel>",
         "</Header>", "</ENVI-MET_Datafile>"};
-            System.IO.File.WriteAllLines(edbFileInFolder, textEdbFileInFolder);
-
+                System.IO.File.WriteAllLines(edbFileInFolder, textEdbFileInFolder);
+            }
             return fullFolder;
         }
 
