@@ -39,3 +39,6 @@ What will happen to your existing gh files? Some components are the same of the 
 - Run simulation directly with Grasshopper;
 - Output file timing settings;
 - LBC settings for simulation file - removed because of latest ENVI_MET 4.4.1;
+
+[2019/05/11]:
+- Read Model Library;
