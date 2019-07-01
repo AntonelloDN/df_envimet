@@ -741,7 +741,11 @@ namespace envimetGeometry
                         bottom[k] = (Data[i, j, k] != 0) ? k : MaxLimit;
                     }
                     int min = bottom.Min();
-                    grid2d[i, j] = (min != MaxLimit) ? (int)Math.Round(ZNumbers[min], MinLimit) : MinLimit;
+                    if (min == 0)
+                        grid2d[i, j] = 0;
+                    else
+                        grid2d[i, j] = (min != MaxLimit) ? (int)Math.Round(ZNumbers[min], MinLimit) : MinLimit;
+                    
                 }
             }
 
