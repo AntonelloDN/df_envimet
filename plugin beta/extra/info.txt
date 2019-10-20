@@ -39,6 +39,17 @@ ENHANCEMENT REQUEST RELEASED:
 [2019/05/11]:
 - Read User DB Library;
 
+[2019/10/20]:
+- New object structure of the plugin;
+- Usability: Multiple envimet object are supported now;
+- Apply materials easily;
+- Combined grid added (telescope + equidistant) - there is a small issue of visualization (WIP with Envimet);
+- Terrain color bug fixed;
+- Simplified method of calculation for buiding added;
+- "Move building up" component removed, it is not necessary;
+- SimpleForcing is mandatory for new Config Intermediate file;
+- Config file support simulation more than 24 hours now;
+
 CONTACTS: antonellodinunzio@gmail.com
 
 *BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet
