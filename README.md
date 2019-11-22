@@ -6,3 +6,11 @@ Dragonfly Envimet code to connect Ladybug, Dragonfly and Gismo to Envimet for ur
 * [Antonello Di Nunzio](https://github.com/AntonelloDN)
 ## Videos:
 [Youtube playlist](https://www.youtube.com/playlist?list=PLVk71QLjaA6P6HYyJV9cn6odEZcX2CI4F)
+## Roadmap:
+Planned improvements on January 2020:
+- Configuration file: other advanced settings of simx file
+- Plugin structure: envimet installation folder as global parameter
+- Modeling: receptor object
+
+Planned improvements on March 2020:
+- Configuration file: fullforcing
