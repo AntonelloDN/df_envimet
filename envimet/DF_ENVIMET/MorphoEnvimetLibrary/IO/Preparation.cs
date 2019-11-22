@@ -49,6 +49,7 @@ namespace MorphoEnvimetLibrary.IO
             EnvimetPart.Add("building", defaultBuilding);           // OK
             EnvimetPart.Add("dem", defaultDem);                     // OK
             EnvimetPart.Add("plant3d", new List<string[]>());       // OK
+            EnvimetPart.Add("receptors", new List<string[]>());     // wip
             EnvimetPart.Add("nestingGrid", new NestingGrid());      // Ok
             EnvimetPart.Add("simpleplants2D", envimetEmptyMatrix);  // Ok
             EnvimetPart.Add("soils2D", emptySoilMatrix);            // Ok
@@ -206,6 +207,20 @@ namespace MorphoEnvimetLibrary.IO
             }
 
             return plantMatrix;
+        }
+
+        public static List<string[]> GetReceptorsMatrix(Grid grid, List<Receptor> receptor)
+        {
+            List<string[]> receptorMatrix = new List<string[]>();
+
+            foreach (Receptor rec in receptor)
+            {
+                Matrix2d matrix = rec.Create2DMatrixPerObj(grid, receptor.IndexOf(rec) + 1);
+                List<string[]> stringForPreparation = rec.CreateAttributes(matrix);
+                stringForPreparation.ForEach(l => receptorMatrix.Add(l));
+            }
+
+            return receptorMatrix;
         }
 
         public static string GetSimpleWallZMatrix(Grid grid, List<SimpleWall> shadings)

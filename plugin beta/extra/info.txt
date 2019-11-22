@@ -13,25 +13,25 @@ ENHANCEMENT REQUEST RELEASED:
 - New Surface input for DF Envimet Grid;
 - Grid based on surface;
 
-[2019/01/21]*:
+[2019/01/21]:
 - Timesteps settings for simulation file;
 - Building indoor temperature for simulation file;
 - Terrain (early adopter);
 - Move building component for terrain;
 
-[2019/01/23]*:
+[2019/01/23]:
 - LBC settings for simulation file [REMOVED];
 
-[2019/02/09]*:
+[2019/02/09]:
 - Soil init condition for simulation file;
 
-[2019/02/20]*:
+[2019/02/20]:
 - Edit building materials (E.g. for windows);
 
-[2019/02/24]*:
+[2019/02/24]:
 - Horizontal overhang;
 
-[2019/03/06]*:
+[2019/03/06]:
 - Run simulation directly with Grasshopper;
 - Output file timing settings;
 - LBC settings for simulation file - removed because of latest ENVI_MET 4.4.1;
@@ -49,6 +49,9 @@ ENHANCEMENT REQUEST RELEASED:
 - "Move building up" component removed, it is not necessary;
 - SimpleForcing is mandatory for new Config Intermediate file;
 - Config file support simulation more than 24 hours now;
+
+[2019/11/22]*:
+- Receptor Object added. Thanks to Wendy Sunarya
 
 CONTACTS: antonellodinunzio@gmail.com
 

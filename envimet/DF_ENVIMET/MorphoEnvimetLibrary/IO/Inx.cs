@@ -63,6 +63,8 @@ namespace MorphoEnvimetLibrary.IO
             var building = (Tuple<Dictionary<string, string>, List<string[]>>)preparation.EnvimetPart["building"];
             var dem = (Tuple<Point3d[], string, string>) preparation.EnvimetPart["dem"];
             var plant3d = (List<string[]>) preparation.EnvimetPart["plant3d"];
+            var receptors = (List<string[]>) preparation.EnvimetPart["receptors"];
+
             var nestingGrid = (NestingGrid)preparation.EnvimetPart["nestingGrid"];
             var simpleplants2D = (string) preparation.EnvimetPart["simpleplants2D"];
             var soils2D = (string) preparation.EnvimetPart["soils2D"];
@@ -211,7 +213,21 @@ namespace MorphoEnvimetLibrary.IO
                 }
                 
             }
-            
+
+            // section receptors
+            if (receptors.Count > 0)
+            {
+
+                for (int i = 0; i < receptors.Count; i++)
+                {
+                    string receptorsTitle = "Receptors";
+                    string[] receptorsTag = new string[] { "cell_i", "cell_j", "name" };
+                    string[] receptorsValue = new string[] { receptors[i][0], receptors[i][1], receptors[i][2] };
+
+                    Inx.CreateXmlSection(xWriter, receptorsTitle, receptorsTag, receptorsValue, 0, empty);
+                }
+
+            }
 
             // section soils2D
             string soils2DTitle = "soils2D";
@@ -237,12 +253,12 @@ namespace MorphoEnvimetLibrary.IO
             Inx.CreateXmlSection(xWriter, sources2DTitle, sources2DTag, sources2DValue, 1, attribute2dElements);
 
 
-            // section receptors2D (next release)
-            string receptors2DTitle = "receptors2D";
-            string[] receptors2DTag = new string[] { "ID_receptors" };
-            string[] receptors2DValue = new string[] { NewLine + envimetEmptyMatrix };
+            // section receptors2D (does not exist anymore)
+            //string receptors2DTitle = "receptors2D";
+            //string[] receptors2DTag = new string[] { "ID_receptors" };
+            //string[] receptors2DValue = new string[] { NewLine + envimetEmptyMatrix };
 
-            Inx.CreateXmlSection(xWriter, receptors2DTitle, receptors2DTag, receptors2DValue, 1, attribute2dElements);
+            //Inx.CreateXmlSection(xWriter, receptors2DTitle, receptors2DTag, receptors2DValue, 1, attribute2dElements);
 
 
             // section additionalData (maybe next release)

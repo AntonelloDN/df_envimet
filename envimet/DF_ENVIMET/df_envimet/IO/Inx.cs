@@ -118,6 +118,7 @@ namespace df_envimet.IO
                 List<Object2d> soils = new List<Object2d>();
                 List<Object2d> plant2d = new List<Object2d>();
                 List<Plant3d> plant3d = new List<Plant3d>();
+                List<Receptor> receptors = new List<Receptor>();
                 List<Object2d> sources = new List<Object2d>();
                 List<Terrain> terrain = new List<Terrain>();
                 List<SimpleWall> simpleW = new List<SimpleWall>();
@@ -136,6 +137,7 @@ namespace df_envimet.IO
                     string sourceMatrix = null;
                     string simpleWallShadingsMatrix = null;
                     List<string[]> plant3dXml = new List<string[]>();
+                    List<string[]> receptorsXml = new List<string[]>();
 
                     // building and terrain
                     if (objectDict["building"].Count > 0 && objectDict["terrain"].Count == 0)
@@ -185,6 +187,12 @@ namespace df_envimet.IO
                         plant3d = objectDict["plant3d"].ConvertAll(o => (Plant3d)o);
                         plant3dXml = Preparation.GetPlant3dMatrix(_envimentGrid, plant3d);
                         preparation.EnvimetPart["plant3d"] = plant3dXml;
+                    }
+                    if (objectDict["receptors"].Count > 0)
+                    {
+                        receptors = objectDict["receptors"].ConvertAll(o => (Receptor)o);
+                        receptorsXml = Preparation.GetReceptorsMatrix(_envimentGrid, receptors);
+                        preparation.EnvimetPart["receptors"] = receptorsXml;
                     }
                     if (objectDict["source"].Count > 0)
                     {
@@ -265,6 +273,7 @@ namespace df_envimet.IO
             List<Entity> soils = new List<Entity>();
             List<Entity> plant2d = new List<Entity>();
             List<Entity> plant3d = new List<Entity>();
+            List<Entity> receptors = new List<Entity>();
             List<Entity> sources = new List<Entity>();
             List<Entity> terrain = new List<Entity>();
             List<Entity> simpleWall = new List<Entity>();
@@ -275,6 +284,7 @@ namespace df_envimet.IO
                 else if (o is Soil) { soils.Add((Soil)o); }
                 else if (o is Plant2d) { plant2d.Add((Plant2d)o); }
                 else if (o is Plant3d) { plant3d.Add((Plant3d)o); }
+                else if (o is Receptor) { receptors.Add((Receptor)o); }
                 else if (o is Source) { sources.Add((Source)o); }
                 else if (o is Terrain) { terrain.Add((Terrain)o); }
                 else if (o is SimpleWall) { simpleWall.Add((SimpleWall)o); }
@@ -284,6 +294,7 @@ namespace df_envimet.IO
             objectDivideByType.Add("soil", soils);
             objectDivideByType.Add("plant2d", plant2d);
             objectDivideByType.Add("plant3d", plant3d);
+            objectDivideByType.Add("receptors", receptors);
             objectDivideByType.Add("source", sources);
             objectDivideByType.Add("terrain", terrain);
             objectDivideByType.Add("simpleW", simpleWall);

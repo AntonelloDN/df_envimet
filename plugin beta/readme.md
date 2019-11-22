@@ -53,3 +53,6 @@ What will happen to your existing gh files? Some components are the same of the 
 - "Move building up" component removed, it is not necessary;
 - SimpleForcing is mandatory for new Config Intermediate file;
 - Config file support simulation more than 24 hours now;
+
+[2019/11/22]:
+- Receptor Object added. Thanks to Wendy Sunarya

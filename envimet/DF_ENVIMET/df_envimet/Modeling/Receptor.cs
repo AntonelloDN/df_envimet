@@ -6,17 +6,17 @@ using Rhino.Geometry;
 
 namespace df_envimet.Modeling
 {
-    public class Plant3d : GH_Component
+    public class Receptor : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Plant3d class.
+        /// Initializes a new instance of the Receptor class.
         /// </summary>
-        public Plant3d()
-          : base("DF Envimet 3d Plant", "DFEnvimet3dPlant",
+        public Receptor()
+          : base("DF Envimet Receptor", "DFEnvimetReceptor",
               "Use this component to generate inputs for \"df_envimet Envimet Spaces\"",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nNOV_22_2019";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -26,9 +26,7 @@ namespace df_envimet.Modeling
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddMeshParameter("_plant3D", "_plant3D", "Geometry that represent ENVI-Met plant 3d.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_plant3Did_", "_plant3Did_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"LB ENVI - Met Read Library\".\nDefault is PINETREE.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonPlant3dMaterial);
-            pManager[1].Optional = true;
+            pManager.AddMeshParameter("_receptors", "_receptors", "Geometry that represent ENVI-Met receptor. ID is calculated automatically with a concatenation of x and y.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -36,7 +34,7 @@ namespace df_envimet.Modeling
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("envimet3dPlants", "envimet3dPlants", "Connect this output to \"Dragonfly Envimet Spaces\" in order to add 3d plants to ENVI-Met model.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("envimetReceptors", "envimetReceptors", "Connect this output to \"Dragonfly Envimet Spaces\" in order to add 3d plants to ENVI-Met model.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -47,23 +45,17 @@ namespace df_envimet.Modeling
         {
             // INPUT
             // declaration
-            Mesh _plant3D = null;
-            string _plant3Did_ = MorphoEnvimetLibrary.Geometry.Material.CommonPlant3dMaterial;
+            Mesh _receptors = null;
 
-            DA.GetData<Mesh>(0, ref _plant3D);
-            DA.GetData<string>(1, ref _plant3Did_);
+            DA.GetData<Mesh>(0, ref _receptors);
 
             // actions
-            MorphoEnvimetLibrary.Geometry.Material material = new MorphoEnvimetLibrary.Geometry.Material
-            {
-                Plant3dMaterial = _plant3Did_
-            };
 
-            MorphoEnvimetLibrary.Geometry.Plant3d trees = new MorphoEnvimetLibrary.Geometry.Plant3d(material, _plant3D);
+            MorphoEnvimetLibrary.Geometry.Receptor receptor = new MorphoEnvimetLibrary.Geometry.Receptor(_receptors);
 
             // OUTPUT
-            DA.SetData(0, trees);
-            trees.Dispose();
+            DA.SetData(0, receptor);
+            receptor.Dispose();
         }
 
         /// <summary>
@@ -75,7 +67,7 @@ namespace df_envimet.Modeling
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.envimet3dPlantIcon;
+                return Properties.Resources.envimetReceptorsIcon;
             }
         }
 
@@ -84,7 +76,7 @@ namespace df_envimet.Modeling
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2e487338-cd57-4c3d-9b49-9cb1f16c78dc"); }
+            get { return new Guid("5e63f5a2-6887-46eb-acc7-eebb99c4f8fe"); }
         }
     }
 }

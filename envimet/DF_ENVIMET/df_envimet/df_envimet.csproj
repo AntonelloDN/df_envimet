@@ -76,6 +76,7 @@
     <Compile Include="Modeling\PlanarSingleWallZ.cs" />
     <Compile Include="Modeling\Plant2d.cs" />
     <Compile Include="Modeling\Plant3d.cs" />
+    <Compile Include="Modeling\Receptor.cs" />
     <Compile Include="Modeling\Soil.cs" />
     <Compile Include="Modeling\Source.cs" />
     <Compile Include="Modeling\Terrain.cs" />
@@ -194,6 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetReceptorsIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
