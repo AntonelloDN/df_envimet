@@ -10,7 +10,7 @@ Dragonfly Envimet code to connect Ladybug, Dragonfly and Gismo to Envimet for ur
 Planned improvements on January 2020:
 - Configuration file: other advanced settings of simx file
 - Plugin structure: envimet installation folder as global parameter
-- Modeling: receptor object
+- Modeling: receptor object [Done]
 
 Planned improvements on March 2020:
 - Configuration file: fullforcing
