@@ -29,11 +29,9 @@ namespace df_envimet.IO
         {
             pManager.AddTextParameter("_selectMaterial", "_selectMaterial", "Use this component to select materials from ENVI_MET DB. Connect a panel with one of following text:\nMATERIAL\nWALL\nSOIL\nPROFILE\nSOURCE\nPLANT\nPLANT3D\nGREENING.\nDefault is PROFILE.", GH_ParamAccess.item, "PROFILE");
             pManager.AddTextParameter("searchMaterial_", "searchMaterial_", "Add a keyword to seach material you are looking for. For example, sand.", GH_ParamAccess.item);
-            pManager.AddTextParameter("ENVImetInstallFolder_", "ENVImetInstallFolder_", "Optional folder path for ENVImet4 installation folder.", GH_ParamAccess.item);
             pManager.AddTextParameter("envimetFolder_", "envimetFolder_", "Connect It if you want to read the model library.", GH_ParamAccess.item);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
-            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -55,13 +53,11 @@ namespace df_envimet.IO
             // init
             string _selectMaterial = "PROFILE";
             string searchMaterial_ = null;
-            string ENVImetInstallFolder_ = null;
             string envimetFolder_ = null;
 
             DA.GetData(0, ref _selectMaterial);
             DA.GetData(1, ref searchMaterial_);
-            DA.GetData(2, ref ENVImetInstallFolder_);
-            DA.GetData(3, ref envimetFolder_);
+            DA.GetData(2, ref envimetFolder_);
 
             // change nickname of output
             switch (_selectMaterial)
@@ -110,9 +106,19 @@ namespace df_envimet.IO
 
 
             // action
-            string mainDirectory = MorphoEnvimetLibrary.IO.Workspace.FindENVI_MET(ENVImetInstallFolder_);
+            string mainDirectory = MorphoEnvimetLibrary.IO.Workspace.FindENVI_MET();
 
-            string dbFile = System.IO.Path.Combine(mainDirectory, "database.edb"), dbName = "database";
+            string dbFile = null, dbName = null;
+            if (mainDirectory != null)
+            {
+                dbFile = System.IO.Path.Combine(mainDirectory, "database.edb");
+                dbName = "database";
+            }
+            else
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Use DF Envimet Installation Directory to set installation folder of envimet.");
+                return;
+            }
 
             if (envimetFolder_ != null)
             {

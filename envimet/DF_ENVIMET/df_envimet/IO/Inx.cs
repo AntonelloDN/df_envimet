@@ -101,7 +101,11 @@ namespace df_envimet.IO
             DA.GetData(6, ref _runIt);
             DA.GetData(7, ref viewGrid_);
 
-
+            if (_envimetFolder == null)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Use DF Envimet Installation Directory to set installation folder of envimet.");
+                return;
+            }
             Preparation preparation = new Preparation(_envimentGrid, _envimetLocation);
 
             if (viewGrid_)

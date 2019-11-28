@@ -4,6 +4,8 @@ namespace MorphoEnvimetLibrary.IO
 {
     public class Workspace
     {
+        public const string DEFAULT_FOLDER = "ENVImet444";
+
         private string _workspaceFolder;
         private string _projectFolderName;
         private string _fileNamePrj;
@@ -11,6 +13,8 @@ namespace MorphoEnvimetLibrary.IO
         private string _worspaceName;
         private string _projectName;
         private string _edbFileName;
+
+        public static string ENVImetInstallFolder { get; set; }
 
         public Workspace(string workspaceFolder, string projectFolderName)
         {
@@ -80,14 +84,14 @@ namespace MorphoEnvimetLibrary.IO
             return fullFolder;
         }
 
-        public static string FindENVI_MET(string ENVImetInstallFolder)
+        public static string FindENVI_MET()
         {
 
             string root = System.IO.Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-            string directory = System.IO.Path.Combine(root, "ENVImet443\\sys.basedata\\");
+            string directory = System.IO.Path.Combine(root, DEFAULT_FOLDER + "\\sys.basedata\\");
 
             // custom forlder
-            if (ENVImetInstallFolder != null)
+            if (Workspace.ENVImetInstallFolder != null)
             {
                 directory = System.IO.Path.Combine(ENVImetInstallFolder, "sys.basedata\\");
             }

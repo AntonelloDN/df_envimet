@@ -53,6 +53,9 @@ ENHANCEMENT REQUEST RELEASED:
 [2019/11/22]*:
 - Receptor Object added. Thanks to Wendy Sunarya
 
+[2019/11/28]*:
+- Installation Directory component added. Thanks to Minggang Yin.
+
 CONTACTS: antonellodinunzio@gmail.com
 
 *BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet

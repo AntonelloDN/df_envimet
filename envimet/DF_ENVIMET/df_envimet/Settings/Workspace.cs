@@ -29,8 +29,7 @@ namespace df_envimet.Settings
         {
             pManager.AddTextParameter("_workspaceFolder", "_workspaceFolder", "Main folder where you have to save an Envimet project.", GH_ParamAccess.item);
             pManager.AddTextParameter("_projectName_", "_projectName_", "Name of Envimet project folder where you have to save:\n1) EnviMet geometry file(*.INX)\n2) Configuration file(*.SIM)", GH_ParamAccess.item, "MorphoModel");
-            pManager.AddTextParameter("ENVImetInstallFolder_", "ENVImetInstallFolder_", "Optional folder path for ENVImet4 installation folder.", GH_ParamAccess.item);
-            pManager[2].Optional = true;
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -51,14 +50,12 @@ namespace df_envimet.Settings
             // declaration
             string _workspaceFolder = null;
             string _projectName_ = "MorphoModel";
-            string ENVImetInstallFolder_ = null;
 
             DA.GetData(0, ref _workspaceFolder);
             DA.GetData(1, ref _projectName_);
-            DA.GetData(2, ref ENVImetInstallFolder_);
 
             // actions
-            string mainDirectory = MorphoEnvimetLibrary.IO.Workspace.FindENVI_MET(ENVImetInstallFolder_);
+            string mainDirectory = MorphoEnvimetLibrary.IO.Workspace.FindENVI_MET();
 
             if (mainDirectory != null)
             {
@@ -69,7 +66,8 @@ namespace df_envimet.Settings
             }
             else
             {
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Envimet Main Folder not found!");
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Envimet Main Folder not found! Use DF Envimet Installation Directory to set installation folder of envimet.");
+                return;
             }
         }
 

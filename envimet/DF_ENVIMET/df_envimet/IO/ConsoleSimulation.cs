@@ -29,7 +29,6 @@ namespace df_envimet.IO
         {
             pManager.AddTextParameter("_envimetFolder", "_envimetFolder", "Envimet project folder which comes from \"DF Envimet Manage Workspace\".", GH_ParamAccess.item);
             pManager.AddTextParameter("_SIMXfileAddress", "_SIMXfileAddress", "Connect the output of DF Envimet Config.", GH_ParamAccess.item);
-            pManager.AddTextParameter("ENVImetInstallFolder_", "ENVImetInstallFolder_", "Optional folder path for ENVImet4 installation folder.", GH_ParamAccess.item);
             pManager.AddBooleanParameter("_type_", "_type_", "False = 32-bit or True = 64-bit. Default is 64-bit.", GH_ParamAccess.item, true);
             pManager.AddBooleanParameter("_runIt", "_runIt", "Set runIt to \"True\" to run model.", GH_ParamAccess.item, false);
 
@@ -53,29 +52,27 @@ namespace df_envimet.IO
             // declaration
             string envimetFolder = null;
             string INXfileAddress = null;
-            string ENVImetInstallFolder = null;
 
             bool runIt = false;
             bool type = true;
 
             DA.GetData(0, ref envimetFolder);
             DA.GetData(1, ref INXfileAddress);
-            DA.GetData(2, ref ENVImetInstallFolder);
-            DA.GetData(3, ref type);
-            DA.GetData(4, ref runIt);
+            DA.GetData(2, ref type);
+            DA.GetData(3, ref runIt);
 
             // exe
 
             // actions
-            string mainDirectory = Workspace.FindENVI_MET(ENVImetInstallFolder);
+            string mainDirectory = Workspace.FindENVI_MET();
 
             if (mainDirectory == null)
             {
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Envimet Main Folder not found!");
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Envimet Main Folder not found! Use DF Envimet Installation Directory to set installation folder of envimet.");
                 runIt = false;
             }
 
-            if (runIt == true)
+            if (runIt == true && envimetFolder != null)
             {
                 string systemBase = (type) ? "win64" : "win32";
                 string mainFolderWithBase = Workspace.CreateFolderWithBase(mainDirectory, systemBase);
