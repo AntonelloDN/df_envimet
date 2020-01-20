@@ -15,7 +15,11 @@ namespace MorphoEnvimetLibrary.Geometry
         public Terrain(Mesh geometry, Material material)
             : base(geometry, material)
         {
-            _closedMesh = CreateClosedMeshTerrain(geometry);
+            _closedMesh = geometry;
+            if (!geometry.IsClosed)
+            {
+                _closedMesh = CreateClosedMeshTerrain(geometry);
+            }
         }
 
         public Matrix3d GetMatrix()

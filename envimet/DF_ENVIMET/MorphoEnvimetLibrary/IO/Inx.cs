@@ -324,7 +324,7 @@ namespace MorphoEnvimetLibrary.IO
             // section SingleWallDB
             string SingleWallDBTitle = "SingleWallDB";
             string[] SingleWallDBTag = new string[] { "ID_singlewallDB" };
-            string[] SingleWallDBValue = new string[] { simpleW };
+            string[] SingleWallDBValue = new string[] { NewLine + simpleW };
 
             Inx.CreateXmlSection(xWriter, SingleWallDBTitle, SingleWallDBTag, SingleWallDBValue, 2, attribute3dElementsWallDB);
 

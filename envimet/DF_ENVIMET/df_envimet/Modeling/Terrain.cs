@@ -27,7 +27,7 @@ namespace df_envimet.Modeling
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddMeshParameter("_terrain", "_terrain", "2d Geometry that represent ENVI-Met buildings.\nGeometries have to be Surface/Open Brep or 2d Mesh", GH_ParamAccess.item);
+            pManager.AddMeshParameter("_terrain", "_terrain", "2d Geometry that represent ENVI-Met terrain.\nGeometries have to be Surface/Open Brep or 2d Mesh\nIf you have sharp changes connect a closed Mesh or a closed Brep.", GH_ParamAccess.item);
         }
 
         /// <summary>

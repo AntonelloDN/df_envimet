@@ -59,3 +59,6 @@ What will happen to your existing gh files? Some components are the same of the 
 
 [2019/11/28]:
 - Installation Directory component added. Thanks to Minggang Yin.
+
+[2020/11/28]:
+- Closed mesh or brep to create a terrain. Useful for terrain with sharp changes. Thanks to Ivan Heitmann for input.
