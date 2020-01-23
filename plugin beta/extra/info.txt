@@ -56,8 +56,14 @@ ENHANCEMENT REQUEST RELEASED:
 [2019/11/28]:
 - Installation Directory component added. Thanks to Minggang Yin.
 
-[2020/11/28]:
+[2020/01/20]:
 - Closed mesh or brep to create a terrain. Useful for terrain with sharp changes. Thanks to Ivan Heitmann for input.
+
+[2020/01/23]:
+- minor bug fixed: Wrong constant for installation folder; component descriptions.
+- bug fixed: Concept of centroid of automatic grid; Combined grid in right position; Grid visualization (Thanks to Simone Piccolo for finding it).
+- small improvements: Right representation of envimet grid xyz on GH; Uppercase search keyword in Library component
+
 
 CONTACTS: antonellodinunzio@gmail.com
 
