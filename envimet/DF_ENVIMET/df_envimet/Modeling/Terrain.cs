@@ -13,10 +13,10 @@ namespace df_envimet.Modeling
         /// </summary>
         public Terrain()
           : base("DF Envimet Terrain", "DFenvimetTerrain",
-              "Use this component to generate inputs for \"df_envimet Envimet Spaces\"",
+              "Use this component to generate inputs for \"Dragonfly Envimet Spaces\"",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -27,7 +27,7 @@ namespace df_envimet.Modeling
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddMeshParameter("_terrain", "_terrain", "2d Geometry that represent ENVI-Met terrain.\nGeometries have to be Surface/Open Brep or 2d Mesh\nIf you have sharp changes connect a closed Mesh or a closed Brep.", GH_ParamAccess.item);
+            pManager.AddMeshParameter("_terrain", "_terrain", "You have two ways:\n1) A closed Brep/Mesh. Also many closed Breps/Meshes if merged together in a single Mesh.\n2) 2d Geometry that represent ENVI-Met terrain. Geometries have to be Surface/Open Brep or 2d Mesh in this case.", GH_ParamAccess.item);
         }
 
         /// <summary>

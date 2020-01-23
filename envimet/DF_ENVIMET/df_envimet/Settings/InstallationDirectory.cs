@@ -16,7 +16,7 @@ namespace df_envimet.Settings
               "Use this component to set Installation Directory of Envimet on your machine. E.g. C:\\ENVImet444",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_28_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
 
@@ -25,7 +25,7 @@ namespace df_envimet.Settings
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("envimetInstallationFolder_", "envimetInstallationFolder_", "Directory where your Envimet software is. C:\\ENVImet444", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonWallMaterial);
+            pManager.AddTextParameter("envimetInstallationFolder_", "envimetInstallationFolder_", "Directory where your Envimet software is. C:\\ENVImet444", GH_ParamAccess.item, "C:\\" + MorphoEnvimetLibrary.IO.Workspace.DEFAULT_FOLDER);
             pManager[0].Optional = true;
         }
 

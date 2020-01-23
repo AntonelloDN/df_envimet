@@ -17,7 +17,7 @@ namespace df_envimet.IO
               "Use this component to read the library of materials of ENVI_MET.\nUse the \"id\" to change materials to enviment objects.\nUse DF XML Reader to look at details of materials. ",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
@@ -59,8 +59,10 @@ namespace df_envimet.IO
             DA.GetData(1, ref searchMaterial_);
             DA.GetData(2, ref envimetFolder_);
 
-            // change nickname of output
-            switch (_selectMaterial)
+            // manage uppercase
+            string selectedMaterial = _selectMaterial.ToUpper();
+
+            switch (selectedMaterial)
             {
                 case "MATERIAL":
                     Params.Output[0].Name = "materialId";
@@ -143,15 +145,15 @@ namespace df_envimet.IO
                 XDocument xml = XDocument.Load(readbleXml);
 
                 // query and workaround for greenings
-                string word = (_selectMaterial != "GREENING") ? "Description" : "Name";
+                string word = (selectedMaterial != "GREENING") ? "Description" : "Name";
 
                 var estrazione = (searchMaterial_ != null) ?
-                  from dato in xml.Descendants(_selectMaterial)
+                  from dato in xml.Descendants(selectedMaterial)
                   from description in dato.Descendants(word)
                   from id in dato.Descendants("ID")
                   where description.Value.ToUpper().Contains(searchMaterial_.ToUpper())
                   select Tuple.Create(id.Value.ToUpper(), description.Value.ToUpper(), dato) :
-                  from dato in xml.Descendants(_selectMaterial)
+                  from dato in xml.Descendants(selectedMaterial)
                   from descrizione in dato.Descendants(word)
                   from id in dato.Descendants("ID")
                   select Tuple.Create(id.Value.ToUpper(), descrizione.Value.ToUpper(), dato);
@@ -159,7 +161,7 @@ namespace df_envimet.IO
                 // create lists
                 List<string> ids = new List<string>();
 
-                if (_selectMaterial != "PLANT3D")
+                if (selectedMaterial != "PLANT3D")
                 {
                     ids = estrazione.Select(e => e.Item1.Replace(" ", ""))
                                         .ToList();

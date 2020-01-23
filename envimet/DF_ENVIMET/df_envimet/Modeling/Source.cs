@@ -13,10 +13,10 @@ namespace df_envimet.Modeling
         /// </summary>
         public Source()
           : base("DF Envimet Source", "DFEnvimetSource",
-              "Use this component to generate inputs for \"df_envimet Envimet Spaces\"",
+              "Use this component to generate sources for \"Dragonfly Envimet Spaces\". E.g. a fountain to apply evaporation strategy.",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -27,7 +27,7 @@ namespace df_envimet.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_source", "_source", "Geometry that represent ENVI-Met source.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_sourceId_", "_sourceId_", "ENVI-Met source id. You can use \"id outputs\" which comes from \"LB ENVI - Met Read Library\".\nDefault is 0000FT.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonSourceMaterial);
+            pManager.AddTextParameter("_sourceId_", "_sourceId_", "ENVI-Met source id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 0000FT.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonSourceMaterial);
             pManager[1].Optional = true;
         }
 

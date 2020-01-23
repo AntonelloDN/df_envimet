@@ -17,7 +17,7 @@ namespace df_envimet.Other
               "News and Info from DF Envimet developer!\nUse this component to see roadmap of Dragonfly Envimet or patches released by developer",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quinary;

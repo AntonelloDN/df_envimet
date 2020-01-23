@@ -17,7 +17,7 @@ namespace df_envimet.Modeling
               "Use this component to horizontal overangs \"Dragonfly Envimet Spaces\".",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -28,7 +28,7 @@ namespace df_envimet.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_horizontalPlanarSurface", "_horizontalPlanarSurface", "Horizoantal planar surface that represent ENVI-Met horazontal overhang 2d. Geometry must be horizonatal planar Surface or Brep.\nTry to generate planar shadings using Ladybug!", GH_ParamAccess.item);
-            pManager.AddTextParameter("_singleWallId_", "_singleWallId_", "ENVI-Met single wall id. You can use \"id outputs\" which comes from \"LB ENVI - Met Read Library\".\nDefault is 0000XX.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonSimpleWall);
+            pManager.AddTextParameter("_singleWallId_", "_singleWallId_", "ENVI-Met single wall id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 000001.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonSimpleWall);
             pManager[1].Optional = true;
         }
 

@@ -13,10 +13,10 @@ namespace df_envimet.Modeling
         /// </summary>
         public Plant2d()
           : base("DF Envimet 2d Plant", "DFEnvimet2dPlant",
-              "Use this component to generate inputs for \"df_envimet Envimet Spaces\"",
+              "Use this component to generate plant2d for \"Dragonfly Envimet Spaces\". E.g. grass, simple tree of 10 meters and so on.",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -27,7 +27,7 @@ namespace df_envimet.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_plant2D", "_plant2D", "Geometry that represent ENVI-Met plant 2d.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_plantId_", "_plantId_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"LB ENVI - Met Read Library\".\nDefault is 0000XX.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonPlant2dMaterial);
+            pManager.AddTextParameter("_plantId_", "_plantId_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 0000XX.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonPlant2dMaterial);
             pManager[1].Optional = true;
         }
 

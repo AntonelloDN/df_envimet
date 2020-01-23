@@ -15,10 +15,11 @@ namespace df_envimet.Modeling
         /// </summary>
         public Building()
           : base("DF Envimet Buildings", "DFEnvimetBuildings",
-              "Use this component to generate inputs for \"df_envimet Envimet Spaces\"",
+              "Use this component to generate buildings for \"Dragonfly Envimet Spaces\". Make sure buildings are " +
+                "clean geometries otherwise you can use boolean function to merge parts together.\nAnother possibility is to use tools like MorphoMesh or similar to work with meshes performing complex boolean union operations.",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

@@ -13,10 +13,10 @@ namespace df_envimet.Modeling
         /// </summary>
         public Soil()
           : base("DF Envimet Soil", "DFEnvimetSoil",
-              "Use this component to generate inputs for \"df_envimet Envimet Spaces\"",
+              "Use this component to generate inputs for \"Dragonfly Envimet Spaces\"",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -27,7 +27,7 @@ namespace df_envimet.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_soil", "_soil", "Geometry that represent ENVI-Met soil.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_profileId_", "_profileId_", "ENVI-Met profile id. You can use \"id outputs\" which comes from \"LB ENVI - Met Read Library\"\nDefault is 000000.", GH_ParamAccess.item, "000000");
+            pManager.AddTextParameter("_profileId_", "_profileId_", "ENVI-Met profile id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\"\nDefault is 000000.", GH_ParamAccess.item, MorphoEnvimetLibrary.Geometry.Material.CommonSoilMaterial);
             pManager[1].Optional = true;
         }
 

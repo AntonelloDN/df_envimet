@@ -15,10 +15,10 @@ namespace df_envimet
         /// </summary>
         public Grid()
           : base("DF Envimet Grid", "DFEnvimetGrid",
-              "Use this component to generate inputs for \"Envimet Spaces\"",
+              "Use this component to generate inputs for \"Envimet Spaces\". Each Point of grid represent a centroid of an envimet cube.",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -80,8 +80,8 @@ namespace df_envimet
             DA.GetData(5, ref dimZ_);
             DA.GetData(6, ref addCellsLeft_);
             DA.GetData(7, ref addCellslRight_);
-            DA.GetData(8, ref addCellsDown_);
-            DA.GetData(9, ref addCellsUp_);
+            DA.GetData(8, ref addCellsUp_);
+            DA.GetData(9, ref addCellsDown_);
             DA.GetData(10, ref numCellsZ_);
             DA.GetData(11, ref combineGridType_);
 
@@ -109,15 +109,16 @@ namespace df_envimet
 
             if (startTelescopeHeight_ != 0)
                 myGrid.StartTelescopeHeight = startTelescopeHeight_;
-            if (addCellsLeft_ != 0)
+            if (addCellsLeft_ > 2)
                 myGrid.ExtLeftXgrid = addCellsLeft_;
-            if (addCellslRight_ > 0 || addCellslRight_ > 2)
+            if (addCellslRight_ > 2)
                 myGrid.ExtRightXgrid = addCellslRight_;
-            if (addCellsUp_ > 0 || addCellsUp_ > 2)
+            if (addCellsUp_ > 2)
                 myGrid.ExtUpYgrid = addCellsUp_;
-            if (addCellsDown_ > 0 || addCellsDown_ > 2)
+            if (addCellsDown_ > 2)
                 myGrid.ExtDownYgrid = addCellsDown_;
-            if (numCellsZ_ > 0 || numCellsZ_ > 2)
+
+            if (numCellsZ_ > 2)
                 myGrid.NumZ = numCellsZ_;
             if (numCellsZ_ >= myGrid.NumZ)
                 myGrid.NumZ = myGrid.NumZ;

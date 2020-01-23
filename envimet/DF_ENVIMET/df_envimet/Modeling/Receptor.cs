@@ -13,10 +13,10 @@ namespace df_envimet.Modeling
         /// </summary>
         public Receptor()
           : base("DF Envimet Receptor", "DFEnvimetReceptor",
-              "Use this component to generate inputs for \"df_envimet Envimet Spaces\"",
+              "Use this component to generate inputs for \"Dragonfly Envimet Spaces\"",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_22_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

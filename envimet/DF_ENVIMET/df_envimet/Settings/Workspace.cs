@@ -17,7 +17,7 @@ namespace df_envimet.Settings
               "Use this component to create a Workspace folder",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -28,7 +28,7 @@ namespace df_envimet.Settings
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("_workspaceFolder", "_workspaceFolder", "Main folder where you have to save an Envimet project.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_projectName_", "_projectName_", "Name of Envimet project folder where you have to save:\n1) EnviMet geometry file(*.INX)\n2) Configuration file(*.SIM)", GH_ParamAccess.item, "MorphoModel");
+            pManager.AddTextParameter("_projectName_", "_projectName_", "Name of Envimet project folder where you have to save:\n1) EnviMet geometry file(*.INX)\n2) Configuration file(*.SIMX).\nYou can also open and edit config file with ENVI_MET Guide module.", GH_ParamAccess.item, "MorphoModel");
             pManager[1].Optional = true;
         }
 

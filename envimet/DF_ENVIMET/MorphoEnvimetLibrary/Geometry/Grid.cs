@@ -10,6 +10,8 @@ namespace MorphoEnvimetLibrary.Geometry
     {
         public const int MAX_NUM_Z = 999;
         public const int MIN_NUM_BORDER_CELLS = 2;
+
+        private const int CENTROID = 1;
         private const long SPACE_LIMIT = 100000000L;
         public const string APPROXIMATION = "0.00";
         public const int FIRST_CELL_COMBINED_GRID = 4;
@@ -131,8 +133,12 @@ namespace MorphoEnvimetLibrary.Geometry
 
             double domX = MaxX - MinX;
             double domY = MaxY - MinY;
-            NumX = (int)(domX / DimX);
-            NumY = (int)(domY / DimY);
+
+            // Calculate NumX, NumY and shift by one. Work with centroid instead of VOIDS
+            NumX = (int)Math.Floor((domX / DimX)) + CENTROID;
+            NumY = (int)Math.Floor((domY / DimY)) + CENTROID;
+
+            Rhino.RhinoApp.WriteLine("Dimensione griglia: {0}, {1}", NumX, NumY);
 
             // Reccalculate maxX/Y just for the bounding box fit the grid size/length
             MaxX = MinX + (NumX * DimX);
@@ -197,6 +203,7 @@ namespace MorphoEnvimetLibrary.Geometry
             if (CombineGridType && Telescope != 0.0)
             {
                 double delta = (gZ[1] - gZ[0]) / FIRST_CELL_COMBINED_GRID;
+                double adjust = gZ[0] - delta;
 
                 gZ.ToList().ForEach(el =>
                 {
@@ -216,7 +223,9 @@ namespace MorphoEnvimetLibrary.Geometry
                         }
                     }
                 });
-                _height = tempHeight.ToArray();
+
+                // move centroids to ground
+                _height = tempHeight.Select(el => el - (adjust + (adjust / 2))).ToArray();
             }
             else
             {
@@ -250,8 +259,8 @@ namespace MorphoEnvimetLibrary.Geometry
         {
             List<Point3d> gridPoints = new List<Point3d>();
             // XY Grid
-            for (int ix = 0; ix < NumX + 1; ix++)
-                for (int iy = 0; iy < NumY + 1; iy++)
+            for (int ix = 0; ix < NumX ; ix++)
+                for (int iy = 0; iy < NumY; iy++)
                     gridPoints.Add(PointXY(ix, iy));
             return gridPoints;
         }
@@ -261,7 +270,7 @@ namespace MorphoEnvimetLibrary.Geometry
             int zCount = GetNumberOfZcellsByCombinedGrid();
             List<Point3d> gridPoints = new List<Point3d>();
             // XZ Grid
-            for (int ix = 0; ix < NumX + 1; ix++)
+            for (int ix = 0; ix < NumX; ix++)
                 for (int iz = 0; iz < zCount; iz++)
                     gridPoints.Add(PointXZ(ix, iz));
 
@@ -273,7 +282,7 @@ namespace MorphoEnvimetLibrary.Geometry
             int zCount = GetNumberOfZcellsByCombinedGrid();
             List<Point3d> gridPoints = new List<Point3d>();
             // YZ Grid
-            for (int iy = 0; iy < NumY + 1; iy++)
+            for (int iy = 0; iy < NumY; iy++)
                 for (int iz = 0; iz < zCount; iz++)
                     gridPoints.Add(PointYZ(iy, iz));
 

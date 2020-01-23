@@ -16,7 +16,7 @@ namespace df_envimet.Other
               "Use this component to see buildings centroids of ENVI_MET model file.",
               "Dragonfly", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nJAN_23_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quinary;

@@ -49,7 +49,7 @@ namespace MorphoEnvimetLibrary.IO
             EnvimetPart.Add("building", defaultBuilding);           // OK
             EnvimetPart.Add("dem", defaultDem);                     // OK
             EnvimetPart.Add("plant3d", new List<string[]>());       // OK
-            EnvimetPart.Add("receptors", new List<string[]>());     // wip
+            EnvimetPart.Add("receptors", new List<string[]>());     // OK
             EnvimetPart.Add("nestingGrid", new NestingGrid());      // Ok
             EnvimetPart.Add("simpleplants2D", envimetEmptyMatrix);  // Ok
             EnvimetPart.Add("soils2D", emptySoilMatrix);            // Ok
