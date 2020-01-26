@@ -9,33 +9,29 @@ namespace MorphoEnvimetLibrary.Geometry
         public Object2d(Mesh geometry, Material material)
             : base(geometry, material) { }
 
+
         public Matrix2d Create2DMatrixPerObj(Grid grid, int index)
         {
             Matrix2d grid2d = new Matrix2d(grid.NumX, grid.NumY);
             List<Point3d> points = Building.GetMinGridForProjection(GetMesh(), grid);
-
-            Point3d point = new Point3d();
             Ray3d ray = new Ray3d();
-            for (int i = 0; i < grid.NumX; i++)
-                for (int j = 0; j < grid.NumY; j++)
-                {
-                    grid2d[i, j] = 0;
-                    point = new Point3d((i * grid.DimX) + grid.MinX, (j * grid.DimY) + grid.MinY, 0);
-                    if (points.Contains(point))
-                    {
-                        ray = new Ray3d(point, Vector3d.ZAxis);
-                        Plane plane = new Plane(new Point3d(0, 0, grid.Height[0]), Vector3d.ZAxis);
-                        Transform xprj = Transform.PlanarProjection(plane);
-                        GetMesh().Transform(xprj);
 
-                        var intersection = Rhino.Geometry.Intersect.Intersection.MeshRay(_geometry, ray);
-                        if (intersection != -1.0)
-                            grid2d[i, j] = index;
-                    }
-                }
+            foreach (Point3d pt in points)
+            {
+                int valX = (int)Math.Round(((pt.X - grid.MinX) / grid.DimX), 0);
+                int valY = (int)Math.Round(((pt.Y - grid.MinY) / grid.DimY), 0);
+
+                ray = new Ray3d(pt, Vector3d.ZAxis);
+
+                var intersection = Rhino.Geometry.Intersect.Intersection.MeshRay(_geometry, ray);
+                if (intersection != -1.0)
+                    grid2d[valX, valY] = index;
+            }
+
             return grid2d;
 
         }
+
 
         public static string Merge2dMatrixWithMaterial(List<Matrix2d> multiMatrix, List<Material> materials, string defaultMaterial)
         {

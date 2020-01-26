@@ -138,8 +138,6 @@ namespace MorphoEnvimetLibrary.Geometry
             NumX = (int)Math.Floor((domX / DimX)) + CENTROID;
             NumY = (int)Math.Floor((domY / DimY)) + CENTROID;
 
-            Rhino.RhinoApp.WriteLine("Dimensione griglia: {0}, {1}", NumX, NumY);
-
             // Reccalculate maxX/Y just for the bounding box fit the grid size/length
             MaxX = MinX + (NumX * DimX);
             MaxY = MinY + (NumY * DimY);

@@ -64,6 +64,9 @@ ENHANCEMENT REQUEST RELEASED:
 - bug fixed: Concept of centroid of automatic grid; Combined grid in right position; Grid visualization (Thanks to Simone Piccolo for finding it).
 - small improvements: Right representation of envimet grid xyz on GH; Uppercase search keyword in Library component
 
+[2020/01/26]:
+- Calculation speed improvement for soils and trees.
+- Modelinfo output for DF Envimet Spaces.
 
 CONTACTS: antonellodinunzio@gmail.com
 

@@ -27,9 +27,9 @@ namespace editEnvimetObject
             {
                 string[] selString = row.Split(',');
                 int zIndex = Convert.ToInt32(selString[2]);
-                double xVal = Convert.ToDouble(selString[0]);
+                double xVal = Convert.ToInt32(selString[0]);
                 double yVal = Convert.ToInt32(selString[1]);
-
+                    
                 pts.Add(new Point3d((xVal * grid.DimX) + grid.MinX, (yVal * grid.DimY) + grid.MinY, grid.Height[zIndex]));
             }
 
@@ -117,7 +117,7 @@ namespace editEnvimetObject
 
         public bool PointsInShapesCheck(Mesh meshUnion, Point3d testPoint)
         {
-            return meshUnion.IsPointInside(testPoint, Tol, false);
+            return meshUnion.IsPointInside(testPoint, Rhino.RhinoMath.SqrtEpsilon, true);
         }
 
         public string UpdateRowTextMaterial(string textRow, CellMaterial newMaterial)

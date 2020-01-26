@@ -67,3 +67,7 @@ What will happen to your existing gh files? Some components are the same of the 
 - minor bug fixed: Wrong constant for installation folder; component descriptions.
 - bug fixed: Concept of centroid of automatic grid; Combined grid in right position; Grid visualization (Thanks to Simone Piccolo for finding it).
 - small improvements: Right representation of envimet grid xyz on GH; Uppercase search keyword in Library component
+
+[2020/01/26]:
+- Calculation speed improvement for soils and trees
+- Modelinfo output for DF Envimet Spaces

@@ -59,6 +59,7 @@ namespace df_envimet.IO
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddTextParameter("ModelInfo", "ModelInfo", "Information about Model grid.", GH_ParamAccess.item);
             pManager.AddPointParameter("XYGrid", "XYGrid", "XY points.", GH_ParamAccess.list);
             pManager.AddPointParameter("XZGrid", "XZGrid", "XZ points.", GH_ParamAccess.list);
             pManager.AddPointParameter("YZGrid", "YZGrid", "YZ points.", GH_ParamAccess.list);
@@ -108,11 +109,14 @@ namespace df_envimet.IO
             }
             Preparation preparation = new Preparation(_envimentGrid, _envimetLocation);
 
+            string information = String.Format("Dimension of grid: {0},{1},{2}\nNumber of nesting grid: {3}", _envimentGrid.NumX, _envimentGrid.NumY, _envimentGrid.NumZ, nestingGrid_.NumNestingGrid);
+            DA.SetData(0, information);
+
             if (viewGrid_)
             {
-                DA.SetDataList(0, _envimentGrid.GridXY());
-                DA.SetDataList(1, _envimentGrid.GridXZ());
-                DA.SetDataList(2, _envimentGrid.GridYZ());
+                DA.SetDataList(1, _envimentGrid.GridXY());
+                DA.SetDataList(2, _envimentGrid.GridXZ());
+                DA.SetDataList(3, _envimentGrid.GridYZ());
             }
 
             if (_runIt)
@@ -217,7 +221,7 @@ namespace df_envimet.IO
                 string fullName = System.IO.Path.Combine(_envimetFolder, fileName);
 
                 MorphoEnvimetLibrary.IO.Inx.INXwriteMethod(fullName, preparation);
-                DA.SetData(3, fullName);
+                DA.SetData(4, fullName);
                 CleanObject(_envimentObjects_);
             }
             

@@ -4,6 +4,7 @@ using System.Linq;
 using Rhino.Geometry;
 using MorphoEnvimetLibrary.Settings;
 using MorphoEnvimetLibrary.Geometry;
+using System.Threading.Tasks;
 
 namespace MorphoEnvimetLibrary.IO
 {
