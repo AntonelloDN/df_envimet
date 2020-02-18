@@ -68,6 +68,10 @@ ENHANCEMENT REQUEST RELEASED:
 - Calculation speed improvement for soils and trees.
 - Modelinfo output for DF Envimet Spaces.
 
+[2020/02/18]:
+- Receptor Reader added: you can read fast all receptor results without using excel!
+- Improved batch to run simulations.
+
 CONTACTS: antonellodinunzio@gmail.com
 
 *BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet

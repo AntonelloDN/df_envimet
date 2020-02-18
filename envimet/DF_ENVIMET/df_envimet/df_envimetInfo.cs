@@ -14,6 +14,7 @@ namespace df_envimet
                 return "dfenvimet";
             }
         }
+
         public override Bitmap Icon
         {
             get
@@ -43,7 +44,7 @@ namespace df_envimet
             get
             {
                 //Return a string identifying you or your company.
-                return "";
+                return "Antonello Di Nunzio";
             }
         }
         public override string AuthorContact
@@ -51,7 +52,7 @@ namespace df_envimet
             get
             {
                 //Return a string representing your preferred contact details.
-                return "";
+                return "antonellodinunzio@gmail.com";
             }
         }
     }

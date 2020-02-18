@@ -71,3 +71,7 @@ What will happen to your existing gh files? Some components are the same of the 
 [2020/01/26]:
 - Calculation speed improvement for soils and trees
 - Modelinfo output for DF Envimet Spaces
+
+[2020/02/18]:
+- Receptor Reader added: you can read fast all receptor results without using excel!
+- Improved batch to run simulations.

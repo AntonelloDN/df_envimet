@@ -263,6 +263,26 @@ namespace df_envimet.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap envimetReadReceptorDirectorycon {
+            get {
+                object obj = ResourceManager.GetObject("envimetReadReceptorDirectorycon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap envimetReadReceptorResultsIcon {
+            get {
+                object obj = ResourceManager.GetObject("envimetReadReceptorResultsIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap envimetReceptorsIcon {
             get {
                 object obj = ResourceManager.GetObject("envimetReceptorsIcon", resourceCulture);
