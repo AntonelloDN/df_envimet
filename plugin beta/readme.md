@@ -16,32 +16,29 @@ What will happen to your existing gh files? Some components are the same of the 
 
 ## New features
 
-[2019/01/21]:
-- Timesteps settings for simulation file;
-- Building indoor temperature for simulation file;
-- Terrain (early adopter);
-- Move building component for terrain;
+[2020/02/18]:
+- Receptor Reader added: you can read fast all receptor results without using excel!
+- Improved batch to run simulations (from Simone Piccolo's issue).
 
-[2019/01/23]:
-- LBC settings for simulation file;
+![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/ReceptorOutputReader.gif)
 
-[2019/02/09]:
-- Soil init condition for simulation file;
+[2020/01/26]:
+- Calculation speed improvement for soils and trees
+- Modelinfo output for DF Envimet Spaces
 
-[2019/02/20]:
-- Edit building materials (E.g. for windows);<br>
-![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/EditBuildingMaterialComponent.png)
+[2020/01/23]:
+- minor bug fixed: Wrong constant for installation folder; component descriptions.
+- bug fixed: Concept of centroid of automatic grid; Combined grid in right position; Grid visualization (Thanks to Simone Piccolo for finding it).
+- small improvements: Right representation of envimet grid xyz on GH; Uppercase search keyword in Library component
 
-[2019/02/24]:
-- Horizontal overhang;
+[2020/01/20]:
+- Closed mesh or brep to create a terrain. Useful for terrain with sharp changes. Thanks to Ivan Heitmann for input.
 
-[2019/03/06]:
-- Run simulation directly with Grasshopper;
-- Output file timing settings;
-- LBC settings for simulation file - removed because of latest ENVI_MET 4.4.1;
+[2019/11/28]:
+- Installation Directory component added. Thanks to Minggang Yin.
 
-[2019/05/11]:
-- Read User DB Library;
+[2019/11/22]:
+- Receptor Object added. Thanks to Wendy Sunarya
 
 [2019/10/20]:
 - New object structure of the plugin;
@@ -54,26 +51,29 @@ What will happen to your existing gh files? Some components are the same of the 
 - SimpleForcing is mandatory for new Config Intermediate file;
 - Config file support simulation more than 24 hours now;
 
-[2019/11/22]:
-- Receptor Object added. Thanks to Wendy Sunarya
+[2019/05/11]:
+- Read User DB Library;
 
-[2019/11/28]:
-- Installation Directory component added. Thanks to Minggang Yin.
+[2019/03/06]:
+- Run simulation directly with Grasshopper;
+- Output file timing settings;
+- LBC settings for simulation file - removed because of latest ENVI_MET 4.4.1;
 
-[2020/01/20]:
-- Closed mesh or brep to create a terrain. Useful for terrain with sharp changes. Thanks to Ivan Heitmann for input.
+[2019/02/24]:
+- Horizontal overhang;
 
-[2020/01/23]:
-- minor bug fixed: Wrong constant for installation folder; component descriptions.
-- bug fixed: Concept of centroid of automatic grid; Combined grid in right position; Grid visualization (Thanks to Simone Piccolo for finding it).
-- small improvements: Right representation of envimet grid xyz on GH; Uppercase search keyword in Library component
+[2019/02/20]:
+- Edit building materials (E.g. for windows);<br>
+![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/EditBuildingMaterialComponent.png)
 
-[2020/01/26]:
-- Calculation speed improvement for soils and trees
-- Modelinfo output for DF Envimet Spaces
+[2019/02/09]:
+- Soil init condition for simulation file;
 
-[2020/02/18]:
-- Receptor Reader added: you can read fast all receptor results without using excel!
-- Improved batch to run simulations (from Simone Piccolo's issue).
+[2019/01/23]:
+- LBC settings for simulation file;
 
-![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/ReceptorOutputReader.gif)
+[2019/01/21]:
+- Timesteps settings for simulation file;
+- Building indoor temperature for simulation file;
+- Terrain (early adopter);
+- Move building component for terrain;
