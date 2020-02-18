@@ -75,4 +75,4 @@ What will happen to your existing gh files? Some components are the same of the 
 [2020/02/18]:
 - Receptor Reader added: you can read fast all receptor results without using excel!
 - Improved batch to run simulations.
-![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/ReceptorOutputReader.png)
+![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/ReceptorOutputReader.gif)
