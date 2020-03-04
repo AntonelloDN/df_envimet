@@ -24,11 +24,15 @@ namespace df_envimet.Grasshopper.Settings
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("commonWallMaterial_", "commonWallMaterial_", "Default wall material.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonWallMaterial);
-            pManager.AddTextParameter("commonRoofMaterial_", "commonRoofMaterial_", "Default roof material.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonRoofMaterial);
-            pManager.AddTextParameter("commonSoilMaterial_", "commonSoilMaterial_", "Default soil material.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonSoilMaterial);
-            pManager.AddTextParameter("commonPlant2dMaterial_", "commonPlant2dMaterial_", "Default plant2d material.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonPlant2dMaterial);
+            pManager.AddTextParameter("commonWallMaterial_", "commonWallMaterial_", "Default wall material.", GH_ParamAccess.item);
+            pManager.AddTextParameter("commonRoofMaterial_", "commonRoofMaterial_", "Default roof material.", GH_ParamAccess.item);
+            pManager.AddTextParameter("commonSoilMaterial_", "commonSoilMaterial_", "Default profile material.", GH_ParamAccess.item);
+            pManager.AddTextParameter("commonPlant2dMaterial_", "commonPlant2dMaterial_", "Default plant2d material.", GH_ParamAccess.item);
             pManager.AddBooleanParameter("resetValues_", "resetValues_", "Set it to true if you want to reset default values.", GH_ParamAccess.item, false);
+            pManager[0].Optional = true;
+            pManager[1].Optional = true;
+            pManager[2].Optional = true;
+            pManager[3].Optional = true;
         }
 
         /// <summary>

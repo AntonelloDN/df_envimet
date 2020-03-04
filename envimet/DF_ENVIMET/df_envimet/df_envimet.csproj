@@ -85,6 +85,8 @@
     <Compile Include="df_envimetInfo.cs" />
     <Compile Include="Grasshopper\IO\ConsoleSimulation.cs" />
     <Compile Include="Grasshopper\IO\Inx.cs" />
+    <Compile Include="Grasshopper\IO\BuildingFolder.cs" />
+    <Compile Include="Grasshopper\IO\ReadBuildingAvgResults.cs" />
     <Compile Include="Grasshopper\IO\ReadLibrary.cs" />
     <Compile Include="Grasshopper\IO\ReadReceptorResults.cs" />
     <Compile Include="Grasshopper\IO\ReceptorFolder.cs" />
@@ -113,7 +115,6 @@
     <Compile Include="Grasshopper\Settings\Location.cs" />
     <Compile Include="Grasshopper\Settings\NestingGrid.cs" />
     <Compile Include="Grasshopper\Settings\Workspace.cs" />
-    <Compile Include="TestComponentAntonello.cs" />
     <Compile Include="Grasshopper\UI_GH\ExtensionReceptorComponent.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +228,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\envimetReadReceptorResultsIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetBuildingFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetReadBuildingsAvg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

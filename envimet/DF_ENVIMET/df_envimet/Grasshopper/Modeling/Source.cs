@@ -25,7 +25,7 @@ namespace df_envimet.Grasshopper.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_source", "_source", "Geometry that represent ENVI-Met source.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_sourceId_", "_sourceId_", "ENVI-Met source id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 0000FT.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonSourceMaterial);
+            pManager.AddTextParameter("_sourceId_", "_sourceId_", "ENVI-Met source id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 0000FT.", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
 

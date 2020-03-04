@@ -25,7 +25,7 @@ namespace df_envimet.Grasshopper.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_plant3D", "_plant3D", "Geometry that represent ENVI-Met plant 3d.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_plant3Did_", "_plant3Did_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is PINETREE.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonPlant3dMaterial);
+            pManager.AddTextParameter("_plant3Did_", "_plant3Did_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is PINETREE.", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
 

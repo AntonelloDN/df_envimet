@@ -22,7 +22,7 @@ namespace df_envimet.Grasshopper.Settings
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("envimetInstallationFolder_", "envimetInstallationFolder_", "Directory where your Envimet software is. C:\\ENVImet444", GH_ParamAccess.item, "C:\\" + df_envimet_lib.IO.Workspace.DEFAULT_FOLDER);
+            pManager.AddTextParameter("envimetInstallationFolder_", "envimetInstallationFolder_", "Directory where your Envimet software is. C:\\ENVImet444", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
@@ -39,7 +39,7 @@ namespace df_envimet.Grasshopper.Settings
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            string envimetInstallationFolder_ = df_envimet_lib.IO.Workspace.DEFAULT_FOLDER;
+            string envimetInstallationFolder_ = null;
 
             DA.GetData(0, ref envimetInstallationFolder_);
 

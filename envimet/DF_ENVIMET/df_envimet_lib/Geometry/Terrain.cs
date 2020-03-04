@@ -46,7 +46,7 @@ namespace df_envimet_lib.Geometry
             Polyline[] arrayCrv1 = surfTerrainMesh.GetOutlines(Rhino.Geometry.Plane.WorldXY);
             Polyline[] arrayCrv2 = surfTerrainMesh.GetNakedEdges();
 
-            Mesh baseMesh = Rhino.Geometry.Mesh.CreateFromClosedPolyline(arrayCrv1[0]);
+            Mesh baseMesh = Mesh.CreateFromClosedPolyline(arrayCrv1[0]);
 
             // casting
             Curve crv1 = arrayCrv1[0].ToNurbsCurve();
@@ -75,11 +75,14 @@ namespace df_envimet_lib.Geometry
             return finalMesh;
         }
 
+
         public void CreateVoxMatrixTerrain(Point3d[] terrainPoints, Grid grid)
         {
-            TerrainflagMatrix = "";
+            TerrainflagMatrix = String.Empty;
+
+            List<string> tempTerrainFlag = new List<string>();
+
             int numberZpoint = (grid.CombineGridType && grid.Telescope > 0) ? grid.NumZ + Grid.FIRST_CELL_COMBINED_GRID : grid.NumZ;
-            _matrix = new Matrix3d(grid.NumX, grid.NumY, numberZpoint);
 
             foreach (Point3d pt in terrainPoints)
             {
@@ -89,8 +92,7 @@ namespace df_envimet_lib.Geometry
                     int valY = (int)Math.Round(((pt.Y - grid.MinY) / grid.DimY), 0);
                     int valZ = (int)Math.Round(grid.CastingPrecision(pt.Z), 0);
 
-                    _matrix[valX, valY, valZ] = 1;
-                    TerrainflagMatrix += String.Format("{0},{1},{2},1.00000\n", valX, valY, valZ);
+                    tempTerrainFlag.Add(String.Format("{0},{1},{2},1.00000", valX, valY, valZ));
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -98,29 +100,42 @@ namespace df_envimet_lib.Geometry
                     continue;
                 }
             }
+            TerrainflagMatrix = String.Join("\n", tempTerrainFlag) + "\n";
         }
 
-        public static Matrix2d DemTop2d(Matrix3d matrix, Grid grid)
+        public static List<Point3d> GetMatrixFromRayShoot(Grid grid, Mesh union, ref Matrix2d matrix)
         {
 
-            Matrix2d grid2d = new Matrix2d(matrix.GetLengthX(), matrix.GetLengthY());
+            List<Point3d> points = new List<Point3d>();
 
+            int zDim = Building.MAX_LIMIT;
+            Vector3d axis = -Vector3d.ZAxis;
 
-            for (int i = 0; i < matrix.GetLengthX(); i++)
-            {
-                int[] up = new int[matrix.GetLengthZ()];
-                for (int j = 0; j < matrix.GetLengthY(); j++)
+            for (int i = 0; i < grid.NumX; i++)
+                for (int j = 0; j < grid.NumY; j++)
                 {
-                    for (int k = 0; k < matrix.GetLengthZ(); k++)
-                    {
-                        up[k] = (matrix[i, j, k] != 0) ? (int)Math.Round(grid.Height[k], MIN_LIMIT) : MIN_LIMIT;
-                    }
-                    int max = up.Max();
-                    grid2d[i, j] = max;
-                }
-            }
+                    Point3d point = new Point3d((i * grid.DimX) + grid.MinX, (j * grid.DimY) + grid.MinY, zDim);
+                    Ray3d ray = new Ray3d(point, axis);
 
-            return grid2d;
+                    var intersection = Rhino.Geometry.Intersect.Intersection.MeshRay(union, ray);
+                    
+                    if (intersection != -1.0)
+                    {
+                        double value = ray.PointAt(intersection).Z;
+
+                        if (value < 0)
+                            value = 0;
+                        Grid.FilterListBasedOnNumber(grid.Height.ToList(), value).ForEach(v =>
+                            {
+                                points.Add(new Point3d(point.X, point.Y, v));
+                            });
+                        matrix[i, j] = (int)Math.Round((float)value, MidpointRounding.AwayFromZero);
+                    }
+                }
+
+            return points;
+
         }
+
     }
 }

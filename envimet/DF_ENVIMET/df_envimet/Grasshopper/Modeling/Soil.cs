@@ -25,7 +25,7 @@ namespace df_envimet.Grasshopper.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_soil", "_soil", "Geometry that represent ENVI-Met soil.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_profileId_", "_profileId_", "ENVI-Met profile id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\"\nDefault is 000000.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonSoilMaterial);
+            pManager.AddTextParameter("_profileId_", "_profileId_", "ENVI-Met profile id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\"\nDefault is 000000.", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
 
@@ -50,7 +50,6 @@ namespace df_envimet.Grasshopper.Modeling
 
             DA.GetData<Mesh>(0, ref _soil);
             DA.GetData<string>(1, ref _profileId_);
-
 
             // actions
             df_envimet_lib.Geometry.Material material = new df_envimet_lib.Geometry.Material

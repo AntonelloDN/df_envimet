@@ -7,7 +7,7 @@ namespace df_envimet.Grasshopper.UI_GH
 {
     public abstract class ExtensionReceptorComponent : GH_Component
     {
-        protected string _value = ReceptorFileType.ATMOSPHERE;
+        protected string _value = "ATM";
 
         public ExtensionReceptorComponent(string name, string nickName, string description, string category, string subCategory)
             : base(name, nickName, description, category, subCategory)

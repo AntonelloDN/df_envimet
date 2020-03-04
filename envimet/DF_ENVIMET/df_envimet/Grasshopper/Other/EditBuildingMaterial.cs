@@ -33,12 +33,15 @@ namespace df_envimet.Grasshopper.Other
             pManager.AddGenericParameter("_envimentGrid", "_envimentGrid", "Connect the output of \"Dragonfly Envimet Grid\".", GH_ParamAccess.item);
             pManager.AddCurveParameter("_selectorCurve", "_selectorCurve", "A closed curve on Plane World XY. Use it to select parts you want to change.", GH_ParamAccess.item);
             pManager.AddMeshParameter("selectorShape_", "selectorShape_", "A list of solid to select parts to edit. If point is inside it will be modified.", GH_ParamAccess.list);
-            pManager.AddTextParameter("materialX_", "materialX_", "Material in X direction. Default is 000000.", GH_ParamAccess.item, Material.CommonWallMaterial);
-            pManager.AddTextParameter("materialY_", "materialY_", "Material in Y direction. Default is 000000.", GH_ParamAccess.item, Material.CommonWallMaterial);
-            pManager.AddTextParameter("materialZ_", "materialZ_", "Material in Z direction. Default is 000000.", GH_ParamAccess.item, Material.CommonRoofMaterial);
+            pManager.AddTextParameter("materialX_", "materialX_", "Material in X direction. Default is 000000.", GH_ParamAccess.item);
+            pManager.AddTextParameter("materialY_", "materialY_", "Material in Y direction. Default is 000000.", GH_ParamAccess.item);
+            pManager.AddTextParameter("materialZ_", "materialZ_", "Material in Z direction. Default is 000000.", GH_ParamAccess.item);
             pManager.AddBooleanParameter("_runIt", "_runIt", "Set it to True to save the modified.", GH_ParamAccess.item, false);
 
             pManager[3].Optional = true;
+            pManager[4].Optional = true;
+            pManager[5].Optional = true;
+            pManager[6].Optional = true;
         }
 
         /// <summary>

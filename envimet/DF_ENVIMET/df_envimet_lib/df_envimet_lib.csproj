@@ -77,6 +77,7 @@
     <Compile Include="Geometry\Soil.cs" />
     <Compile Include="Geometry\Source.cs" />
     <Compile Include="Geometry\Terrain.cs" />
+    <Compile Include="IO\BuildingOutput.cs" />
     <Compile Include="IO\Inx.cs" />
     <Compile Include="IO\PostProcessing.cs" />
     <Compile Include="IO\Preparation.cs" />

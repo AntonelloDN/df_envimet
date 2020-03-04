@@ -83,6 +83,16 @@ namespace df_envimet.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap envimetBuildingFolder {
+            get {
+                object obj = ResourceManager.GetObject("envimetBuildingFolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap envimetBuildingsIcon {
             get {
                 object obj = ResourceManager.GetObject("envimetBuildingsIcon", resourceCulture);
@@ -246,6 +256,16 @@ namespace df_envimet.Properties {
         internal static System.Drawing.Bitmap envimetOutputTimingIcon {
             get {
                 object obj = ResourceManager.GetObject("envimetOutputTimingIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap envimetReadBuildingsAvg {
+            get {
+                object obj = ResourceManager.GetObject("envimetReadBuildingsAvg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

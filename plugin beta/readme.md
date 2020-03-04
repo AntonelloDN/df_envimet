@@ -16,6 +16,11 @@ What will happen to your existing gh files? Some components are the same of the 
 
 ## New features
 
+[2020/03/04]:
+- 2D matrix much more accurate
+- New method to create envimet terrain
+- Building avg results reader added
+
 [2020/02/18]:
 - Receptor Reader added: you can read fast all receptor results without using excel!
 - Improved batch to run simulations (from Simone Piccolo's issue).

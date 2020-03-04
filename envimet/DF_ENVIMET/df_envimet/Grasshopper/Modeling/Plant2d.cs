@@ -25,7 +25,7 @@ namespace df_envimet.Grasshopper.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_plant2D", "_plant2D", "Geometry that represent ENVI-Met plant 2d.  Geometry must be a Surface or Brep on xy plane.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_plantId_", "_plantId_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 0000XX.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonPlant2dMaterial);
+            pManager.AddTextParameter("_plantId_", "_plantId_", "ENVI-Met plant id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 0000XX.", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
 
@@ -46,13 +46,11 @@ namespace df_envimet.Grasshopper.Modeling
             // INPUT
             // declaration
             Mesh _plant2D = null;
-            string _plantId_ = null;
+            string _plantId_ = df_envimet_lib.Geometry.Material.CommonPlant2dMaterial;
 
             DA.GetData<Mesh>(0, ref _plant2D);
             DA.GetData<string>(1, ref _plantId_);
             
-            if (_plantId_ == null)
-                _plantId_ = df_envimet_lib.Geometry.Material.CommonPlant2dMaterial;
             // actions
             df_envimet_lib.Geometry.Material material = new df_envimet_lib.Geometry.Material
             {

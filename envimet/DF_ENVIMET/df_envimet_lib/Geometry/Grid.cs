@@ -291,6 +291,7 @@ namespace df_envimet_lib.Geometry
         {
             // flip and traspose
             string text = string.Empty;
+            List<string> rows = new List<string>();
 
             for (int j = matrix.GetLengthY() - 1; j >= 0; j--)
             {
@@ -299,11 +300,19 @@ namespace df_envimet_lib.Geometry
                 {
                     line[i] = (element == null) ? matrix[i, j].ToString() : element;
                 }
-                string row = String.Join(",", line);
-                row += "\n";
-                text += row;
+                //string row = String.Join(",", line);
+                //row += "\n";
+                //text += row;
+                rows.Add(String.Join(",", line));
             }
+            text = String.Join("\n", rows) + "\n";
+
             return text;
+        }
+
+        public static List<double> FilterListBasedOnNumber(List<double> values, double number)
+        {
+            return values.FindAll(e => e < number);
         }
 
         public Matrix3d CreateBase3dMatrix()

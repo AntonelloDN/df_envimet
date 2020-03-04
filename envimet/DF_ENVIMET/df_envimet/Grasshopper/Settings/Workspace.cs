@@ -24,7 +24,7 @@ namespace df_envimet.Grasshopper.Settings
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("_workspaceFolder", "_workspaceFolder", "Main folder where you have to save an Envimet project.", GH_ParamAccess.item);
-            pManager.AddTextParameter("_projectName_", "_projectName_", "Name of Envimet project folder where you have to save:\n1) EnviMet geometry file(*.INX)\n2) Configuration file(*.SIMX).\nYou can also open and edit config file with ENVI_MET Guide module.", GH_ParamAccess.item, "MorphoModel");
+            pManager.AddTextParameter("_projectName_", "_projectName_", "Name of Envimet project folder where you have to save:\n1) EnviMet geometry file(*.INX)\n2) Configuration file(*.SIMX).\nYou can also open and edit config file with ENVI_MET Guide module.", GH_ParamAccess.item, "df_envimet");
             pManager[1].Optional = true;
         }
 
@@ -45,7 +45,7 @@ namespace df_envimet.Grasshopper.Settings
             // INPUT
             // declaration
             string _workspaceFolder = null;
-            string _projectName_ = "MorphoModel";
+            string _projectName_ = "df_envimet";
 
             DA.GetData(0, ref _workspaceFolder);
             DA.GetData(1, ref _projectName_);

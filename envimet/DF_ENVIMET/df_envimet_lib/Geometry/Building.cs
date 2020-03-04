@@ -25,7 +25,9 @@ namespace df_envimet_lib.Geometry
 
         public void CreateVoxMatrixBuilding(Point3d[] buildingPoints, Point3d[] terrainPoints, Grid grid, int index)
         {
-            BuildingFlagAndNr = "";
+            BuildingFlagAndNr = String.Empty;
+            List<string> tempBuildingFlag = new List<string>();
+
             int numberZpoint = (grid.CombineGridType && grid.Telescope > 0) ? grid.NumZ + Grid.FIRST_CELL_COMBINED_GRID : grid.NumZ;
             _matrix = new Matrix3d(grid.NumX, grid.NumY, numberZpoint);
 
@@ -33,15 +35,17 @@ namespace df_envimet_lib.Geometry
             {
                 int valX = (int) Math.Round(((pt.X - grid.MinX) / grid.DimX), 0);
                 int valY = (int) Math.Round(((pt.Y - grid.MinY) / grid.DimY), 0);
-
+                
                 if (!terrainPoints.Contains(pt))
                 {
                     int valZ = (int) Math.Round(grid.CastingPrecision(pt.Z),0);
 
                     _matrix[valX, valY, valZ] = index;
-                    BuildingFlagAndNr += String.Format("{0},{1},{2},{3},{4}\n", valX, valY, valZ, 1, index);
+                    tempBuildingFlag.Add(String.Format("{0},{1},{2},{3},{4}", valX, valY, valZ, 1, index));
                 }
+                
             }
+            BuildingFlagAndNr = String.Join("\n", tempBuildingFlag) + "\n";
         }
 
         // static methods
@@ -385,7 +389,7 @@ namespace df_envimet_lib.Geometry
 
                     if (intersection != -1.0)
                     {
-                        int value = (int) Math.Floor(ray.PointAt(intersection).Z);
+                        int value = (int) Math.Round((float)ray.PointAt(intersection).Z, MidpointRounding.AwayFromZero);
                         if (value < 0)
                             value = 0;
                         grid2d[i, j] = value;

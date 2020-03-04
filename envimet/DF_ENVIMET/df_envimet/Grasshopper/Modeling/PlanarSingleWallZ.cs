@@ -25,7 +25,7 @@ namespace df_envimet.Grasshopper.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_horizontalPlanarSurface", "_horizontalPlanarSurface", "Horizoantal planar surface that represent ENVI-Met horazontal overhang 2d. Geometry must be horizonatal planar Surface or Brep.\nTry to generate planar shadings using Ladybug!", GH_ParamAccess.item);
-            pManager.AddTextParameter("_singleWallId_", "_singleWallId_", "ENVI-Met single wall id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 000001.", GH_ParamAccess.item, df_envimet_lib.Geometry.Material.CommonSimpleWall);
+            pManager.AddTextParameter("_singleWallId_", "_singleWallId_", "ENVI-Met single wall id. You can use \"id outputs\" which comes from \"DF Envimet Read Library\".\nDefault is 000001.", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
 

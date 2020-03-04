@@ -84,11 +84,12 @@ namespace df_envimet_lib.IO
             string defaultMatrix = Grid.CreateTextMatrix(new Matrix2d(grid.NumX, grid.NumY), "0");
             Tuple<Point3d[], string, string> result = new Tuple<Point3d[], string, string>(null, "", defaultMatrix);
 
+            Matrix2d maxDem = new Matrix2d(grid.NumX, grid.NumY);
+
             if (terrain != null)
             {
-                Point3d[] demVoxel = Building.VoxelPoints(terrain.GetMesh(), grid, tolerance: Building.TOLERANCE);
+                Point3d[] demVoxel = Terrain.GetMatrixFromRayShoot(grid, terrain.GetMesh(), ref maxDem).ToArray();
                 terrain.CreateVoxMatrixTerrain(demVoxel, grid);
-                Matrix2d maxDem = Terrain.DemTop2d(terrain.GetMatrix(), grid);
                 string dem2d = Grid.CreateTextMatrix(maxDem);
                 result = new Tuple<Point3d[], string, string>(demVoxel, terrain.TerrainflagMatrix, dem2d);
             }
@@ -135,8 +136,16 @@ namespace df_envimet_lib.IO
                 }
                 else
                 {
-                    Point3d[] buildingVoxel = Building.VoxelPoints(tempMesh, grid, tolerance: Building.TOLERANCE);
-                    buildings[i].CreateVoxMatrixBuilding(buildingVoxel, demVoxel, grid, i + 1);
+                    try
+                    {
+                        Point3d[] buildingVoxel = Building.VoxelPoints(tempMesh, grid, tolerance: Building.TOLERANCE);
+                        buildings[i].CreateVoxMatrixBuilding(buildingVoxel, demVoxel, grid, i + 1);
+                    }
+                    catch
+                    {
+                        Point3d[] buildingVoxel = Building.VoxelPoints(tempMesh, grid);
+                        buildings[i].CreateVoxMatrixBuilding(buildingVoxel, demVoxel, grid, i + 1);
+                    }
                 }
 
                 listMatrixNormalMaterial.Add(buildings[i].GetMatrix3d());

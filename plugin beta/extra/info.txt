@@ -72,6 +72,11 @@ ENHANCEMENT REQUEST RELEASED:
 - Receptor Reader added: you can read fast all receptor results without using excel!
 - Improved batch to run simulations.
 
+[2020/03/04]:
+- 2D matrix much more accurate
+- New method to create envimet terrain
+- Building avg results reader added
+
 CONTACTS: antonellodinunzio@gmail.com
 
 *BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet
