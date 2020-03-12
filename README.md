@@ -13,5 +13,5 @@ Planned improvements on January 2020:
 - Modeling: receptor object :white_check_mark:
 
 Planned improvements on March 2020:
-- :muscle: Read Output Components: receptor, grid, building :white_check_mark:
+- Read Output Components: receptor, grid, building :white_check_mark: :muscle:
 - Configuration file: fullforcing :construction:
