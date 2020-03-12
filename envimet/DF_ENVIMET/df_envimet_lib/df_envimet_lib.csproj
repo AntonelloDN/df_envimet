@@ -78,6 +78,8 @@
     <Compile Include="Geometry\Source.cs" />
     <Compile Include="Geometry\Terrain.cs" />
     <Compile Include="IO\BuildingOutput.cs" />
+    <Compile Include="IO\Facade.cs" />
+    <Compile Include="IO\GridOutput.cs" />
     <Compile Include="IO\Inx.cs" />
     <Compile Include="IO\PostProcessing.cs" />
     <Compile Include="IO\Preparation.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Location.cs" />
     <Compile Include="Settings\SimulationFile.cs" />
+    <Compile Include="Utility\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

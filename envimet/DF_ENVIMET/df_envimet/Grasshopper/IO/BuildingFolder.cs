@@ -4,17 +4,18 @@ using Grasshopper.Kernel;
 using df_envimet_lib.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using df_envimet.Grasshopper.UI_GH;
 
 namespace df_envimet.Grasshopper.IO
 {
-    public class BuildingFolder : GH_Component
+    public class BuildingFolder : ExtensionBuildingFolderComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public BuildingFolder()
           : base("DF Envimet Building Files", "DFBuildingFiles",
-              "Use this component to get avg output files of buildings. ",
+              "Use this component to get avg output files and facade output of buildings. ",
               "Dragonfly", "3 | Envimet")
         {
             this.Message = "VER 0.0.03\nFEB_29_2020";
@@ -47,6 +48,26 @@ namespace df_envimet.Grasshopper.IO
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            //_value
+
+            if (_value == BuildingFileType.FACADE_FILE)
+            {
+                Params.Input[1].Name = Params.Input[1].NickName = Params.Input[1].Description = "";
+                Params.Output[1].Name = "buildingBinaryFiles";
+                Params.Output[1].NickName = "buildingBinaryFiles";
+                Params.Output[1].Description = "Building binary files to read.";
+                Params.Output[0].Description = "Output facade files.";
+            }
+            else
+            {
+                Params.Input[1].Name = "_filter";
+                Params.Input[1].NickName = "_filter";
+                Params.Input[1].Description = "Connect envimet Id of building to filter results.";
+                Params.Output[1].Name = "buildingId";
+                Params.Output[1].NickName = "buildingId";
+                Params.Output[1].Description = "Building Id.";
+            }
+
             string _outputFolder = null;
             List<string> fileIds = new List<string>();
 
@@ -61,36 +82,13 @@ namespace df_envimet.Grasshopper.IO
             {
                 if (dir.Contains(BuildingFileType.DYN_FOLDER))
                 {
-                    outputFile = BuildingOutput.GetAllBuildingDatFiles(dir, BuildingFileType.AVG_FILE).ToList();
-
-                    List<string> selectedFile = new List<string>();
-                    List<string> selectedId = new List<string>();
-
-                    foreach (string file in outputFile)
+                    if (_value == BuildingFileType.FACADE_FILE)
                     {
-                        string name = Regex.Split(file, "Building").Last();
-                        string id = Regex.Match(name, @"\d+").Value;
-
-                        buildingId.Add(id);
-
-                        if (fileIds.Count > 0)
-                        {
-                            foreach (string item in fileIds)
-                            {
-                                if (id == item)
-                                {
-                                    selectedFile.Add(file);
-                                    selectedId.Add(id);
-                                }
-                            }
-                        }
+                        outputFile = GetFacadeOutput(dir);
+                        buildingId = GetFacadeBinaryOutput(dir);
                     }
-
-                    if (fileIds.Count > 0)
-                    {
-                        outputFile = selectedFile;
-                        buildingId = selectedId;
-                    }
+                    else
+                        outputFile = GetOneDimensionalOutput(fileIds, ref buildingId, dir);
                 }
             }
 
@@ -118,5 +116,51 @@ namespace df_envimet.Grasshopper.IO
         {
             get { return new Guid("943d44fe-087a-4774-853c-3d8157559afa"); }
         }
+
+        private static IEnumerable<string> GetOneDimensionalOutput(List<string> fileIds, ref List<string> buildingId, string dir)
+        {
+            IEnumerable<string> outputFile = BuildingOutput.GetAllBuildingDynFiles(dir, BuildingFileType.AVG_FILE).ToList();
+            List<string> selectedFile = new List<string>();
+            List<string> selectedId = new List<string>();
+
+            foreach (string file in outputFile)
+            {
+                string name = Regex.Split(file, "Building").Last();
+                string id = Regex.Match(name, @"\d+").Value;
+
+                buildingId.Add(id);
+
+                if (fileIds.Count > 0)
+                {
+                    foreach (string item in fileIds)
+                    {
+                        if (id == item)
+                        {
+                            selectedFile.Add(file);
+                            selectedId.Add(id);
+                        }
+                    }
+                }
+            }
+
+            if (fileIds.Count > 0)
+            {
+                outputFile = selectedFile;
+                buildingId = selectedId;
+            }
+
+            return outputFile;
+        }
+
+        private static IEnumerable<string> GetFacadeOutput(string dir)
+        {
+            return BuildingOutput.GetAllBuildingDynFiles(dir, BuildingFileType.FACADE_FILE).ToList();
+        }
+
+        private static List<string> GetFacadeBinaryOutput(string dir)
+        {
+            return BuildingOutput.GetAllBuildingDynFiles(dir, BuildingFileType.FACADE_BIN_FILE).ToList();
+        }
+
     }
 }

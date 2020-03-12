@@ -28,8 +28,8 @@ namespace df_envimet_lib.Geometry
             BuildingFlagAndNr = String.Empty;
             List<string> tempBuildingFlag = new List<string>();
 
-            int numberZpoint = (grid.CombineGridType && grid.Telescope > 0) ? grid.NumZ + Grid.FIRST_CELL_COMBINED_GRID : grid.NumZ;
-            _matrix = new Matrix3d(grid.NumX, grid.NumY, numberZpoint);
+            //int numberZpoint = (grid.CombineGridType && grid.Telescope > 0) ? grid.NumZ + Grid.FIRST_CELL_COMBINED_GRID : grid.NumZ;
+            _matrix = new Matrix3d(grid.NumX, grid.NumY, grid.NumZ);
 
             foreach (Point3d pt in buildingPoints)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using df_envimet_lib.Utility;
 using Rhino.Geometry;
 
 
@@ -10,14 +11,11 @@ namespace df_envimet_lib.Geometry
     {
         public const int MAX_NUM_Z = 999;
         public const int MIN_NUM_BORDER_CELLS = 2;
-
         private const int CENTROID = 1;
         private const long SPACE_LIMIT = 100000000L;
         public const string APPROXIMATION = "0.00";
         public const int FIRST_CELL_COMBINED_GRID = 4;
-        private double[] _height;
 
-        // input from other assembly
         public Mesh Surface { get; set; }
         public double DimX { get; set; }
         public double DimY { get; set; }
@@ -30,12 +28,12 @@ namespace df_envimet_lib.Geometry
         public double StartTelescopeHeight { get; set; }
         public bool CombineGridType { get; set; }
 
+        public double[] Height { get; private set; }
+        public double[] Sequence { get; private set; }
+        public double[] Accumulated { get; private set; }
 
-        public double[] Height {
-            get { return _height; }
-        }
-        public int NumX { get; private set; }
-        public int NumY { get; private set; }
+        public int NumX { get; set; }
+        public int NumY { get; set; }
         public int NumZ { get; set; }
 
         public double MinX { get; private set; }
@@ -46,34 +44,27 @@ namespace df_envimet_lib.Geometry
         public Grid()
         {
             NumZ = 15;
-            DimX = 3.0;
-            DimY = 3.0;
-            DimZ = 3.0;
+            DimX = DimY = DimZ = 3.0;
             StartTelescopeHeight = 5.0;
-            ExtLeftXgrid = MIN_NUM_BORDER_CELLS;
-            ExtRightXgrid = MIN_NUM_BORDER_CELLS;
-            ExtUpYgrid = MIN_NUM_BORDER_CELLS;
-            ExtDownYgrid = MIN_NUM_BORDER_CELLS;
-            Telescope = 0.0;
-            NumX = 0;
-            NumY = 0;
-            MinX = 0.0;
-            MinY = 0.0;
-            MaxX = 0.0;
-            MaxY = 0.0;
-
-            // add cell if equidistant
-            IfTelescope();
-            _height = new double[NumZ];
-
-            ValidateAdditionalCells();
+            ExtLeftXgrid = ExtRightXgrid = ExtUpYgrid = ExtDownYgrid = MIN_NUM_BORDER_CELLS;
+            NumX = NumY = 0;
+            MinX = MinY = MaxX = MaxY = 0;
+            CombineGridType = false;
         }
 
-        // private methods
-        private void IfTelescope()
+        public void CalculateHeight()
         {
-            if (Telescope == 0.0)
-                NumZ += 4;
+            if (CombineGridType && Telescope > 0.0)
+                Sequence = GetTelescopeEqSeqZ(Telescope, StartTelescopeHeight);
+            else if (CombineGridType == false && Telescope > 0.0)
+                Sequence = GetTelescopeSeqZ(Telescope, StartTelescopeHeight);
+            else
+                Sequence = GetEquidistantSeqZ();
+
+            Accumulated = Util.Accumulate(Sequence)
+                .ToArray();
+            Height = Accumulated.Zip(Sequence, (a, b) => a - (b / 2))
+                .ToArray();
         }
 
         private void ValidateAdditionalCells()
@@ -90,14 +81,15 @@ namespace df_envimet_lib.Geometry
 
         public double CastingPrecision(double value)
         {
-            List<string> values = _height.ToList<double>().Select(v => v.ToString(APPROXIMATION))
+            List<string> values = Height.ToList<double>().Select(v => v.ToString(APPROXIMATION))
                                 .ToList();
             return values.IndexOf(value.ToString(APPROXIMATION));
         }
 
-        // init
         public void CalcGridXY(List<Mesh> geometries)
         {
+            ValidateAdditionalCells();
+
             double distLeft = ExtLeftXgrid * DimX;
             double distRight = ExtRightXgrid * DimX;
             double distUp = ExtUpYgrid * DimY;
@@ -122,137 +114,117 @@ namespace df_envimet_lib.Geometry
                     maxZ = BB1.Max.Z;
             }
 
-            // Geometry BoundingBox limits NETO
             MinX = MinX - distLeft;
             MinY = MinY - distDown;
             MaxX = MaxX + distRight;
             MaxY = MaxY + distUp;
 
-            // Required height -- Twice the heighest building
             double reqHeight = maxZ * MIN_NUM_BORDER_CELLS;
 
             double domX = MaxX - MinX;
             double domY = MaxY - MinY;
 
-            // Calculate NumX, NumY and shift by one. Work with centroid instead of VOIDS
             NumX = (int)Math.Floor((domX / DimX)) + CENTROID;
             NumY = (int)Math.Floor((domY / DimY)) + CENTROID;
 
-            // Reccalculate maxX/Y just for the bounding box fit the grid size/length
             MaxX = MinX + (NumX * DimX);
             MaxY = MinY + (NumY * DimY);
-
         }
 
-        public void CalcGzDimension()
+        #region Sequence
+        private double[] GetEquidistantSeqZ()
         {
+            var baseCell = DimZ / 5;
+            var cell = DimZ;
 
-            // Calculate z info
-            // Preparation
-            double[] gZ = new double[NumZ];
-            double dimZ = this.DimZ;
-            double firstGrid = dimZ / 5;
-            double grid = 0;
-
-            // Calculate
-            for (int i = 1; i < NumZ + 1; i++)
+            double[] sequence = new double[NumZ];
+        
+            for (int k = 0; k < sequence.Length; k++)
             {
-                if (Telescope == 0.0)
+                if (k < 5)
+                    sequence[k] = baseCell;
+                else
+                    sequence[k] = cell;
+            }
+
+            return sequence;
+        }
+
+        private double[] GetTelescopeSeqZ(double telescope, double start)
+        {
+            var cell = DimZ;
+
+            double[] sequence = new double[NumZ];
+
+            double val = cell;
+
+            for (int k = 0; k < sequence.Length; k++)
+            {
+                if (val * k < start)
                 {
-                    switch (i)
-                    {
-                        case 1:
-                            gZ[i - 1] = firstGrid / 2;
-                            break;
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5:
-                            gZ[i - 1] = (i * firstGrid) - (firstGrid / 2);
-                            break;
-                        default:
-                            gZ[i - 1] = ((i - 4) * dimZ) - (dimZ / 2);
-                            break;
-                    }
+                    sequence[k] = cell;
                 }
                 else
                 {
-                    if (i == 1 || grid <= StartTelescopeHeight)
-                    {
-                        grid = (i * dimZ) - (dimZ / 2);
-                    }
-                    else
-                    {
-                        double gz = dimZ;
-                        dimZ = dimZ + (dimZ * (double)Telescope / 100);
-                        grid = grid + (dimZ + gz) / 2;
-                    }
-                    gZ[i - 1] = grid;
+                    sequence[k] = val + (val * telescope / 100);
+                    val = sequence[k];
                 }
             }
 
-            SetGridZcells(gZ);
+            return sequence;
         }
 
-        private void SetGridZcells(double[] gZ)
+        private double[] GetTelescopeEqSeqZ(double telescope, double start)
         {
-            List<double> tempHeight = new List<double>();
+            var cell = DimZ;
+            var baseCell = DimZ / 5;
+            double val = cell;
 
-            if (CombineGridType && Telescope != 0.0)
+            double[] firstSequence = new double[5];
+            double[] sequence = new double[NumZ - 1];
+
+            for (int k = 0; k < 5; k++)
+                firstSequence[k] = baseCell;
+
+            for (int k = 0; k < sequence.Length; k++)
             {
-                double delta = (gZ[1] - gZ[0]) / FIRST_CELL_COMBINED_GRID;
-                double adjust = gZ[0] - delta;
-
-                gZ.ToList().ForEach(el =>
+                if (val * (k + 1) < start)
                 {
-                    if (el > gZ.First())
-                    {
-                        tempHeight.Add(el);
-                    }
-                    else
-                    {
-                        double firstNumber = gZ.First();
-                        tempHeight.Add(firstNumber);
-
-                        for (int j = 1; j < 4; j++)
-                        {
-                            firstNumber += delta;
-                            tempHeight.Add(firstNumber);
-                        }
-                    }
-                });
-
-                // move centroids to ground
-                _height = tempHeight.Select(el => el - (adjust + (adjust / 2))).ToArray();
+                    sequence[k] = cell;
+                }
+                else
+                {
+                    sequence[k] = val + (val * telescope / 100);
+                    val = sequence[k];
+                }
             }
-            else
-            {
-                tempHeight.AddRange(gZ);
-                _height = tempHeight.ToArray();
-            }
+
+            double[] completeSequence = new double[sequence.Length + firstSequence.Length];
+
+            firstSequence.CopyTo(completeSequence, 0);
+            sequence.CopyTo(completeSequence, firstSequence.Length);
+            Array.Resize(ref completeSequence, sequence.Length + 1);
+
+            return completeSequence;
         }
+        #endregion
 
+        #region Grid Point
         private Point3d PointXZ(int ix, int iz)
         {
-            return new Point3d((ix * this.DimX) + this.MinX, this.MaxY, _height[iz]);
+            return new Point3d((ix * this.DimX) + this.MinX, this.MaxY, Height[iz]);
         }
 
         private Point3d PointYZ(int iy, int iz)
         {
-            return new Point3d(this.MaxX, (iy * this.DimY) + this.MinY, _height[iz]);
+            return new Point3d(this.MaxX, (iy * this.DimY) + this.MinY, Height[iz]);
         }
 
         private Point3d PointXY(int ix, int iy)
         {
-            return new Point3d((ix * this.DimX) + this.MinX, (iy * this.DimY) + this.MinY, _height[0]);
+            return new Point3d((ix * this.DimX) + this.MinX, (iy * this.DimY) + this.MinY, Height[0]);
         }
 
-        private int GetNumberOfZcellsByCombinedGrid()
-        {
-            return (CombineGridType && Telescope != 0.0) ? NumZ + (FIRST_CELL_COMBINED_GRID - 1) : NumZ;
-        }
-
-        // public methods
         public List<Point3d> GridXY()
         {
             List<Point3d> gridPoints = new List<Point3d>();
@@ -265,11 +237,10 @@ namespace df_envimet_lib.Geometry
 
         public List<Point3d> GridXZ()
         {
-            int zCount = GetNumberOfZcellsByCombinedGrid();
             List<Point3d> gridPoints = new List<Point3d>();
             // XZ Grid
             for (int ix = 0; ix < NumX; ix++)
-                for (int iz = 0; iz < zCount; iz++)
+                for (int iz = 0; iz < NumZ; iz++)
                     gridPoints.Add(PointXZ(ix, iz));
 
             return gridPoints;
@@ -277,15 +248,15 @@ namespace df_envimet_lib.Geometry
 
         public List<Point3d> GridYZ()
         {
-            int zCount = GetNumberOfZcellsByCombinedGrid();
             List<Point3d> gridPoints = new List<Point3d>();
             // YZ Grid
             for (int iy = 0; iy < NumY; iy++)
-                for (int iz = 0; iz < zCount; iz++)
+                for (int iz = 0; iz < NumZ; iz++)
                     gridPoints.Add(PointYZ(iy, iz));
 
             return gridPoints;
         }
+        #endregion
 
         public static string CreateTextMatrix(Matrix2d matrix, string element = null)
         {
@@ -298,11 +269,8 @@ namespace df_envimet_lib.Geometry
                 string[] line = new string[matrix.GetLengthX()];
                 for (int i = 0; i < matrix.GetLengthX(); i++)
                 {
-                    line[i] = (element == null) ? matrix[i, j].ToString() : element;
+                    line[i] = element ?? matrix[i, j].ToString();
                 }
-                //string row = String.Join(",", line);
-                //row += "\n";
-                //text += row;
                 rows.Add(String.Join(",", line));
             }
             text = String.Join("\n", rows) + "\n";

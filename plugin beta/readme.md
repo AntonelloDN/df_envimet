@@ -16,6 +16,14 @@ What will happen to your existing gh files? Some components are the same of the 
 
 ## New features
 
+[2020/03/12]:
+- dll 1.0.0.2 and new classes
+- Grid results components
+- Grid calculation improvement*
+- Facade folder and possibility to bake facades*
+- Delete facades component*
+- Facade results component*
+
 [2020/03/04]:
 - 2D matrix much more accurate
 - New method to create envimet terrain

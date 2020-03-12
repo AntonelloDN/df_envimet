@@ -64,7 +64,6 @@ namespace editEnvimetObject
                 {
                     DimZ = dimZ
                 };
-                newGrid.CalcGzDimension();
             }
             else
             {

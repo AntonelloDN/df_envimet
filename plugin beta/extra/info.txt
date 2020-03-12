@@ -77,6 +77,14 @@ ENHANCEMENT REQUEST RELEASED:
 - New method to create envimet terrain
 - Building avg results reader added
 
+[2020/03/12]:
+- dll 1.0.0.2 and new classes
+- Grid results components
+- Grid calculation improvement*
+- Facade folder and possibility to bake facades*
+- Delete facades component*
+- Facade results component*
+
 CONTACTS: antonellodinunzio@gmail.com
 
 *BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet

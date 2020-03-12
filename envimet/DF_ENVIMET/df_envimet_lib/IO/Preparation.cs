@@ -16,7 +16,6 @@ namespace df_envimet_lib.IO
         public Preparation(Grid grid, Location location)
         {
             grid.CalcGridXY(new List<Mesh>() { grid.Surface });
-            grid.CalcGzDimension();
             Matrix2d empty2dMatrix = grid.CreateBase2dMatrix();
 
             EnvimetPart = new Dictionary<string, object>();
@@ -46,17 +45,17 @@ namespace df_envimet_lib.IO
             // default dem
             Tuple<Point3d[], string, string> defaultDem = GetDemMatrix(null, grid);
 
-            EnvimetPart.Add("grid", grid);                          // Ok
+            EnvimetPart.Add("grid", grid);                          // OK
             EnvimetPart.Add("building", defaultBuilding);           // OK
             EnvimetPart.Add("dem", defaultDem);                     // OK
             EnvimetPart.Add("plant3d", new List<string[]>());       // OK
             EnvimetPart.Add("receptors", new List<string[]>());     // OK
-            EnvimetPart.Add("nestingGrid", new NestingGrid());      // Ok
-            EnvimetPart.Add("simpleplants2D", envimetEmptyMatrix);  // Ok
-            EnvimetPart.Add("soils2D", emptySoilMatrix);            // Ok
-            EnvimetPart.Add("sources2D", envimetEmptyMatrix);       // Ok
-            EnvimetPart.Add("simpleW", "\n");                       // Ok
-            EnvimetPart.Add("location", location);                  // Ok
+            EnvimetPart.Add("nestingGrid", new NestingGrid());      // OK
+            EnvimetPart.Add("simpleplants2D", envimetEmptyMatrix);  // OK
+            EnvimetPart.Add("soils2D", emptySoilMatrix);            // OK
+            EnvimetPart.Add("sources2D", envimetEmptyMatrix);       // OK
+            EnvimetPart.Add("simpleW", "\n");                       // OK
+            EnvimetPart.Add("location", location);                  // OK
 
         }
 

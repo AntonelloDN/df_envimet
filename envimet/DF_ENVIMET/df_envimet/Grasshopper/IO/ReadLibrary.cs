@@ -139,7 +139,7 @@ namespace df_envimet.Grasshopper.IO
 
                 // destination file
                 string destinationFolder = df_envimet_lib.IO.Workspace.CreateDestinationFolder();
-                string readbleXml = metafile.WriteReadebleEDXFile(destinationFolder, dbName, ".xml");
+                string readbleXml = metafile.WriteCleanXml(destinationFolder, dbName, ".xml");
 
                 XDocument xml = XDocument.Load(readbleXml);
 

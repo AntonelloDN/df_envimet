@@ -84,9 +84,14 @@
     <Compile Include="Grasshopper\ConfigFile\TimeStepSettings.cs" />
     <Compile Include="df_envimetInfo.cs" />
     <Compile Include="Grasshopper\IO\ConsoleSimulation.cs" />
+    <Compile Include="Grasshopper\IO\GridFolder.cs" />
     <Compile Include="Grasshopper\IO\Inx.cs" />
     <Compile Include="Grasshopper\IO\BuildingFolder.cs" />
     <Compile Include="Grasshopper\IO\ReadBuildingAvgResults.cs" />
+    <Compile Include="Grasshopper\IO\ReadBuildingFacadeResults.cs" />
+    <Compile Include="Grasshopper\IO\ReadFacade.cs" />
+    <Compile Include="Grasshopper\IO\ReadGrid.cs" />
+    <Compile Include="Grasshopper\IO\ReadGridResults.cs" />
     <Compile Include="Grasshopper\IO\ReadLibrary.cs" />
     <Compile Include="Grasshopper\IO\ReadReceptorResults.cs" />
     <Compile Include="Grasshopper\IO\ReceptorFolder.cs" />
@@ -98,13 +103,16 @@
     <Compile Include="Grasshopper\Modeling\Soil.cs" />
     <Compile Include="Grasshopper\Modeling\Source.cs" />
     <Compile Include="Grasshopper\Modeling\Terrain.cs" />
+    <Compile Include="Grasshopper\Other\DeleteBakedFacade.cs" />
     <Compile Include="Grasshopper\Other\EditBuildingMaterial.cs" />
     <Compile Include="Grasshopper\Other\Information.cs" />
     <Compile Include="Grasshopper\Other\RunINX.cs" />
     <Compile Include="Grasshopper\Other\XMLreader.cs" />
-    <Compile Include="Grasshopper\Other\VisualizeBuildings.cs" />
     <Compile Include="Grasshopper\Settings\DefaultMaterial.cs" />
     <Compile Include="Grasshopper\Settings\Grid.cs" />
+    <Compile Include="Grasshopper\UI_GH\ComponentWithDirectionLogic.cs" />
+    <Compile Include="Grasshopper\UI_GH\ExtensionBuildingFolderComponent.cs" />
+    <Compile Include="Grasshopper\UI_GH\ExtensionGridFolderComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -234,6 +242,21 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\envimetReadBuildingsAvg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetBuildingsFacadeReadIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetBuildingDeleteFacade.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetGridFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetGridRead.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\envimetGridResults.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

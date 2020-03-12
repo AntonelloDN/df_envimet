@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorphoEnvimetLibrary", "MorphoEnvimetLibrary\MorphoEnvimetLibrary.csproj", "{28173BCD-CA54-4B73-88F0-6BD41D118BE1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "df_envimet_lib", "df_envimet_lib\df_envimet_lib.csproj", "{28173BCD-CA54-4B73-88F0-6BD41D118BE1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "df_envimet", "df_envimet\df_envimet.csproj", "{E0ADE889-C3DB-46B2-A969-CD4868C8D5ED}"
 EndProject

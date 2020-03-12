@@ -82,47 +82,36 @@ namespace df_envimet.Grasshopper.Settings
             DA.GetData(11, ref combineGridType_);
 
             // run
-            df_envimet_lib.Geometry.Grid myGrid = new df_envimet_lib.Geometry.Grid();
-            myGrid.CombineGridType = combineGridType_;
+            df_envimet_lib.Geometry.Grid grid = new df_envimet_lib.Geometry.Grid()
+            {
+                CombineGridType = combineGridType_,
+                DimX = dimX_,
+                DimY = dimY_,
+                DimZ = dimZ_,
+                StartTelescopeHeight = startTelescopeHeight_,
+                Telescope = _telescope_,
+                ExtLeftXgrid = addCellsLeft_,
+                ExtRightXgrid = addCellslRight_,
+                ExtUpYgrid = addCellsUp_,
+                ExtDownYgrid = addCellsDown_,
+                NumZ = numCellsZ_
+            };
+
+            grid.CalculateHeight();
 
             if (_telescope_ > 0)
             {
-                myGrid.Telescope = _telescope_;
                 if (_telescope_ >= 20.0)
                 {
-                    myGrid.NumZ = df_envimet_lib.Geometry.Grid.MAX_NUM_Z;
-                    myGrid.Telescope = 20.0;
                     this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "max telescope factor is 20.");
+                    return;
                 }
             }
 
-            if (dimX_ != 0)
-                myGrid.DimX = dimX_;
-            if (dimY_ != 0)
-                myGrid.DimY = dimY_;
-            if (dimZ_ != 0)
-                myGrid.DimZ = dimZ_;
-
-            if (startTelescopeHeight_ != 0)
-                myGrid.StartTelescopeHeight = startTelescopeHeight_;
-            if (addCellsLeft_ > 2)
-                myGrid.ExtLeftXgrid = addCellsLeft_;
-            if (addCellslRight_ > 2)
-                myGrid.ExtRightXgrid = addCellslRight_;
-            if (addCellsUp_ > 2)
-                myGrid.ExtUpYgrid = addCellsUp_;
-            if (addCellsDown_ > 2)
-                myGrid.ExtDownYgrid = addCellsDown_;
-
-            if (numCellsZ_ > 2)
-                myGrid.NumZ = numCellsZ_;
-            if (numCellsZ_ >= myGrid.NumZ)
-                myGrid.NumZ = myGrid.NumZ;
-
-            myGrid.Surface = _baseSurface;
+            grid.Surface = _baseSurface;
 
             // OUTPUT
-            DA.SetData(0, myGrid);
+            DA.SetData(0, grid);
         }
 
         /// <summary>

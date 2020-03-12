@@ -138,8 +138,8 @@ namespace df_envimet_lib.IO
                 if (grid.CombineGridType)
                 {
                     useSplitting = "1";
-                    gridsZ = (grid.NumZ - 4).ToString();
-                    grids3DK = (grid.NumZ).ToString();
+                    gridsZ = grid.NumZ.ToString();
+                    grids3DK = (grid.NumZ + Grid.FIRST_CELL_COMBINED_GRID).ToString();
                 }
             }
             else
@@ -148,8 +148,8 @@ namespace df_envimet_lib.IO
                 useSplitting = "1";
                 verticalStretch = "0";
                 startStretch = "0";
-                gridsZ = (grid.NumZ - 4).ToString();
-                grids3DK = (grid.NumZ).ToString();
+                gridsZ = grid.NumZ.ToString();
+                grids3DK = grids3DK = (grid.NumZ + Grid.FIRST_CELL_COMBINED_GRID).ToString();
             }
 
             string modelGeometryTitle = "modelGeometry";

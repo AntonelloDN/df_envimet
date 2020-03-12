@@ -83,9 +83,29 @@ namespace df_envimet.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap envimetBuildingDeleteFacade {
+            get {
+                object obj = ResourceManager.GetObject("envimetBuildingDeleteFacade", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap envimetBuildingFolder {
             get {
                 object obj = ResourceManager.GetObject("envimetBuildingFolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap envimetBuildingsFacadeReadIcon {
+            get {
+                object obj = ResourceManager.GetObject("envimetBuildingsFacadeReadIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +203,39 @@ namespace df_envimet.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap envimetGridFolder {
+            get {
+                object obj = ResourceManager.GetObject("envimetGridFolder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap envimetGridIcon {
             get {
                 object obj = ResourceManager.GetObject("envimetGridIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap envimetGridRead {
+            get {
+                object obj = ResourceManager.GetObject("envimetGridRead", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap envimetGridResults {
+            get {
+                object obj = ResourceManager.GetObject("envimetGridResults", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

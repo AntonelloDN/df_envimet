@@ -27,7 +27,7 @@ namespace df_envimet.Grasshopper.IO
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("_buildingFiles", "_buildingFiles", "Output files of each simulated building. Connect 'DF Envimet Building Filesr' output here.", GH_ParamAccess.list);
+            pManager.AddTextParameter("_buildingFiles", "_buildingFiles", "Output files of each simulated building. Connect avg output of 'DF Envimet Building Files' output here.", GH_ParamAccess.list);
             pManager.AddIntegerParameter("_buildingVariable_", "_buildingVariable_", "Connect a number:" +
                 "\n0 = Simtime" +
                 "\n1 = Date" +
@@ -54,9 +54,10 @@ namespace df_envimet.Grasshopper.IO
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddGenericParameter("variableName", "variableName", "Variable you are reading", GH_ParamAccess.tree);
             pManager.AddGenericParameter("date", "date", "Ouput dates", GH_ParamAccess.tree);
             pManager.AddGenericParameter("time", "time", "Ouput times", GH_ParamAccess.tree);
-            pManager.AddGenericParameter("values", "values", "Ouput values", GH_ParamAccess.tree);
+            pManager.AddGenericParameter("analysisResult", "analysisResult", "Ouput values", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -83,6 +84,7 @@ namespace df_envimet.Grasshopper.IO
                 DataTree<string> valueTree = new DataTree<string>();
                 DataTree<string> dateTree = new DataTree<string>();
                 DataTree<string> timeTree = new DataTree<string>();
+                DataTree<BuldingDatVariable> variableNameTree = new DataTree<BuldingDatVariable>();
 
                 // Warning!
                 if (_val_ >= variables.Count)
@@ -96,14 +98,16 @@ namespace df_envimet.Grasshopper.IO
                 {
                     GHD.GH_Path pth = new GHD.GH_Path(i);
 
-                    valueTree.AddRange(ReceptorOutput.GetValueFromCsv(_buildingFiles[i], variables[_val_]), pth);
+                    valueTree.AddRange(ReceptorOutput.GetValueFromCsv(_buildingFiles[i], (int) variables[_val_]), pth);
                     dateTree.AddRange(ReceptorOutput.GetValueFromCsv(_buildingFiles[i], (int)BuldingDatVariable.Date), pth);
                     timeTree.AddRange(ReceptorOutput.GetValueFromCsv(_buildingFiles[i], (int)BuldingDatVariable.Time), pth);
+                    variableNameTree.Add(variables[_val_], pth);
                 }
 
-                DA.SetDataTree(0, dateTree);
-                DA.SetDataTree(1, timeTree);
-                DA.SetDataTree(2, valueTree);
+                DA.SetDataTree(0, variableNameTree);
+                DA.SetDataTree(1, dateTree);
+                DA.SetDataTree(2, timeTree);
+                DA.SetDataTree(3, valueTree);
             }
 
 
@@ -130,32 +134,31 @@ namespace df_envimet.Grasshopper.IO
             get { return new Guid("05903954-7582-48da-9a74-23b1b03ccedc"); }
         }
 
-        private static List<int> BuildingOutputTypeMapping()
+        private static List<BuldingDatVariable> BuildingOutputTypeMapping()
         {
-            List<int> availableValues = new List<int>();
+            List<BuldingDatVariable> availableValues = new List<BuldingDatVariable>();
 
-            //TODO: Other results
             switch (true)
             {
                 default:
-                    availableValues.AddRange(new List<int>
+                    availableValues.AddRange(new List<BuldingDatVariable>
                     {
-                        (int)BuldingDatVariable.Simtime,
-                        (int)BuldingDatVariable.Date,
-                        (int)BuldingDatVariable.Time,
-                        (int)BuldingDatVariable.IndoorTemp,
-                        (int)BuldingDatVariable.Av_Tair_at_facade,
-                        (int)BuldingDatVariable.EnergyfluxToIndoorSum,
-                        (int)BuldingDatVariable.EnergyfluxToIndoorAverage,
-                        (int)BuldingDatVariable.EnergyfluxConductionAverage,
-                        (int)BuldingDatVariable.EnergyfluxSWTransmissionAverage,
-                        (int)BuldingDatVariable.ShortwaveAvailabe,
-                        (int)BuldingDatVariable.ShortwaveAbsorbed,
-                        (int)BuldingDatVariable.LongwaveAvailable,
-                        (int)BuldingDatVariable.LongwaveEmittedFacade,
-                        (int)BuldingDatVariable.Sensibleoutside,
-                        (int)BuldingDatVariable.VapourFromGreening,
-                        (int)BuldingDatVariable.VapourFromSubstrate
+                        BuldingDatVariable.Simtime,
+                        BuldingDatVariable.Date,
+                        BuldingDatVariable.Time,
+                        BuldingDatVariable.IndoorTemp,
+                        BuldingDatVariable.Av_Tair_at_facade,
+                        BuldingDatVariable.EnergyfluxToIndoorSum,
+                        BuldingDatVariable.EnergyfluxToIndoorAverage,
+                        BuldingDatVariable.EnergyfluxConductionAverage,
+                        BuldingDatVariable.EnergyfluxSWTransmissionAverage,
+                        BuldingDatVariable.ShortwaveAvailabe,
+                        BuldingDatVariable.ShortwaveAbsorbed,
+                        BuldingDatVariable.LongwaveAvailable,
+                        BuldingDatVariable.LongwaveEmittedFacade,
+                        BuldingDatVariable.Sensibleoutside,
+                        BuldingDatVariable.VapourFromGreening,
+                        BuldingDatVariable.VapourFromSubstrate
                     });
                     break;
             }
