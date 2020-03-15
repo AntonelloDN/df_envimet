@@ -85,6 +85,7 @@ ENHANCEMENT REQUEST RELEASED:
 - Delete facades component*
 - Facade results component*
 
+
 CONTACTS: antonellodinunzio@gmail.com
 
 *BETA for early adopter. Donwload https://github.com/AntonelloDN/df_envimet
