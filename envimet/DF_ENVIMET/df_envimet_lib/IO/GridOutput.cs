@@ -143,6 +143,7 @@ namespace df_envimet_lib.IO
         ExchangeCoeffHeat,
         LatentHeatFlux,
         SoilHeatFlux,
+        QswDirect,
         QswDirectHorizontal,
         QswDiffuseHorizontal,
         QswReflectedReceivedHorizontal,
