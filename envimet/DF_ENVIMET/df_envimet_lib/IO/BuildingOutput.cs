@@ -165,6 +165,7 @@ namespace df_envimet_lib.IO
             int numZ = Convert.ToInt16(outputKeys["nr_zdata"]);
 
             List<double> results = new List<double>();
+            int offsetStart = 4 * numX * numY * numZ;
             int bufferSize = 4 * numX * numY * numZ * 3;
 
             using (FileStream SourceStream = File.Open(edt, FileMode.Open))
@@ -177,7 +178,7 @@ namespace df_envimet_lib.IO
                 else if (dir == FaceDirection.Z)
                     offset = 8;
 
-                binReader.BaseStream.Position = bufferSize * variable + offset;
+                binReader.BaseStream.Position = bufferSize * variable + offset + offsetStart;
                 byte[] dateArray = binReader.ReadBytes(bufferSize);
 
                 /*

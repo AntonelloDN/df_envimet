@@ -62,6 +62,13 @@ namespace df_envimet.Grasshopper.IO
             {
                 var modelgeometry = Facade.GetGridDetail(inx);
 
+                if (modelgeometry == null)
+                {
+                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "It works only with 3d detailed model for now.\n" +
+                        "Please, use ENVI-Met Spaces to convert your 2.5D model into 3D model.");
+                    return;
+                }
+
                 if (envimentGrid == null)
                 {
                     envimentGrid = ReadEnvimet.GetGridFromInx(modelgeometry);

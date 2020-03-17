@@ -94,7 +94,16 @@ namespace df_envimet_lib.IO
 
             double numX = Convert.ToInt32(doc.Root.Element("modelGeometry").Element("grids-I").Value);
             double numY = Convert.ToInt32(doc.Root.Element("modelGeometry").Element("grids-J").Value);
-            double numZ = Convert.ToInt32(doc.Root.Element("modelGeometry3D").Element("grids3D-K").Value);
+            double numZ = 0;
+            try
+            {
+                numZ = Convert.ToInt32(doc.Root.Element("modelGeometry3D").Element("grids3D-K").Value);
+            }
+            catch
+            {
+                //TODO: 3D only for now, extend to 2.5D
+                return null;
+            }
 
             double dimX = Convert.ToDouble(doc.Root.Element("modelGeometry").Element("dx").Value);
             double dimY = Convert.ToDouble(doc.Root.Element("modelGeometry").Element("dy").Value);
