@@ -17,6 +17,7 @@ namespace df_envimet_lib.IO
         public const string SOIL = "soil";
         public const string SURFACE = "surface";
         public const string SOLAR_ACCESS = "solaraccess";
+        public const string VEGETATIONS = "vegetation";
     }
     #endregion
 

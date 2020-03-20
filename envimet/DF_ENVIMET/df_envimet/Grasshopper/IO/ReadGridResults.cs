@@ -191,6 +191,17 @@ namespace df_envimet.Grasshopper.IO
                         selectedVariable = (int)(solar)[var];
                         varName = solar[var];
                         break;
+                    case GridOutputFolderType.VEGETATIONS:
+                        var vegetation = variables[6] as List<VegetationOutput>;
+                        // Warning
+                        if (var >= vegetation.Count)
+                        {
+                            AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Vegetation variable is out of range, check description of the input.");
+                            return;
+                        }
+                        selectedVariable = (int)(vegetation)[var];
+                        varName = vegetation[var];
+                        break;
                 }
 
                 DataTree<string> fileNameTree = new DataTree<string>();
@@ -294,6 +305,9 @@ namespace df_envimet.Grasshopper.IO
             List<SolarAccessOutput> solar = Enum.GetValues(typeof(SolarAccessOutput))
                 .OfType<SolarAccessOutput>()
                 .ToList();
+            List<VegetationOutput> vegetation = Enum.GetValues(typeof(VegetationOutput))
+                .OfType<VegetationOutput>()
+                .ToList();
 
             variables.Add(atmosphere);
             variables.Add(pollutants);
@@ -301,6 +315,7 @@ namespace df_envimet.Grasshopper.IO
             variables.Add(soil);
             variables.Add(surface);
             variables.Add(solar);
+            variables.Add(vegetation);
 
             return variables;
         }
@@ -426,6 +441,37 @@ namespace df_envimet.Grasshopper.IO
                             "8 = Shadow hours Terrain level (h)\n" +
                             "9 = Sun hours Biomet level (h)\n" +
                             "10 = Shadow hours Biomet level (h)";
+                    break;
+                case GridOutputFolderType.VEGETATIONS:
+                    Params.Input[3].Description = "Connect an integer:\n0 = Plant Index ( )\n" +
+                            "1 = Plant Type ID ()\n" +
+                            "2 = Flow u (m/s)\n" +
+                            "3 = Flow v (m/s)\n" +
+                            "4 = Flow w (m/s)\n" +
+                            "5 = Wind Speed at Vegetation (m/s)\n" +
+                            "6 = Wind Speed Change at Vegetation (%)\n" +
+                            "7 = Wind Direction at Vegetation (deg)\n" +
+                            "8 = Local Drag at Vegetation (N/m³)\n" +
+                            "9 = Horizontal Drag at Vegetation (N)\n" +
+                            "10 = Horizontal Drag at Vegetation Vertical Sum (N)\n" +
+                            "11 = Air Temperature at Vegetation (°C)\n" +
+                            "12 = Spec. Humidity at Vegetation (g/kg)\n" +
+                            "13 = Relative Humidity at Vegetation (%)\n" +
+                            "14 = TKE at Vegetation (m²/m³)\n" +
+                            "15 = Vegetation LAD (m²/m³)\n" +
+                            "16 = Direct Sw Radiation (W/m²)\n" +
+                            "17 = Diffuse Sw Radiation (W/m²)\n" +
+                            "18 = Reflected Sw Radiation (W/m²)\n" +
+                            "19 = Mean Radiant Temp. (°C)\n" +
+                            "20 = Temperature Flux (K*m/s)\n" +
+                            "21 = Vapour Flux (g/kg*m/s)\n" +
+                            "22 = Water on Leafes (g/m²)\n" +
+                            "23 = Leaf Temperature (°C)\n" +
+                            "24 = Aerodynamic Resistance (s/m)\n" +
+                            "25 = Stomata Resistance (s/m)\n" +
+                            "26 = Plant CO2 Flux (mg/kg*m/s)\n" +
+                            "27 = Plant Isoprene Flux (mg/cell*h)\n" +
+                            "28 = PAR (micro mol m-2 s-1)";
                     break;
                 default:
                     Params.Input[3].Description = "Connect an integer:\n0 = Flow u(m / s)\n" +

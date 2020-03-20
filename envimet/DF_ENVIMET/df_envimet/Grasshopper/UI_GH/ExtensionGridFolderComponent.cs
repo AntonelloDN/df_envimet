@@ -24,6 +24,7 @@ namespace df_envimet.Grasshopper.UI_GH
             ToolStripMenuItem soil = Menu_AppendItem(menu, "Soil", SetSoil, true);
             ToolStripMenuItem surface = Menu_AppendItem(menu, "Surface", SetSurface, true);
             ToolStripMenuItem solaraccess = Menu_AppendItem(menu, "Solar access", SetSolar, true);
+            ToolStripMenuItem vegetation = Menu_AppendItem(menu, "Vegetation", SetVegetation, true);
             // Specifically assign a tooltip text to the menu item.
             atmosphere.ToolTipText = "Click on it to select atmosphere results.";
             pollutants.ToolTipText = "Click on it to select pollutants results.";
@@ -31,6 +32,7 @@ namespace df_envimet.Grasshopper.UI_GH
             soil.ToolTipText = "Click on it to select soil results.";
             surface.ToolTipText = "Click on it to select surface results.";
             solaraccess.ToolTipText = "Click on it to select solaraccess results.";
+            vegetation.ToolTipText = "Click on it to select vegetation results.";
         }
 
         private void SetAtmosphere(object sender, EventArgs e)
@@ -66,6 +68,12 @@ namespace df_envimet.Grasshopper.UI_GH
         private void SetSolar(object sender, EventArgs e)
         {
             _value = GridOutputFolderType.SOLAR_ACCESS;
+            ExpireSolution(true);
+        }
+
+        private void SetVegetation(object sender, EventArgs e)
+        {
+            _value = GridOutputFolderType.VEGETATIONS;
             ExpireSolution(true);
         }
 
