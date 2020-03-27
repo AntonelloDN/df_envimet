@@ -12,9 +12,9 @@ namespace df_envimet.Grasshopper.Modeling
         public PlanarSingleWallZ()
           : base("DF Horizontal Overhang", "DFhorizontalOverhang",
               "Use this component to horizontal overangs \"Dragonfly Envimet Spaces\".",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

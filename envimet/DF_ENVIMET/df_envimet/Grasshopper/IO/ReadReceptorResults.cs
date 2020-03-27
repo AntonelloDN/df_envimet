@@ -20,9 +20,9 @@ namespace df_envimet.Grasshopper.IO
         public ReadReceptorResults()
           : base("DF Envimet Read Receptor Results", "DFReadReceptorResults",
               "Use this component to read receptor results. Right click on icon of component to set output type:\nAtmosphere;\nSoil;\nFlux.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nFEB_02_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quinary;

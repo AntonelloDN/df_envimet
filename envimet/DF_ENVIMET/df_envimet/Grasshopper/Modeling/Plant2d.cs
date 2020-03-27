@@ -12,9 +12,9 @@ namespace df_envimet.Grasshopper.Modeling
         public Plant2d()
           : base("DF Envimet 2d Plant", "DFEnvimet2dPlant",
               "Use this component to generate plant2d for \"Dragonfly Envimet Spaces\". E.g. grass, simple tree of 10 meters and so on.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

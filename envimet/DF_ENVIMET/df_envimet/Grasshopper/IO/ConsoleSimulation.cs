@@ -13,9 +13,9 @@ namespace df_envimet.Grasshopper.Grasshopper.IO
         public ConsoleSimulation()
           : base("DF Envimet Run Simulation", "DFEnvimetRunSimulation",
               "Use this component to run directly simulation by Grasshopper.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;

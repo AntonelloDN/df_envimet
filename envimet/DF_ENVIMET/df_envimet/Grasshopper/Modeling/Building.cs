@@ -15,9 +15,9 @@ namespace df_envimet.Grasshopper.Modeling
           : base("DF Envimet Buildings", "DFEnvimetBuildings",
               "Use this component to generate buildings for \"Dragonfly Envimet Spaces\". Make sure buildings are " +
                 "clean geometries otherwise you can use boolean function to merge parts together.\nAnother possibility is to use tools like MorphoMesh or similar to work with meshes performing complex boolean union operations.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

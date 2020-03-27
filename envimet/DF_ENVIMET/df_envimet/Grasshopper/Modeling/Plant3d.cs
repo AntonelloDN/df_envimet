@@ -12,9 +12,9 @@ namespace df_envimet.Grasshopper.Modeling
         public Plant3d()
           : base("DF Envimet 3d Plant", "DFEnvimet3dPlant",
               "Use this component to generate 3d trees for \"Dragonfly Envimet Spaces\". ENVI_MET has a big library of 3d tree divided into Coniferous and Deciduous",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

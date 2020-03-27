@@ -16,9 +16,9 @@ namespace df_envimet.Grasshopper.ConfigFile
         public Config()
           : base("DF Envimet Config", "DFenvimetConfig",
               "This component writes simulation file (SIMX) of ENVI_MET.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nNOV_19_2019";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;

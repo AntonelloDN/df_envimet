@@ -14,9 +14,9 @@ namespace df_envimet.Grasshopper.Other
           : base("DF Delete Baked Facade", "DFDeleteBakedFacade",
               "Use this component to delete baked facades on Rhino canvas.\nNote: use it only if need it. " +
                 "Remember to disable it if you are editing inx file.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.senary;

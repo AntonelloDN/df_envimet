@@ -11,11 +11,10 @@ namespace df_envimet.Grasshopper.Settings
         public InstallationDirectory()
           : base("DF Envimet Installation Directory", "DFEnvimetInstallationDirectory",
               "Use this component to set Installation Directory of Envimet on your machine. E.g. C:\\ENVImet444",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
-
 
         /// <summary>
         /// Registers all the input parameters for this component.

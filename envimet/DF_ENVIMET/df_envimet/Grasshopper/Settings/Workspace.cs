@@ -11,9 +11,9 @@ namespace df_envimet.Grasshopper.Settings
         public Workspace()
           : base("DF Envimet Manage Workspace", "DFEnvimetManageWorkspace",
               "Use this component to create a Workspace folder",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nJAN_23_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.primary;

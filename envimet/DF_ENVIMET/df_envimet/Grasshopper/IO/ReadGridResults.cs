@@ -20,9 +20,9 @@ namespace df_envimet.Grasshopper.IO
           : base("DF Envimet Read Grid Results", "DFReadGridResults",
               "Use this component to read grid results.\nConnect output of this component to LB Recolor Mesh to visualize data.\n" +
                 "If there are some difects, please open a discussion on Envimet Board or Ladybug Tools forum.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_07_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quinary;

@@ -16,9 +16,9 @@ namespace df_envimet.Grasshopper.IO
         public BuildingFolder()
           : base("DF Envimet Building Files", "DFBuildingFiles",
               "Use this component to get avg output files and facade output of buildings. ",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nFEB_29_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quinary;

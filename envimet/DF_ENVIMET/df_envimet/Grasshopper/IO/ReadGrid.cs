@@ -16,9 +16,9 @@ namespace df_envimet.Grasshopper.IO
         public ReadGrid()
           : base("DF Envimet Read Grid", "DFReadGrid",
               "Use this component to read grid from Inx file.\n Select a direction using buttons: X, Y, Z.",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_07_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;

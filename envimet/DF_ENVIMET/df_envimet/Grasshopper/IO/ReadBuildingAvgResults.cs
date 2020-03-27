@@ -15,9 +15,9 @@ namespace df_envimet.Grasshopper.IO
         public ReadBuildingAvgResults()
           : base("DF Envimet Read Building Avg Results", "DFReadBuildingAvgResults",
               "Use this component to read building results. (WIP)",
-              "Dragonfly", "3 | Envimet")
+              "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nFEB_29_2020";
+            this.Message = "VER 0.0.03\nMAR_27_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quinary;
