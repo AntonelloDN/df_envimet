@@ -258,7 +258,6 @@ namespace df_envimet.Grasshopper.IO
             get { return new Guid("e664abc0-7575-4e75-8921-08fc2c2f1405"); }
         }
 
-
         private static List<int> ReceptorOutputTypeMapping(string folderType)
         {
             List<int> availableValues = new List<int>();
@@ -266,26 +265,69 @@ namespace df_envimet.Grasshopper.IO
             switch (folderType)
             {
                 case ReceptorFileType.SOIL:
-                    availableValues = Enum.GetValues(typeof(ReceptorSoilVariable))
-                        .OfType<ReceptorSoilVariable>()
-                        .ToList()
-                        .ConvertAll(v => (int)v);
+                    availableValues.AddRange(new List<int>
+                    {
+                        (int)ReceptorSoilVariable.Temperature,
+                        (int)ReceptorSoilVariable.VolumeWaterContent,
+                        (int)ReceptorSoilVariable.TemperatureDiffusifity
+                    });
                     break;
                 case ReceptorFileType.FLUX:
-                    availableValues = Enum.GetValues(typeof(ReceptorFluxVariable))
-                        .OfType<ReceptorFluxVariable>()
-                        .ToList()
-                        .ConvertAll(v => (int)v);
+                    availableValues.AddRange(new List<int>
+                    {
+                        (int)ReceptorFluxVariable.SurfaceTemperature,
+                        (int)ReceptorFluxVariable.ChangeSurfaceTemperature,
+                        (int)ReceptorFluxVariable.SurfaceHumidity,
+                        (int)ReceptorFluxVariable.HorizontalWindSpeedaboveSurface,
+                        (int)ReceptorFluxVariable.VerticalComponentWindSpeedaboveSurfaceZ,
+                        (int)ReceptorFluxVariable.AirTemperatureofGridPoint,
+                        (int)ReceptorFluxVariable.SensibleHeatFlux,
+                        (int)ReceptorFluxVariable.LatentHeatFlux,
+                        (int)ReceptorFluxVariable.SoilHeatFlux,
+                        (int)ReceptorFluxVariable.MasSExchangeCoefficient,
+                        (int)ReceptorFluxVariable.TurbulentExchangeCoefficient,
+                        (int)ReceptorFluxVariable.MaxDirectShortwaverRadiation,
+                        (int)ReceptorFluxVariable.MaxDiffuseShortwaveRadiation,
+                        (int)ReceptorFluxVariable.MaxReflectedShortwaveRadiation,
+                        (int)ReceptorFluxVariable.LongwaveRadiationBudgetSrf
+                    });
                     break;
                 default:
-                    availableValues = Enum.GetValues(typeof(ReceptorAtmosphereVariable))
-                        .OfType<ReceptorAtmosphereVariable>()
-                        .ToList()
-                        .ConvertAll(v => (int)v);
+                    availableValues.AddRange(new List<int>
+                    {
+                        (int)ReceptorAtmosphereVariable.WindSpeed,
+                        (int)ReceptorAtmosphereVariable.WindDirection,
+                        (int)ReceptorAtmosphereVariable.AirTemperature,
+                        (int)ReceptorAtmosphereVariable.DiffTemperature,
+                        (int)ReceptorAtmosphereVariable.SpecificHumidity,
+                        (int)ReceptorAtmosphereVariable.RelativeHumidity,
+                        (int)ReceptorAtmosphereVariable.VerticalExchangeCoefficient,
+                        (int)ReceptorAtmosphereVariable.VerticalKmNormed,
+                        (int)ReceptorAtmosphereVariable.HorizontalExchangeCoefficient,
+                        (int)ReceptorAtmosphereVariable.TurbulentKineticEnergy,
+                        (int)ReceptorAtmosphereVariable.DissipationTKE,
+                        (int)ReceptorAtmosphereVariable.MeanRadiantTemperature,
+                        (int)ReceptorAtmosphereVariable.LeafAreaDensity,
+                        (int)ReceptorAtmosphereVariable.LeafFoliageTemperature,
+                        (int)ReceptorAtmosphereVariable.SensibleHeatFluxFromLeaf,
+                        (int)ReceptorAtmosphereVariable.LatentHeatFluxFromLeaf,
+                        (int)ReceptorAtmosphereVariable.StomataResistance,
+                        (int)ReceptorAtmosphereVariable.CO2,
+                        (int)ReceptorAtmosphereVariable.CO2Flux,
+                        (int)ReceptorAtmosphereVariable.ShortwaveDirectRadiation,
+                        (int)ReceptorAtmosphereVariable.ShortwaveDiffuseRadiation,
+                        (int)ReceptorAtmosphereVariable.PressurePerturbation,
+                        (int)ReceptorAtmosphereVariable.MassConcentration,
+                        (int)ReceptorAtmosphereVariable.MechanicalProductionTKE,
+                        (int)ReceptorAtmosphereVariable.AirTemperatureChangeLongwave,
+                        (int)ReceptorAtmosphereVariable.SkyViewFactorBuilding,
+                        (int)ReceptorAtmosphereVariable.SkyViewFactorBuildingLeaf
+                    });
                     break;
             }
 
             return availableValues;
         }
+
     }
 }
