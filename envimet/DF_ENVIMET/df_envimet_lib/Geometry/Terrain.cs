@@ -75,7 +75,6 @@ namespace df_envimet_lib.Geometry
             return finalMesh;
         }
 
-
         public void CreateVoxMatrixTerrain(Point3d[] terrainPoints, Grid grid)
         {
             TerrainflagMatrix = String.Empty;

@@ -138,7 +138,7 @@ namespace df_envimet_lib.IO
             {
                 Facade face = new Facade();
 
-                string[] row = rows[i].Split(',');
+                string[] row = rows[i].Replace(" ", "").Split(',');
                 double x = Convert.ToInt32(row[(int)FaceDirection.X]);
                 double y = Convert.ToInt32(row[(int)FaceDirection.Y]);
                 int z = Convert.ToInt32(row[(int)FaceDirection.Z]);
@@ -149,17 +149,17 @@ namespace df_envimet_lib.IO
 
                 PixelCoordinate pix = new PixelCoordinate() { I = x, J = y, K = z };
 
-                if (direction == FaceDirection.X && matX.Length > 2)
+                if (direction == FaceDirection.X && matX.Length >= 2)
                 {
                     face = GenerateXfacade(grid, pix);
                     result.Add(face);
                 }
-                else if (direction == FaceDirection.Y && matY.Length > 2)
+                else if (direction == FaceDirection.Y && matY.Length >= 2)
                 {
                     face = GenerateYfacade(grid, pix);
                     result.Add(face);
                 }
-                else if (direction == FaceDirection.Z && matZ.Length > 2 && z != 0)
+                else if (direction == FaceDirection.Z && matZ.Length >= 2 && z != 0)
                 {
                     face = GenerateZfacade(grid, pix);
                     result.Add(face);
