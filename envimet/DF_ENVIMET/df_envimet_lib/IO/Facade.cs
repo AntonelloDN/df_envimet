@@ -18,21 +18,15 @@ namespace df_envimet_lib.IO
     }
     #endregion
 
-    #region CellMaterial Struct
-    public struct CellMaterial
-    {
-        public string MaterialX { set; get; }
-        public string MaterialY { set; get; }
-        public string MaterialZ { set; get; }
-    }
-    #endregion
-
     #region Pixel Struct
     public struct PixelCoordinate
     {
         public double I { set; get; }
         public double J { set; get; }
         public int K { set; get; }
+        public string MaterialX { set; get; }
+        public string MaterialY { set; get; }
+        public string MaterialZ { set; get; }
     }
     #endregion
 
@@ -45,9 +39,11 @@ namespace df_envimet_lib.IO
         private bool disposed = false;
         private const string WALL_DB = "WallDB";
         private const int SHIFT = 3;
+        private const double TOLERANCE = 0.001;
 
         public string Id { get; set; }
         public Mesh Geometry { get; set; }
+        public Point3d Centroid { get; set; }
 
         public void Dispose()
         {
@@ -128,11 +124,63 @@ namespace df_envimet_lib.IO
             return modelgeometry;
         }
 
-        public static IEnumerable<Facade> GenerateFacadeByDirection(List<string> rows, Grid grid, FaceDirection direction, bool bake = false)
+
+        public static IEnumerable<Facade> GenerateFacadeByDirection(List<string> rows, Grid grid, FaceDirection direction)
+        {
+            List<Facade> result = new List<Facade>();
+
+            List<PixelCoordinate> pixels = GetPixelFromSparseMatrix(rows).ToList();
+
+            foreach (PixelCoordinate pix in pixels)
+            {
+                Facade face = new Facade();
+
+                if (direction == FaceDirection.X && pix.MaterialX.Length >= 2)
+                {
+                    face = GenerateXfacade(grid, pix);
+                    result.Add(face);
+                }
+                else if (direction == FaceDirection.Y && pix.MaterialY.Length >= 2)
+                {
+                    face = GenerateYfacade(grid, pix);
+                    result.Add(face);
+                }
+                else if (direction == FaceDirection.Z && pix.MaterialZ.Length >= 2 && pix.K != 0)
+                {
+                    face = GenerateZfacade(grid, pix);
+                    result.Add(face);
+                }
+            }
+
+            return result;
+        }
+
+
+        public static void BakeFacades(IEnumerable<Facade> faces, bool bake = false, Curve crv = null)
         {
             Rhino.DocObjects.Tables.ObjectTable ot = Rhino.RhinoDoc.ActiveDoc.Objects;
 
-            List<Facade> result = new List<Facade>();
+            foreach (Facade face in faces)
+            {
+                Rhino.DocObjects.ObjectAttributes att = new Rhino.DocObjects.ObjectAttributes { Name = face.Id };
+                if (crv != null)
+                {
+                    if (PointContainmentCheck(face.Centroid, crv))
+                    {
+                        ot.AddMesh(face.Geometry, att);
+                    }
+                }
+                else
+                {
+                    ot.AddMesh(face.Geometry, att);
+                }
+            }
+        }
+
+
+        public static IEnumerable<PixelCoordinate> GetPixelFromSparseMatrix(List<string> rows)
+        {
+            List<PixelCoordinate> pixels = new List<PixelCoordinate>();
 
             for (int i = 0; i < rows.Count; i++)
             {
@@ -147,49 +195,25 @@ namespace df_envimet_lib.IO
                 string matY = row[4];
                 string matZ = row[5];
 
-                PixelCoordinate pix = new PixelCoordinate() { I = x, J = y, K = z };
+                PixelCoordinate pix = new PixelCoordinate() { I = x, J = y, K = z, MaterialX = matX, MaterialY = matY, MaterialZ = matZ };
 
-                if (direction == FaceDirection.X && matX.Length >= 2)
-                {
-                    face = GenerateXfacade(grid, pix);
-                    result.Add(face);
-                }
-                else if (direction == FaceDirection.Y && matY.Length >= 2)
-                {
-                    face = GenerateYfacade(grid, pix);
-                    result.Add(face);
-                }
-                else if (direction == FaceDirection.Z && matZ.Length >= 2 && z != 0)
-                {
-                    face = GenerateZfacade(grid, pix);
-                    result.Add(face);
-                }
-
+                pixels.Add(pix);
             }
-
-            if (bake)
-            {
-                foreach (Facade f in result)
-                {
-                    Rhino.DocObjects.ObjectAttributes att = new Rhino.DocObjects.ObjectAttributes { Name = f.Id };
-                    ot.AddMesh(f.Geometry, att);
-                }
-            }
-
-            return result;
+            return pixels;
         }
+
 
         protected static Facade GenerateXfacade(Grid grid, PixelCoordinate pix)
         {
             var sequence = grid.Sequence;
             var position = grid.Height;
 
-            var point = new Point3d((pix.I * grid.DimX) + grid.MinX, (pix.J * grid.DimY) + grid.MinY, position[pix.K]);
+            var point = new Point3d((pix.I * grid.DimX) + grid.MinX - (grid.DimX / 2), (pix.J * grid.DimY) + grid.MinY, position[pix.K]);
             var plane = new Plane(point, Vector3d.XAxis);
             var dimY = grid.DimY;
-            var mesh = Mesh.CreateFromPlane(plane, new Interval(0, dimY), new Interval(-sequence[pix.K] / 2, sequence[pix.K] / 2), 1, 1);
+            var mesh = Mesh.CreateFromPlane(plane, new Interval(-dimY/2, dimY/2), new Interval(-sequence[pix.K] / 2, sequence[pix.K] / 2), 1, 1);
 
-            Facade face = new Facade() { Id = String.Format("X:{0}:{1}:{2}", pix.I, pix.J, pix.K), Geometry = mesh };
+            Facade face = new Facade() { Id = String.Format("X:{0}:{1}:{2}", pix.I, pix.J, pix.K), Geometry = mesh, Centroid = point };
 
             return face;
         }
@@ -199,13 +223,13 @@ namespace df_envimet_lib.IO
             var sequence = grid.Sequence;
             var position = grid.Height;
 
-            var point = new Point3d((pix.I * grid.DimX) + grid.MinX, (pix.J * grid.DimY) + grid.MinY, position[pix.K]);
+            var point = new Point3d((pix.I * grid.DimX) + grid.MinX, (pix.J * grid.DimY) + grid.MinY - (grid.DimY/2), position[pix.K]);
             var plane = new Plane(point, Vector3d.YAxis);
             var dimZ = sequence[pix.K] / 2;
             var dimX = grid.DimX;
-            var mesh = Mesh.CreateFromPlane(plane, new Interval(-dimZ, dimZ), new Interval(0, dimX), 1, 1);
+            var mesh = Mesh.CreateFromPlane(plane, new Interval(-dimZ, dimZ), new Interval(-dimX/2, dimX/2), 1, 1);
 
-            Facade face = new Facade() { Id = String.Format("Y:{0}:{1}:{2}", pix.I, pix.J, pix.K), Geometry = mesh };
+            Facade face = new Facade() { Id = String.Format("Y:{0}:{1}:{2}", pix.I, pix.J, pix.K), Geometry = mesh, Centroid = point };
 
             return face;
         }
@@ -220,9 +244,9 @@ namespace df_envimet_lib.IO
             var plane = new Plane(point, Vector3d.ZAxis);
             var dimX = grid.DimX;
             var dimY = grid.DimY;
-            var mesh = Mesh.CreateFromPlane(plane, new Interval(0, dimX), new Interval(0, dimY), 1, 1);
+            var mesh = Mesh.CreateFromPlane(plane, new Interval(-dimX/2, dimX/2), new Interval(-dimY/2, dimY/2), 1, 1);
 
-            Facade face = new Facade() { Id = String.Format("Z::{0}:{1}:{2}", pix.I, pix.J, pix.K), Geometry = mesh };
+            Facade face = new Facade() { Id = String.Format("Z:{0}:{1}:{2}", pix.I, pix.J, pix.K), Geometry = mesh, Centroid = point };
 
             return face;
         }
@@ -248,23 +272,129 @@ namespace df_envimet_lib.IO
             return filetext;
         }
 
-        public static string UpdateRowMaterial(string row, CellMaterial material)
+        public static IEnumerable<PixelCoordinate> GetUniqueSelectedPixels(List<PixelCoordinate> pixels)
         {
-            string[] values = row.Split(',');
+            List<PixelCoordinate> uniquePixels = new List<PixelCoordinate>();
+            List<string> series = new List<string>();
 
-            UpdateMaterial(values, (int)FaceDirection.X + SHIFT, material.MaterialX);
-            UpdateMaterial(values, (int)FaceDirection.Y + SHIFT, material.MaterialY);
-            UpdateMaterial(values, (int)FaceDirection.Z + SHIFT, material.MaterialZ);
+            foreach (PixelCoordinate pix in pixels)
+            {
+                string line = String.Join(",", new[] { pix.I, pix.J, pix.K });
+                series.Add(line);
+            }
 
-            return String.Join(",", values);
+            series = series.Distinct().ToList();
+
+            for (int i = 0; i < series.Count; i++)
+            {
+                string[] elements = series[i].Split(',');
+                int ci = Convert.ToInt32(elements[0]);
+                int cj = Convert.ToInt32(elements[1]);
+                int ck = Convert.ToInt32(elements[2]);
+
+                var pix = new PixelCoordinate() { I = ci, J = cj, K = ck };
+
+                foreach (PixelCoordinate pixelSel in pixels)
+                {
+                    if ((pixelSel.I == pix.I) && (pixelSel.J == pix.J) && (pixelSel.K == pix.K))
+                    {
+                        if (pixelSel.MaterialX != null)
+                            pix.MaterialX = pixelSel.MaterialX;
+                        if (pixelSel.MaterialY != null)
+                            pix.MaterialY = pixelSel.MaterialY;
+                        if (pixelSel.MaterialZ != null)
+                            pix.MaterialZ = pixelSel.MaterialZ;
+                    }
+                }
+                uniquePixels.Add(pix);
+            }
+            return uniquePixels;
         }
 
-        protected static void UpdateMaterial(string[] row, int index, string materialDir)
+        public static IEnumerable<PixelCoordinate> UpdatePixelMaterial(List<PixelCoordinate> pixelsInx, List<PixelCoordinate> pixelSelection)
         {
-            if (materialDir != null && row[index] != String.Empty)
+            List<PixelCoordinate> pixels = new List<PixelCoordinate>();
+            for (int i = 0; i < pixelsInx.Count; i++)
             {
-                row[index] = materialDir;
+                var pix = pixelsInx[i];
+                foreach (PixelCoordinate pixelSel in pixelSelection)
+                {
+                    if ((pix.I == pixelSel.I) && (pix.J == pixelSel.J) && (pix.K == pixelSel.K))
+                    {
+                        if (pixelSel.MaterialX != null)
+                            pix.MaterialX = pixelSel.MaterialX;
+                        if (pixelSel.MaterialY != null)
+                            pix.MaterialY = pixelSel.MaterialY;
+                        if (pixelSel.MaterialZ != null)
+                            pix.MaterialZ = pixelSel.MaterialZ;
+                    }
+                }
+                pixels.Add(pix);
             }
+            return pixels;
+        }
+
+        public static string GetFacadeSparseMatrixFromPixels(IEnumerable<PixelCoordinate> pixels)
+        {
+            List<string> lines = new List<string>();
+            foreach (PixelCoordinate pix in pixels)
+            {
+                lines.Add(String.Join(",", new string[] { pix.I.ToString(), pix.J.ToString(), pix.K.ToString(), pix.MaterialX, pix.MaterialY, pix.MaterialZ }));
+            }
+            return String.Join("\n", lines);
+        }
+
+        public static IEnumerable<PixelCoordinate> GetPixelFromSelection(List<Rhino.DocObjects.RhinoObject> rhinoObjects, string material)
+        {
+            List<PixelCoordinate> pixels = new List<PixelCoordinate>();
+            foreach (Rhino.DocObjects.RhinoObject rhobj in rhinoObjects)
+            {
+                if (rhobj.Name.Contains("X:") || rhobj.Name.Contains("Y:") || rhobj.Name.Contains("Z:"))
+                {
+                    PixelCoordinate pix = GetPixelFromRhinoObject(rhobj.Name, material);
+                    pixels.Add(pix);
+                }
+            }
+
+            return pixels;
+        }
+
+        private static PixelCoordinate GetPixelFromRhinoObject(string name, string material)
+        {
+            string[] pixelInfo = name.Split(':');
+
+            int i = Convert.ToInt32(pixelInfo[1]);
+            int j = Convert.ToInt32(pixelInfo[2]);
+            int k = Convert.ToInt32(pixelInfo[3]);
+
+            PixelCoordinate pix = new PixelCoordinate() { I = i, J = j, K = k };
+
+            switch (pixelInfo[0])
+            {
+                case "X":
+                    pix.MaterialX = material;
+                    break;
+                case "Y":
+                    pix.MaterialY = material;
+                    break;
+                default:
+                    pix.MaterialZ = material;
+                    break;
+            }
+
+            return pix;
+        }
+
+        public static bool PointContainmentCheck(Point3d pt, Curve crv)
+        {
+            // project point to world XY
+            Transform xprj = Transform.PlanarProjection(Plane.WorldXY);
+            pt.Transform(xprj);
+
+            var coitainmentValue = crv.Contains(pt, Plane.WorldXY, TOLERANCE);
+            bool val = (coitainmentValue == PointContainment.Inside) ? true : false;
+
+            return val;
         }
 
     }

@@ -4,6 +4,7 @@ using df_envimet.Grasshopper.UI_GH;
 using df_envimet_lib.IO;
 using Grasshopper.Kernel;
 using System.Linq;
+using Rhino.Geometry;
 using ReadEnvimet = df_envimet_lib.IO.Read;
 using GridEnvimet = df_envimet_lib.Geometry.Grid;
 
@@ -34,9 +35,12 @@ namespace df_envimet.Grasshopper.IO
             pManager.AddBooleanParameter("runIt_", "runIt_", "Set runIt to True to read output.", GH_ParamAccess.item, false);
             pManager.AddBooleanParameter("bake_", "bake_", "Set runIt and bake to True to add facade pixel in Rhino canvas.\n" +
                 "If you want to change material pixel by pixel select facade elements and use them as input of 'DF Edit Building Material'.", GH_ParamAccess.item, false);
+            pManager.AddCurveParameter("curve_", "curve_", "A closed curve on Plane World XY. Use it to select facades you want to bake.", GH_ParamAccess.item);
+
             pManager[1].Optional = true;
             pManager[2].Optional = true;
             pManager[3].Optional = true;
+            pManager[4].Optional = true;
         }
 
         /// <summary>
@@ -57,11 +61,13 @@ namespace df_envimet.Grasshopper.IO
             bool runIt = false;
             bool bake = false;
             GridEnvimet envimentGrid = null;
+            Curve crv = null;
 
             DA.GetData(0, ref inx);
             DA.GetData(1, ref envimentGrid);
             DA.GetData(2, ref runIt);
             DA.GetData(3, ref bake);
+            DA.GetData(4, ref crv);
 
             if (runIt)
             {
@@ -80,7 +86,10 @@ namespace df_envimet.Grasshopper.IO
                 if (envimentGrid == null)
                     envimentGrid = ReadEnvimet.GetGridFromInx(modelgeometry);
 
-                var facades = Facade.GenerateFacadeByDirection(matrix, envimentGrid, Direction, bake);
+                var facades = Facade.GenerateFacadeByDirection(matrix, envimentGrid, Direction);
+
+                if (bake)
+                    Facade.BakeFacades(facades, bake, crv);
 
                 DA.SetData(0, face.GetAnalysisMesh(facades.ToList()));
             }

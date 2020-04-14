@@ -105,6 +105,7 @@
     <Compile Include="Grasshopper\Modeling\Terrain.cs" />
     <Compile Include="Grasshopper\Other\DeleteBakedFacade.cs" />
     <Compile Include="Grasshopper\Other\EditBuildingMaterial.cs" />
+    <Compile Include="Grasshopper\Other\EditFacadeMaterial.cs" />
     <Compile Include="Grasshopper\Other\Information.cs" />
     <Compile Include="Grasshopper\Other\RunINX.cs" />
     <Compile Include="Grasshopper\Other\XMLreader.cs" />
