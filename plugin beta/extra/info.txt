@@ -85,6 +85,9 @@ ENHANCEMENT REQUEST RELEASED:
 - Delete facades component*
 - Facade results component*
 
+[2020/04/14]:
+- Edit Facade Material component
+- Facade visualization improvement
 
 CONTACTS: antonellodinunzio@gmail.com
 

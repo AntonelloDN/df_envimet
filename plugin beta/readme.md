@@ -16,6 +16,11 @@ What will happen to your existing gh files? Some components are the same of the 
 
 ## New features
 
+[2020/04/14]:
+- Edit Facade Material component
+- Facade visualization improvement
+![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/EditFacadeMaterial.gif)
+
 [2020/03/12]:
 - dll 1.0.0.2 and new classes
 - Grid results components
