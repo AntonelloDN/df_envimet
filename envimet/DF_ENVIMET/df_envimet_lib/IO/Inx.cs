@@ -202,7 +202,6 @@ namespace df_envimet_lib.IO
             // section plant3d
             if (plant3d.Count > 0)
             {
-
                 for (int i = 0; i < plant3d.Count; i++)
                 {
                     string plants3DTitle = "3Dplants";
@@ -210,14 +209,12 @@ namespace df_envimet_lib.IO
                     string[] plants3DValue = new string[] { plant3d[i][0], plant3d[i][1], plant3d[i][2], plant3d[i][3], plant3d[i][4], plant3d[i][5] };
 
                     Inx.CreateXmlSection(xWriter, plants3DTitle, plants3DTag, plants3DValue, 0, empty);
-                }
-                
+                }  
             }
 
             // section receptors
             if (receptors.Count > 0)
             {
-
                 for (int i = 0; i < receptors.Count; i++)
                 {
                     string receptorsTitle = "Receptors";
@@ -226,7 +223,6 @@ namespace df_envimet_lib.IO
 
                     Inx.CreateXmlSection(xWriter, receptorsTitle, receptorsTag, receptorsValue, 0, empty);
                 }
-
             }
 
             // section soils2D
@@ -268,8 +264,8 @@ namespace df_envimet_lib.IO
 
             Inx.CreateXmlSection(xWriter, additionalDataTitle, additionalDataTag, additionalDataValue, 1, attribute2dElements);
             
-            // section greenins part 1
-            if (greenInfo.Count > 0)
+            // section building
+            if (wallDBMatrix != NewLine)
             {
                 foreach (string[] green in greenInfo)
                 {
@@ -333,7 +329,7 @@ namespace df_envimet_lib.IO
             string GreeningDBTitle = "GreeningDB";
             string[] GreeningDBTag = new string[] { "ID_GreeningDB" };
             string[] GreeningDBValue = null;
-            if (greenInfo.Count > 0)
+            if (greenDBMatrix != null)
             {
                 GreeningDBValue = new string[] { NewLine + greenDBMatrix };
             }

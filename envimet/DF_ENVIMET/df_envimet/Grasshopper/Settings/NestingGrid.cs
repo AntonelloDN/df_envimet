@@ -44,7 +44,7 @@ namespace df_envimet.Grasshopper.Settings
         {
             // INPUT
             // declaration
-            int numNestingGrid_ = 3;
+            int numNestingGrid_ = 0;
             string soilProfileA_ = "0000LO";
             string soilProfileB_ = "0000LO";
 
@@ -55,7 +55,7 @@ namespace df_envimet.Grasshopper.Settings
             // actions
             df_envimet_lib.Geometry.NestingGrid nGrid = new df_envimet_lib.Geometry.NestingGrid();
 
-            if (numNestingGrid_ != 0)
+            if (numNestingGrid_ >= 0)
                 nGrid.NumNestingGrid = numNestingGrid_;
             if (soilProfileA_ != null)
                 nGrid.SoilProfileA = soilProfileA_;

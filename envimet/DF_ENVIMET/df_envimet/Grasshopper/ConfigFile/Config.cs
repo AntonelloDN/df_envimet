@@ -207,7 +207,7 @@ namespace df_envimet.Grasshopper.ConfigFile
                     // OutputTiming section
                     if (outputTiming != null)
                     {
-                        string outputTimingTitle = "OutputTiming";
+                        string outputTimingTitle = "OutputSettings";
                         string[] outputTimingTag = new string[] { "mainFiles", "textFiles", "inclNestingGrids" };
                         string[] outputTimingValue = new string[] { outputTiming.MainFiles.ToString(), outputTiming.TextFiles.ToString(), outputTiming.InclNestingGrids.ToString() };
 

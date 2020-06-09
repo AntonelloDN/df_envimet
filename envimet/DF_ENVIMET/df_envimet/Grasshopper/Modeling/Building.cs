@@ -28,8 +28,8 @@ namespace df_envimet.Grasshopper.Modeling
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddMeshParameter("_geometry", "_geometry", "Geometry that represent ENVI-Met building.\nGeometry has to be closed Brep or Mesh", GH_ParamAccess.item);
-            pManager.AddTextParameter("wallMaterial_", "wallMaterial_", "Use this input to change wall materials.\nMaterials count have to be equals buildings count, otherwise it will be set the default material.", GH_ParamAccess.item);
-            pManager.AddTextParameter("roofMaterial_", "roofMaterial_", "Use this input to change roof materials. Materials count have to be equals buildings count, otherwise it will be set the default material.", GH_ParamAccess.item);
+            pManager.AddTextParameter("wallMaterial_", "wallMaterial_", "Use this input to change wall material.\nMaterials count have to be equals buildings count, otherwise it will be set the default material OR just one material for all geometries.", GH_ParamAccess.item);
+            pManager.AddTextParameter("roofMaterial_", "roofMaterial_", "Use this input to change roof materials. Materials count have to be equals buildings count, otherwise it will be set the default material OR just one material for all geometries.", GH_ParamAccess.item);
             pManager.AddTextParameter("greenWallMaterial_", "greenWallMaterial_", "Connect a list of greenings material to apply them to walls of selected buildings.", GH_ParamAccess.item);
             pManager.AddTextParameter("greenRoofMaterial_", "greenRoofMaterial_", "Connect a list of greenings material to apply them to roofs of selected buildings.", GH_ParamAccess.item);
             pManager.AddBooleanParameter("simplifiedCalculation_", "simplifiedCalculation_", "Connect a boolean to simplify calculation.", GH_ParamAccess.item, false);

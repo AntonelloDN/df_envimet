@@ -155,18 +155,20 @@ namespace df_envimet_lib.IO
 
                 string greenWall = buildings[i].GetMaterial().GreenWallMaterial;
                 string greenRoof = buildings[i].GetMaterial().GreenRoofMaterial;
-                if (greenWall != Material.DefaultGreenWallMaterial || greenRoof != Material.DefaultGreenRoofMaterial)
-                {
-                    if (greenWall == Material.DefaultGreenWallMaterial)
-                        greenWall = " ";
+                if (greenWall == Material.DefaultGreenWallMaterial)
+                    greenWall = " ";
                         
-                    if (greenRoof == Material.DefaultGreenRoofMaterial)
-                        greenRoof = " ";
+                if (greenRoof == Material.DefaultGreenRoofMaterial)
+                    greenRoof = " ";
 
+                string[] greenBld = new string[] { (i + 1).ToString(), " ", buildings[i].GetMaterial().WallMaterial, buildings[i].GetMaterial().RoofMaterial, greenWall, greenRoof };
+                greenInfo.Add(greenBld);
+
+                if (greenWall != " " || greenRoof != " ")
+                {
                     listMatrixGreenMaterial.Add(buildings[i].GetMatrix3d());
-                    string[] greenBld = new string[] { (i + 1).ToString(), " ", buildings[i].GetMaterial().WallMaterial, buildings[i].GetMaterial().RoofMaterial, greenWall, greenRoof };
-                    greenInfo.Add(greenBld);
                 }
+
                 buildings[i].Dispose();
                 tempMesh.Dispose();
             }
