@@ -15,6 +15,10 @@ For those people who want to try them, please follow these steps:
 What will happen to your existing gh files? Some components are the same of the previous versions, other required a replacement. I suggest save your workflows in the same folder of backup of plugin.
 
 ## New features
+[2020/06/08]:
+- 'Nesting grids' can be 0
+- Default folder: ENVImet445
+- 2D Building Info added
 
 [2020/04/14]:
 - Edit Facade Material component

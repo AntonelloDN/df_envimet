@@ -1,5 +1,6 @@
 # df_envimet
 Dragonfly Envimet code to connect Ladybug, Dragonfly and Gismo to Envimet for urban microclimatic analysis.
+<br>It can create Envimet 3D models (INX), basic simulation files and read almost all results among building and grid ones.
 
 ![Alt Text](https://github.com/AntonelloDN/df_envimet/blob/master/envimet/ReadOutput.png)
 ## Contributors(a-z):
@@ -7,11 +8,9 @@ Dragonfly Envimet code to connect Ladybug, Dragonfly and Gismo to Envimet for ur
 ## Videos:
 [Youtube playlist](https://www.youtube.com/playlist?list=PLVk71QLjaA6P6HYyJV9cn6odEZcX2CI4F)
 ## Roadmap:
-Planned improvements on January 2020:
-- Configuration file: other advanced settings of simx file :construction:
-- Plugin structure: envimet installation folder as global parameter :white_check_mark:
-- Modeling: receptor object :white_check_mark:
-
-Planned improvements on March 2020:
-- Read Output Components: receptor, grid, building :white_check_mark: :muscle:
-- Configuration file: fullforcing :construction:
+- [ ] Configuration file: other advanced settings of simx file
+- [ ] Configuration file: fullforcing
+- [x] Plugin structure: envimet installation folder as global parameter
+- [x] Modeling: receptor object
+- [x] Read Output Components: receptor, grid, building
+- [ ] Inx: remove useless strings when green facades are in
