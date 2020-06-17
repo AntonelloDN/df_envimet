@@ -25,8 +25,9 @@ namespace df_envimet.Grasshopper.ConfigFile
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddIntegerParameter("_outputIntervalMainFile_", "_outputIntervalMainFile_", "Output interval main files (min). Default value is 60.00 min (hour by hour you have an output file).", GH_ParamAccess.item, 60);
-            pManager.AddIntegerParameter("_outputIntervalText_", "_outputIntervalText_", "Output interval text output files (min). Default value is 30.00 min.", GH_ParamAccess.item, 30);
-            pManager.AddBooleanParameter("_includeNestingGrids_", "_includeNestingGrids_", "Include Nesting Grids in Output (0:N,1:Y). Connect a boolean toggle to set it.", GH_ParamAccess.item, false);
+            pManager.AddIntegerParameter("_outputIntervalText_", "_outputIntervalText_", "Output interval text output files (min). Default value is 60.00 min.", GH_ParamAccess.item, 60);
+            pManager.AddBooleanParameter("_netCDF_", "_netCDF_", "Generate netcdf outputs. Connect 'True' to active it.", GH_ParamAccess.item, false);
+            pManager.AddBooleanParameter("_netCDFOneFile_", "_netCDFOneFile_", "Set it to 'True' if you want store output interval in a single NetCDF file.", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -43,30 +44,28 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // INPUT
-            // declaration
             int outputIntervalMainFile = 60;
-            int outputIntervalText = 30;
-            bool includeNesting = false;
+            int outputIntervalText = 60;
+            bool _netCDF = false;
+            bool _oneFile = false;
 
             DA.GetData(0, ref outputIntervalMainFile);
             DA.GetData(1, ref outputIntervalText);
-            DA.GetData(2, ref includeNesting);
+            DA.GetData(2, ref _netCDF);
+            DA.GetData(3, ref _oneFile);
 
+            int netCDF = (_netCDF) ? 1 : 0;
+            int oneFile = (_oneFile) ? 1 : 0;
 
-            // actions
-            OutputTiming outputSettings = new OutputTiming()
+            OutputSettings outputSettings = new OutputSettings()
             {
                 MainFiles = outputIntervalMainFile,
                 TextFiles = outputIntervalText,
-
+                NetCDF = netCDF,
+                NetCDFAllDataInOneFile = oneFile
             };
 
-            outputSettings.InclNestingGrids = (includeNesting) ? 1 : 0;
-
-            // OUTPUT
             DA.SetData(0, outputSettings);
-
         }
 
         /// <summary>

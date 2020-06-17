@@ -1,17 +1,19 @@
 ﻿using System;
 using Grasshopper.Kernel;
 using df_envimet_lib.Settings;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace df_envimet.Grasshopper.ConfigFile
 {
-    public class BuildingTemp : GH_Component
+    public class FacadeModeSettings : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the BuildingTemp class.
+        /// Initializes a new instance of the FacadeModeSettings class.
         /// </summary>
-        public BuildingTemp()
-          : base("DF Envimet Building Temp", "DFenvimetBuildingTemp",
-              "This component let you change the indoor temperature of the buildings.",
+        public FacadeModeSettings()
+          : base("DF Envimet Wind Resistence settings", "DFenvimetWindResistenceSettings",
+              "EXPERT SETTINGS: Set wind resistance model at facede. DIN 6946 includes a higher Z0 value.",
               "DF-Legacy", "3 | Envimet")
         {
             this.Message = "VER 0.0.03\nMAR_27_2020";
@@ -24,9 +26,9 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_indoorTemp_", "_indoorTemp_", "Indoor temperature in Kelvin [K]. Default value is 293.00.", GH_ParamAccess.item, 293.00);
-            pManager.AddBooleanParameter("_indoorConst_", "_indoorConst_", "Keep the building indoor temperature constant.\nConnect a 'True' to active it. Default is 'False'", GH_ParamAccess.item, false);
-
+            pManager.AddIntegerParameter("_modelType", "_modelType", "Connect an integer to select wind resistance model." +
+                "\n0 = MO" +
+                "\n1 = DIN6946", GH_ParamAccess.item, 0);
         }
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("buildingTemp", "buildingTemp", "building Temperature settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("windResistance", "windResistance", "Wind resistance settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
 
         }
 
@@ -44,17 +46,17 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double _indoorTemp_ = 293.00;
-            bool _indoorConst_ = false;
+            int _modelType = 0;
 
-            DA.GetData(0, ref _indoorTemp_);
-            DA.GetData(1, ref _indoorConst_);
+            DA.GetData(0, ref _modelType);
 
-            Active constTemperature = (_indoorConst_) ? Active.YES : Active.NO;
+            List<FacadeMod> turbolenceType = Enum.GetValues(typeof(FacadeMod))
+                .Cast<FacadeMod>()
+                .ToList();
 
-            BuildingSettings buildingTemp = new BuildingSettings(_indoorTemp_, constTemperature);
+            Facades facadeWind = new Facades(turbolenceType[_modelType]);
 
-            DA.SetData(0, buildingTemp);
+            DA.SetData(0, facadeWind);
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.envimetBuildingTempIcon;
+                return Properties.Resources.wind_res;
             }
         }
 
@@ -75,7 +77,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4770a642-120e-448d-b170-1eb1da758994"); }
+            get { return new Guid("03ba465b-a4a2-4419-b3f6-613f4e0c6a72"); }
         }
     }
 }

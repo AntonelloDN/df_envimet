@@ -24,11 +24,10 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_tempUpperlayer_", "_tempUpperlayer_", "Temperature [K] of the upper layer (0-20cm). Default value is 293.00000 K.", GH_ParamAccess.item, 293.00000);
-            pManager.AddNumberParameter("_tempMiddlelayer_", "_tempMiddlelayer_", "Temperature [K] of the middle layer (20-50cm). Default value is 293.00000 K.", GH_ParamAccess.item, 293.00000);
-            pManager.AddNumberParameter("_tempDeeplayer_", "_tempDeeplayer_", "Temperature [K] of the deep layer (50-200cm). Default value is 293.00000 K.", GH_ParamAccess.item, 293.00000);
-            pManager.AddNumberParameter("_tempBedrockLayer_", "_tempBedrockLayer_", "Temperature [K] of the bedrock layer (below 200cm). Default value is 293.00000 K.", GH_ParamAccess.item, 293.00000);
-
+            pManager.AddNumberParameter("_tempUpperlayer_", "_tempUpperlayer_", "Temperature [°C] of the upper layer (0-20cm). Default value is 19.85 C.", GH_ParamAccess.item, 19.85);
+            pManager.AddNumberParameter("_tempMiddlelayer_", "_tempMiddlelayer_", "Temperature [°C] of the middle layer (20-50cm). Default value is 19.85 C.", GH_ParamAccess.item, 19.85);
+            pManager.AddNumberParameter("_tempDeeplayer_", "_tempDeeplayer_", "Temperature [°C] of the deep layer (50-200cm). Default value is 19.85 C.", GH_ParamAccess.item, 19.85);
+            pManager.AddNumberParameter("_tempBedrockLayer_", "_tempBedrockLayer_", "Temperature [°C] of the bedrock layer (below 200cm). Default value is 19.85 C.", GH_ParamAccess.item, 19.85);
             pManager.AddIntegerParameter("_waterUpperlayer_", "_waterUpperlayer_", "Soil Humidity [%] of the upper layer (below 200cm). Default value is 70%.", GH_ParamAccess.item, 70);
             pManager.AddIntegerParameter("_waterMiddlelayer_", "_waterMiddlelayer_", "Soil Humidity [%] of the middle layer (below 200cm). Default value is 75%.", GH_ParamAccess.item, 75);
             pManager.AddIntegerParameter("_waterDeeplayer_", "_waterDeeplayer_", "Soil Humidity [%] of the deep layer (below 200cm). Default value is 75%.", GH_ParamAccess.item, 75);
@@ -51,12 +50,10 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // INPUT
-            // declaration
-            double tul = 293.00000;
-            double tml = 293.00000;
-            double tdl = 293.00000;
-            double tbl = 293.00000;
+            double tul = 19.85;
+            double tml = 19.85;
+            double tdl = 19.85;
+            double tbl = 19.85;
 
             int hul = 70;
             int hml = 75;
@@ -72,9 +69,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             DA.GetData(6, ref hdl);
             DA.GetData(7, ref hbl);
 
-
-            // actions
-            SoilTemp lbcSettings = new SoilTemp()
+            SoilConfig lbcSettings = new SoilConfig()
             {
                 TempUpperlayer = tul
                 ,TempMiddlelayer = tml
@@ -86,9 +81,7 @@ namespace df_envimet.Grasshopper.ConfigFile
                 ,WaterBedrockLayer = hbl
             };
 
-            // OUTPUT
             DA.SetData(0, lbcSettings);
-
         }
 
         /// <summary>

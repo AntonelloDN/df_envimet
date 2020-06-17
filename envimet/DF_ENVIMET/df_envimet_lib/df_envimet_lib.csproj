@@ -79,12 +79,14 @@
     <Compile Include="Geometry\Terrain.cs" />
     <Compile Include="IO\BuildingOutput.cs" />
     <Compile Include="IO\Facade.cs" />
+    <Compile Include="IO\FoxBatch.cs" />
     <Compile Include="IO\GridOutput.cs" />
     <Compile Include="IO\Inx.cs" />
     <Compile Include="IO\PostProcessing.cs" />
     <Compile Include="IO\Preparation.cs" />
     <Compile Include="IO\Read.cs" />
     <Compile Include="IO\ReceptorOutput.cs" />
+    <Compile Include="IO\Simx.cs" />
     <Compile Include="IO\VegetationOutput.cs" />
     <Compile Include="IO\Workspace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

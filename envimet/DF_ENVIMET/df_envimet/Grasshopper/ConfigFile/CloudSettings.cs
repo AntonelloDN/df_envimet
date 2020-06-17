@@ -1,17 +1,18 @@
 ﻿using System;
-using Grasshopper.Kernel;
 using df_envimet_lib.Settings;
+using Grasshopper.Kernel;
+
 
 namespace df_envimet.Grasshopper.ConfigFile
 {
-    public class BuildingTemp : GH_Component
+    public class CloudSettings : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the BuildingTemp class.
+        /// Initializes a new instance of the CloudSettings class.
         /// </summary>
-        public BuildingTemp()
-          : base("DF Envimet Building Temp", "DFenvimetBuildingTemp",
-              "This component let you change the indoor temperature of the buildings.",
+        public CloudSettings()
+          : base("DF Envimet Cloud Settings", "DFenvimetCloudSettings",
+              "Add cloud to your model. The default setting is with no clouds. EXPERT SETTINGS.",
               "DF-Legacy", "3 | Envimet")
         {
             this.Message = "VER 0.0.03\nMAR_27_2020";
@@ -24,9 +25,9 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_indoorTemp_", "_indoorTemp_", "Indoor temperature in Kelvin [K]. Default value is 293.00.", GH_ParamAccess.item, 293.00);
-            pManager.AddBooleanParameter("_indoorConst_", "_indoorConst_", "Keep the building indoor temperature constant.\nConnect a 'True' to active it. Default is 'False'", GH_ParamAccess.item, false);
-
+            pManager.AddNumberParameter("_lowClouds_", "_lowClouds_", "Fraction of LOW clouds (x/8). Default value is 0 (no clouds).", GH_ParamAccess.item, 0);
+            pManager.AddNumberParameter("_middleClouds_", "_middleClouds_", "Fraction of MIDDLE clouds (x/8). Default value is 0 (no clouds).", GH_ParamAccess.item, 0);
+            pManager.AddNumberParameter("_highClouds_", "_highClouds_", "Fraction of HIGH clouds (x/8). Default value is 0 (no clouds).", GH_ParamAccess.item, 0);
         }
 
         /// <summary>
@@ -34,8 +35,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("buildingTemp", "buildingTemp", "building Temperature settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
-
+            pManager.AddGenericParameter("clouds", "clouds", "Cloud settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,17 +44,22 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double _indoorTemp_ = 293.00;
-            bool _indoorConst_ = false;
+            double _lowClouds_ = 0;
+            double _middleClouds_ = 0;
+            double _highClouds_ = 0;
 
-            DA.GetData(0, ref _indoorTemp_);
-            DA.GetData(1, ref _indoorConst_);
+            DA.GetData(0, ref _lowClouds_);
+            DA.GetData(1, ref _middleClouds_);
+            DA.GetData(2, ref _highClouds_);
 
-            Active constTemperature = (_indoorConst_) ? Active.YES : Active.NO;
+            Cloud cloud = new Cloud()
+            {
+                LowClouds = _lowClouds_,
+                MiddleClouds = _middleClouds_,
+                HighClouds = _highClouds_
+            };
 
-            BuildingSettings buildingTemp = new BuildingSettings(_indoorTemp_, constTemperature);
-
-            DA.SetData(0, buildingTemp);
+            DA.SetData(0, cloud);
         }
 
         /// <summary>
@@ -66,7 +71,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.envimetBuildingTempIcon;
+                return Properties.Resources.clouds;
             }
         }
 
@@ -75,7 +80,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4770a642-120e-448d-b170-1eb1da758994"); }
+            get { return new Guid("fe43cca0-ac8e-4c90-9b48-bfc8a5ef31bc"); }
         }
     }
 }

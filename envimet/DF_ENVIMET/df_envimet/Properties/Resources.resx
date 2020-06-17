@@ -241,4 +241,49 @@
   <data name="envimetGridResults" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\envimetGridResults.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="avg_inflow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\avg_inflow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="clouds" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\clouds.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fullfor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fullfor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ivs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ivs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LBC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LBC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="out_set" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\out_set.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="parallelcpu" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\parallelcpu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="plant_set" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\plant_set.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pollutant_set" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pollutant_set.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sourceset" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sourceset.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="swfactor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\swfactor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tthread" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tthread.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="turbolence" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\turbolence.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wind_res" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wind_res.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

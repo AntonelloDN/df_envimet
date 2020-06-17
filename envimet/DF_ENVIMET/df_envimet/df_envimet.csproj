@@ -75,14 +75,29 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Grasshopper\ConfigFile\AverageInflow.cs" />
+    <Compile Include="Grasshopper\ConfigFile\BoundaryConditionSettings.cs" />
     <Compile Include="Grasshopper\ConfigFile\BuildingTemp.cs" />
+    <Compile Include="Grasshopper\ConfigFile\CloudSettings.cs" />
     <Compile Include="Grasshopper\ConfigFile\ConfigMainSettings.cs" />
     <Compile Include="Grasshopper\ConfigFile\Config.cs" />
+    <Compile Include="Grasshopper\ConfigFile\FacadeModeSettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\FullForcingSettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\IVSsettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\ModelTimingSettings.cs" />
     <Compile Include="Grasshopper\ConfigFile\OutputTimingSettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\ParallelCPUsettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\PollutantConcentration.cs" />
     <Compile Include="Grasshopper\ConfigFile\SimpleForcing.cs" />
     <Compile Include="Grasshopper\ConfigFile\SoilSettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\SolarAdjustSettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\SORsettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\SourceSettings.cs" />
     <Compile Include="Grasshopper\ConfigFile\TimeStepSettings.cs" />
     <Compile Include="df_envimetInfo.cs" />
+    <Compile Include="Grasshopper\ConfigFile\TreeSettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\TThreadSettings.cs" />
+    <Compile Include="Grasshopper\ConfigFile\Turbolence.cs" />
     <Compile Include="Grasshopper\IO\ConsoleSimulation.cs" />
     <Compile Include="Grasshopper\IO\GridFolder.cs" />
     <Compile Include="Grasshopper\IO\Inx.cs" />
@@ -258,6 +273,51 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\envimetGridResults.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\avg_inflow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\clouds.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\fullfor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ivs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\LBC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\out_set.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\parallelcpu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\plant_set.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\pollutant_set.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\sor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\sourceset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\swfactor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\tthread.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\turbolence.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\wind_res.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

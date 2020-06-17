@@ -25,7 +25,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_dryBulbTemperature", "_dryBulbTemperature", "Connect a list of numbers.\nUnit is Kelvin.", GH_ParamAccess.list);
+            pManager.AddNumberParameter("_dryBulbTemperature", "_dryBulbTemperature", "Connect a list of numbers.\nUnit is °C.", GH_ParamAccess.list);
             pManager.AddNumberParameter("_relativeHumidity", "_relativeHumidity", "Connect a list of numbers.\nUnit is %.", GH_ParamAccess.list);
         }
 
@@ -53,7 +53,7 @@ namespace df_envimet.Grasshopper.ConfigFile
 
             if (_dryBulbTemperature.Count == _relativeHumidity.Count)
             {
-                SampleForcingSettings simpleF = new SampleForcingSettings(_dryBulbTemperature, _relativeHumidity);
+                SimpleForcingSettings simpleF = new SimpleForcingSettings(_dryBulbTemperature, _relativeHumidity);
                 DA.SetData(0, simpleF);
             }
             else

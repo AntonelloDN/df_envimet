@@ -1,17 +1,19 @@
 ﻿using System;
-using Grasshopper.Kernel;
+using System.Collections.Generic;
+using System.Linq;
 using df_envimet_lib.Settings;
+using Grasshopper.Kernel;
 
 namespace df_envimet.Grasshopper.ConfigFile
 {
-    public class BuildingTemp : GH_Component
+    public class Turbolence : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the BuildingTemp class.
+        /// Initializes a new instance of the Turbolence class.
         /// </summary>
-        public BuildingTemp()
-          : base("DF Envimet Building Temp", "DFenvimetBuildingTemp",
-              "This component let you change the indoor temperature of the buildings.",
+        public Turbolence()
+          : base("DF Envimet Turbolence Settings", "DFenvimetTurbolenceSettings",
+              "Set Turbolence model. EXPERT SETTINGS.",
               "DF-Legacy", "3 | Envimet")
         {
             this.Message = "VER 0.0.03\nMAR_27_2020";
@@ -24,9 +26,11 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_indoorTemp_", "_indoorTemp_", "Indoor temperature in Kelvin [K]. Default value is 293.00.", GH_ParamAccess.item, 293.00);
-            pManager.AddBooleanParameter("_indoorConst_", "_indoorConst_", "Keep the building indoor temperature constant.\nConnect a 'True' to active it. Default is 'False'", GH_ParamAccess.item, false);
-
+            pManager.AddIntegerParameter("_modelType", "_modelType", "Connect an integer to select turbolence model." +
+                "\n0 = MellorAndYamada" +
+                "\n1 = KatoAndLaunder" +
+                "\n2 = Lopez" +
+                "\n3 = Bruse ENVI_MET", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -34,8 +38,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("buildingTemp", "buildingTemp", "building Temperature settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
-
+            pManager.AddGenericParameter("turbulence", "turbulence", "Turbolence settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,17 +47,17 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double _indoorTemp_ = 293.00;
-            bool _indoorConst_ = false;
+            int _modelType = 0;
 
-            DA.GetData(0, ref _indoorTemp_);
-            DA.GetData(1, ref _indoorConst_);
+            DA.GetData(0, ref _modelType);
 
-            Active constTemperature = (_indoorConst_) ? Active.YES : Active.NO;
+            List<TurbolenceType> turbolenceType = Enum.GetValues(typeof(TurbolenceType))
+                .Cast<TurbolenceType>()
+                .ToList();
 
-            BuildingSettings buildingTemp = new BuildingSettings(_indoorTemp_, constTemperature);
+            Turbulence turbulence = new Turbulence(turbolenceType[_modelType]);
 
-            DA.SetData(0, buildingTemp);
+            DA.SetData(0, turbulence);
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.envimetBuildingTempIcon;
+                return Properties.Resources.turbolence;
             }
         }
 
@@ -75,7 +78,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4770a642-120e-448d-b170-1eb1da758994"); }
+            get { return new Guid("0c8bd080-0856-49ca-9b59-15ce40c3c28b"); }
         }
     }
 }

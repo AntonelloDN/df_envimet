@@ -47,8 +47,6 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // INPUT
-            // declaration
             double _sunheightDelta0_ = 40.00;
             double _sunheightDelta1_ = 50.00;
             double _timeStepInterval1_ = 2.00;
@@ -61,20 +59,16 @@ namespace df_envimet.Grasshopper.ConfigFile
             DA.GetData(3, ref _timeStepInterval2_);
             DA.GetData(4, ref _timeStepInterval3_);
 
-
-            // actions
-            TimeStepsSettings timestepsSettings = new TimeStepsSettings()
+            TimeSteps timestepsSettings = new TimeSteps()
             {
-                Sunheight_step01 = _sunheightDelta0_,
-                Sunheight_step02 = _sunheightDelta1_,
-                Dt_step00 = _timeStepInterval1_,
-                Dt_step01 = _timeStepInterval2_,
-                Dt_step02 = _timeStepInterval3_
+                SunheightStep01 = _sunheightDelta0_,
+                SunheightStep02 = _sunheightDelta1_,
+                DtStep00 = _timeStepInterval1_,
+                DtStep01 = _timeStepInterval2_,
+                DtStep02 = _timeStepInterval3_
             };
 
-            // OUTPUT
             DA.SetData(0, timestepsSettings);
-
         }
 
         /// <summary>

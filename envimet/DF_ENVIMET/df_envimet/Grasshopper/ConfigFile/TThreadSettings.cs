@@ -1,17 +1,17 @@
 ﻿using System;
-using Grasshopper.Kernel;
 using df_envimet_lib.Settings;
+using Grasshopper.Kernel;
 
 namespace df_envimet.Grasshopper.ConfigFile
 {
-    public class BuildingTemp : GH_Component
+    public class TThreadSettings : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the BuildingTemp class.
+        /// Initializes a new instance of the TThreadSettings class.
         /// </summary>
-        public BuildingTemp()
-          : base("DF Envimet Building Temp", "DFenvimetBuildingTemp",
-              "This component let you change the indoor temperature of the buildings.",
+        public TThreadSettings()
+          : base("DF Envimet Thread Settings", "DFenvimetThreadSettings",
+              "This component let you force threading - expert only.",
               "DF-Legacy", "3 | Envimet")
         {
             this.Message = "VER 0.0.03\nMAR_27_2020";
@@ -24,9 +24,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_indoorTemp_", "_indoorTemp_", "Indoor temperature in Kelvin [K]. Default value is 293.00.", GH_ParamAccess.item, 293.00);
-            pManager.AddBooleanParameter("_indoorConst_", "_indoorConst_", "Keep the building indoor temperature constant.\nConnect a 'True' to active it. Default is 'False'", GH_ParamAccess.item, false);
-
+            pManager.AddBooleanParameter("_forceTreading", "_forceTreading", "Run Threaded. If it is 'True' simulation will stay responsive.", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -34,8 +32,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("buildingTemp", "buildingTemp", "building Temperature settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
-
+            pManager.AddGenericParameter("tthread", "tthread", "Tthread settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,17 +41,15 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double _indoorTemp_ = 293.00;
-            bool _indoorConst_ = false;
+            bool _forceTreading = false;
 
-            DA.GetData(0, ref _indoorTemp_);
-            DA.GetData(1, ref _indoorConst_);
+            DA.GetData(0, ref _forceTreading);
 
-            Active constTemperature = (_indoorConst_) ? Active.YES : Active.NO;
+            Active isActive = (_forceTreading) ? Active.YES : Active.NO;
 
-            BuildingSettings buildingTemp = new BuildingSettings(_indoorTemp_, constTemperature);
+            var tthread = new TThread(isActive);
 
-            DA.SetData(0, buildingTemp);
+            DA.SetData(0, tthread);
         }
 
         /// <summary>
@@ -66,7 +61,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.envimetBuildingTempIcon;
+                return Properties.Resources.tthread;
             }
         }
 
@@ -75,7 +70,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4770a642-120e-448d-b170-1eb1da758994"); }
+            get { return new Guid("2743c756-cd2a-4776-ad00-4a246da8d2a9"); }
         }
     }
 }

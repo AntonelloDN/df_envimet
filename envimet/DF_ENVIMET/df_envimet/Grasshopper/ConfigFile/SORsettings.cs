@@ -4,14 +4,14 @@ using df_envimet_lib.Settings;
 
 namespace df_envimet.Grasshopper.ConfigFile
 {
-    public class BuildingTemp : GH_Component
+    public class SORsettings : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the BuildingTemp class.
+        /// Initializes a new instance of the SORsettings class.
         /// </summary>
-        public BuildingTemp()
-          : base("DF Envimet Building Temp", "DFenvimetBuildingTemp",
-              "This component let you change the indoor temperature of the buildings.",
+        public SORsettings()
+          : base("DF Envimet SOR settings", "DFenvimetSORSettings",
+              "EXPERT SETTINGS: Active SOR mode. If you active it pressure field is calculated via red-black-tree algorithm which allows parallel computation of pressure field.",
               "DF-Legacy", "3 | Envimet")
         {
             this.Message = "VER 0.0.03\nMAR_27_2020";
@@ -24,9 +24,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_indoorTemp_", "_indoorTemp_", "Indoor temperature in Kelvin [K]. Default value is 293.00.", GH_ParamAccess.item, 293.00);
-            pManager.AddBooleanParameter("_indoorConst_", "_indoorConst_", "Keep the building indoor temperature constant.\nConnect a 'True' to active it. Default is 'False'", GH_ParamAccess.item, false);
-
+            pManager.AddBooleanParameter("_active", "_active", "Run parallel calculation [bool].", GH_ParamAccess.item, true);
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("buildingTemp", "buildingTemp", "building Temperature settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SOR", "SOR", "SOR settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
 
         }
 
@@ -44,17 +42,15 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double _indoorTemp_ = 293.00;
-            bool _indoorConst_ = false;
+            bool _active = true;
 
-            DA.GetData(0, ref _indoorTemp_);
-            DA.GetData(1, ref _indoorConst_);
+            DA.GetData(0, ref _active);
 
-            Active constTemperature = (_indoorConst_) ? Active.YES : Active.NO;
+            Active active = (_active) ? Active.YES : Active.NO;
 
-            BuildingSettings buildingTemp = new BuildingSettings(_indoorTemp_, constTemperature);
+            SOR sor = new SOR(active);
 
-            DA.SetData(0, buildingTemp);
+            DA.SetData(0, sor);
         }
 
         /// <summary>
@@ -66,7 +62,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.envimetBuildingTempIcon;
+                return Properties.Resources.sor;
             }
         }
 
@@ -75,7 +71,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4770a642-120e-448d-b170-1eb1da758994"); }
+            get { return new Guid("3026a9fc-5a04-43c5-823f-b573b08e8cab"); }
         }
     }
 }

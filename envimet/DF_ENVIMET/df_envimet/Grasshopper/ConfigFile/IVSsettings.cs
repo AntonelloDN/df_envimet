@@ -1,17 +1,17 @@
 ﻿using System;
-using Grasshopper.Kernel;
 using df_envimet_lib.Settings;
+using Grasshopper.Kernel;
 
 namespace df_envimet.Grasshopper.ConfigFile
 {
-    public class BuildingTemp : GH_Component
+    public class IVSsettings : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the BuildingTemp class.
+        /// Initializes a new instance of the IVSsettings class.
         /// </summary>
-        public BuildingTemp()
-          : base("DF Envimet Building Temp", "DFenvimetBuildingTemp",
-              "This component let you change the indoor temperature of the buildings.",
+        public IVSsettings()
+          : base("DF Envimet IVS Settings", "DFenvimetIVSsettings",
+              "Advance radiation transfer schema to use. IVS allows a detailed analysis and calculation of shortwave and longwave radiation fluxes with taking into account multiple interactions between surfaces.",
               "DF-Legacy", "3 | Envimet")
         {
             this.Message = "VER 0.0.03\nMAR_27_2020";
@@ -24,9 +24,8 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("_indoorTemp_", "_indoorTemp_", "Indoor temperature in Kelvin [K]. Default value is 293.00.", GH_ParamAccess.item, 293.00);
-            pManager.AddBooleanParameter("_indoorConst_", "_indoorConst_", "Keep the building indoor temperature constant.\nConnect a 'True' to active it. Default is 'False'", GH_ParamAccess.item, false);
-
+            pManager.AddBooleanParameter("_IVSon", "_IVSon", "Use Index View Sphere (IVS) for radiation transfer [bool].", GH_ParamAccess.item, true);
+            pManager.AddBooleanParameter("_IVSmemory", "_IVS_memory", " Do you want to store the values in the memory? [bool]", GH_ParamAccess.item, false);
         }
 
         /// <summary>
@@ -34,8 +33,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("buildingTemp", "buildingTemp", "building Temperature settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
-
+            pManager.AddGenericParameter("IVS", "IVS", "IVS settings of SIMX file. Connect it to DF Enviment Config.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,17 +42,18 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double _indoorTemp_ = 293.00;
-            bool _indoorConst_ = false;
+            bool _IVSon = true;
+            bool _IVSmemory = true;
 
-            DA.GetData(0, ref _indoorTemp_);
-            DA.GetData(1, ref _indoorConst_);
+            DA.GetData(0, ref _IVSon);
+            DA.GetData(1, ref _IVSmemory);
 
-            Active constTemperature = (_indoorConst_) ? Active.YES : Active.NO;
+            Active ivsOn = (_IVSon) ? Active.YES : Active.NO;
+            Active ivsMem = (_IVSmemory) ? Active.YES : Active.NO;
 
-            BuildingSettings buildingTemp = new BuildingSettings(_indoorTemp_, constTemperature);
+            IVS ivs = new IVS(ivsOn, ivsMem);
 
-            DA.SetData(0, buildingTemp);
+            DA.SetData(0, ivs);
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.envimetBuildingTempIcon;
+                return Properties.Resources.ivs;
             }
         }
 
@@ -75,7 +74,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4770a642-120e-448d-b170-1eb1da758994"); }
+            get { return new Guid("b7888baf-349f-4bcc-8a65-4fadce9906b4"); }
         }
     }
 }

@@ -26,7 +26,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("simName_", "simName_", "The file name that you would like the sim file to be saved as.", GH_ParamAccess.item, "DragonflyConfig");
+            pManager.AddTextParameter("_simName", "_simName", "The file name that you would like the sim file to be saved as.", GH_ParamAccess.item, "DragonflyConfig");
             pManager.AddTextParameter("_INXfileAddress", "_INXfileAddress", "The path comes from DF Envimet Spaces.", GH_ParamAccess.item);
             pManager.AddTextParameter("startDate_", "startDate_", "Connect the output of \"DF Envimet Simply Force by EPW\" or a text.\nThe format have to be: DD.MM.YYYY\nDefault value is 21.06.2018", GH_ParamAccess.item, "21.06.2018");
             pManager.AddTextParameter("startTime_", "startTime_", "Connect the output of \"DF Envimet Simply Force by EPW\" or a text.\nThe format have to be: hh:mm:ss\nDefault value is 06:00:00", GH_ParamAccess.item, "06:00:00");
@@ -54,9 +54,7 @@ namespace df_envimet.Grasshopper.ConfigFile
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // INPUT
-            // declaration
-            string simName_ = null;
+            string _simName = null;
             string _INXfileAddress = null;
             string startDate_ = null;
             string startTime_ = null;
@@ -69,7 +67,7 @@ namespace df_envimet.Grasshopper.ConfigFile
             double specificHumidity_ = 0;
             double relativeHumidity_ = 0;
 
-            DA.GetData(0, ref simName_);
+            DA.GetData(0, ref _simName);
             DA.GetData(1, ref _INXfileAddress);
             DA.GetData(2, ref startDate_);
             DA.GetData(3, ref startTime_);
@@ -81,23 +79,19 @@ namespace df_envimet.Grasshopper.ConfigFile
             DA.GetData(9, ref specificHumidity_);
             DA.GetData(10, ref relativeHumidity_);
 
-            // actions
-            MainSettings baseSetting = new MainSettings()
+            MainSettings baseSetting = new MainSettings(_simName, _INXfileAddress)
             {
-                SimName = simName_,
-                INXfileAddress = _INXfileAddress,
                 StartDate = startDate_,
                 StartTime = startTime_,
                 SimDuration = simDuration_,
                 WindSpeed = windSpeed_,
                 WindDir = windDirection_,
                 Roughness = roughness_,
-                InitialTemperature = initialTemperature_ + 273.15,
+                InitialTemperature = initialTemperature_,
                 SpecificHumidity = specificHumidity_,
                 RelativeHumidity = relativeHumidity_
             };
 
-            // OUTPUT
             DA.SetData(0, baseSetting);
         }
 
