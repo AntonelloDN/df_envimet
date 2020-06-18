@@ -8,9 +8,10 @@ Dragonfly Envimet code to connect Ladybug, Dragonfly and Gismo to Envimet for ur
 ## Videos:
 [Youtube playlist](https://www.youtube.com/playlist?list=PLVk71QLjaA6P6HYyJV9cn6odEZcX2CI4F)
 ## Roadmap:
-- [ ] Configuration file: other advanced settings of simx file
-- [ ] Configuration file: fullforcing
+- [x] Configuration file: other advanced settings of simx file
+- [x] Configuration file: fullforcing
 - [x] Plugin structure: envimet installation folder as global parameter
 - [x] Modeling: receptor object
 - [x] Read Output Components: receptor, grid, building
+- [ ] Test all SIMX file parts
 - [ ] Inx: remove useless strings when green facades are in
