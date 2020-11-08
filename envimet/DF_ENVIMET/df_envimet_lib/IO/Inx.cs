@@ -170,7 +170,7 @@ namespace df_envimet_lib.IO
             // section locationData
             string locationDataTitle = "locationData";
             string[] locationDataTag = new string[] { "modelRotation", "projectionSystem", "realworldLowerLeft_X", "realworldLowerLeft_Y", "locationName", "location_Longitude", "location_Latitude", "locationTimeZone_Name", "locationTimeZone_Longitude" };
-            string[] locationDataValue = new string[] { location.ModelRotation.ToString("n5"), " ", " 0.00000 ", " 0.00000 ", location.LocationName, location.Longitude.ToString(), location.Latitude.ToString(), location.TimeZone, " 15.00000 " };
+            string[] locationDataValue = new string[] { location.ModelRotation.ToString("n5"), " ", " 0.00000 ", " 0.00000 ", location.LocationName, location.Longitude.ToString(), location.Latitude.ToString(), location.TimeZone, location.ReferenceLongitude.ToString("n5") };
 
             Inx.CreateXmlSection(xWriter, locationDataTitle, locationDataTag, locationDataValue, 0, empty);
 

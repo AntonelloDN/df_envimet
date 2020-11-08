@@ -123,10 +123,7 @@ namespace df_envimet_lib.IO
             string fullPathBatch = GetBatchFilePath(projectPath);
 
             string batch = "@echo off\n" +
-            "cd {0}\n" +
-            "if errorlevel 1 goto :failed\n" +
-            "envimet4_console.exe {1} {1} {2}\n" +
-            ": failed\n" +
+            "\"{0}\\envimet4_console.exe\" \"{1}\" \"{1}\" \"{2}\"\n" +
             "echo If Envimet is not in default unit 'C:\' connect installation folder.\n" +
             "pause\n";
 

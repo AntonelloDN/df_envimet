@@ -12,17 +12,20 @@ namespace df_envimet_lib.Settings
 
         private const char SEPARATE_BY_CHAR = '!';
         private const string SIX_DIGIT_FORMATTING = "n6";
+        private const double REFERNCE_LONGITUDE = 15.0;
 
         public string LocationName { get; }
         public string Latitude { get; }
         public string Longitude { get; }
         public string TimeZone { get; }
         public int ModelRotation { get; }
+        public double ReferenceLongitude { set; get; }
 
         public Location(string location, int modelRotation)
         {
-            this._location = location;
-            this.ModelRotation = modelRotation;
+            _location = location;
+            ModelRotation = modelRotation;
+            ReferenceLongitude = REFERNCE_LONGITUDE;
 
             // split string
             string[] locationStr = location.Split('\n');

@@ -13,7 +13,7 @@ namespace df_envimet.Grasshopper.Settings
               "Use this component to generate inputs for \"df_envimet Spaces\"",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.03\nNOV_08_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -26,6 +26,7 @@ namespace df_envimet.Grasshopper.Settings
         {
             pManager.AddTextParameter("_location", "_location", "The output from the importEPW or constructLocation component.  This is essentially a list of text summarizing a location on the earth.", GH_ParamAccess.item);
             pManager.AddIntegerParameter("modelRotation_", "modelRotation_", "Input a number between 0 and 360 that represents the degrees off from the y-axis to make North.  The default North direction is set to the Y-axis (0 degrees).", GH_ParamAccess.item, 0);
+            pManager.AddNumberParameter("referenceLongitude_", "referenceLongitude_", "Input a number to indicate the reference longitude of your location. Default value is 15.00000.", GH_ParamAccess.item, 15.0);
         }
 
         /// <summary>
@@ -46,12 +47,16 @@ namespace df_envimet.Grasshopper.Settings
             // declaration
             string _location = null;
             int modelRotation_ = 0;
+            double referenceLongitude_ = 15.0;
 
             DA.GetData(0, ref _location);
             DA.GetData(1, ref modelRotation_);
+            DA.GetData(2, ref referenceLongitude_);
 
             // actions
             df_envimet_lib.Settings.Location myLoc = new df_envimet_lib.Settings.Location(_location, modelRotation_);
+
+            myLoc.ReferenceLongitude = referenceLongitude_;
 
             // OUTPUT
             DA.SetData(0, myLoc);

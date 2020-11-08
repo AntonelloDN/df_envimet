@@ -26,10 +26,7 @@ namespace df_envimet_lib.IO
 
             string batch = "@echo I'm writing FOX file...\n" +
             "@echo off\n" +
-            "cd {0}\n" +
-            "if errorlevel 1 goto :failed\n" +
-            "foxmanager.exe {1} {2}\n" +
-            ": failed\n" +
+            "\"{0}\\foxmanager.exe\" \"{1}\" \"{2}\"\n" +
             "echo If Envimet is not in default unit 'C:\' connect installation folder.\n" +
             "pause\n";
 
