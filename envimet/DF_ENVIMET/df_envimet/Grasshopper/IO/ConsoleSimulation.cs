@@ -15,7 +15,7 @@ namespace df_envimet.Grasshopper.Grasshopper.IO
               "Use this component to run directly simulation by Grasshopper.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.03\nNOV_26_2020";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
@@ -78,7 +78,12 @@ namespace df_envimet.Grasshopper.Grasshopper.IO
                 try
                 {
                     Workspace.WriteBatchFile(mainFolderWithBase, envimetFolder, INXfileAddress);
-                    Process.Start(Workspace.GetBatchFilePath(envimetFolder));
+
+                    System.IO.Directory.SetCurrentDirectory(envimetFolder);
+
+                    var process = System.Diagnostics.Process.Start(Workspace.GetBatchFilePath(envimetFolder));
+
+                    process.WaitForExit();
                 }
                 catch (System.IO.DirectoryNotFoundException dirNotFound)
                 {
