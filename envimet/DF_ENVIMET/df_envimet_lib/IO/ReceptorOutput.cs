@@ -100,7 +100,11 @@ namespace df_envimet_lib.IO
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    if (count > 1)
+                    if (count > 1 && line.Contains("in terrain") && index > 3)
+                    {
+                        receptorValues.Add("0");
+                    }
+                    else if (count > 1)
                     {
                         line = Regex.Replace(line, @"\s+", ";");
                         var values = line.Split(';');

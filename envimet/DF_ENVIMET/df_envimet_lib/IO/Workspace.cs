@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace df_envimet_lib.IO
 {
@@ -116,20 +117,26 @@ namespace df_envimet_lib.IO
         public static void WriteBatchFile(string mainFolderWithBase, string projectPath, string simulationPath)
         {
             // gen elements
-            string simulationFileName = System.IO.Path.GetFileName(simulationPath);
-            string projectFolderName = System.IO.Path.GetFileName(projectPath);
+            string simulationFileName = Path.GetFileName(simulationPath);
+            string projectFolderName = Path.GetFileName(projectPath);
+            var parentFolder = Directory.GetParent(projectPath).FullName;
+
+            string unit = Path.GetPathRoot(mainFolderWithBase);
+            unit = Path.GetPathRoot(mainFolderWithBase).Remove(unit.Length - 1);
 
             // batch abs path
             string fullPathBatch = GetBatchFilePath(projectPath);
 
-            string batch = "@echo off\n" +
-            "\"{0}\\envimet4_console.exe\" \"{1}\" \"{1}\" \"{2}\"\n" +
-            "echo If Envimet is not in default unit 'C:\' connect installation folder.\n" +
-            "pause\n";
+            string batch = $"@echo off\n" +
+            $"cd {unit}\n" +
+            $"cd {mainFolderWithBase}\n" +
+            $"if errorlevel 1 goto :failed\n" +
+            $"\"{mainFolderWithBase}\\envimet4_console.exe\" \"{parentFolder}\" \"{projectFolderName}\" \"{simulationFileName}\"\n" +
+            $": failed\n" +
+            $"echo If Envimet is not in default unit 'C:\' connect installation folder.\n" +
+            $"pause\n";
 
-            string[] contentOfBatch = { String.Format(batch, mainFolderWithBase, projectFolderName, simulationFileName) };
-
-            System.IO.File.WriteAllLines(fullPathBatch, contentOfBatch);
+            File.WriteAllText(fullPathBatch, batch);
 
         }
 

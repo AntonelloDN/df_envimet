@@ -42,9 +42,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="df_envimet_lib">
-      <HintPath>.\df_envimet_lib.dll</HintPath>
-    </Reference>
     <Reference Include="Eto, Version=2.3.6591.18824, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\packages\RhinoCommon.6.0.18016.23451\lib\net45\Eto.dll</HintPath>
       <Private>False</Private>
@@ -317,6 +314,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\wind_res.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\df_envimet_lib\df_envimet_lib.csproj">
+      <Project>{28173bcd-ca54-4b73-88f0-6bd41d118be1}</Project>
+      <Name>df_envimet_lib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
