@@ -81,9 +81,7 @@ namespace df_envimet.Grasshopper.Grasshopper.IO
 
                     System.IO.Directory.SetCurrentDirectory(envimetFolder);
 
-                    var process = System.Diagnostics.Process.Start(Workspace.GetBatchFilePath(envimetFolder));
-
-                    process.WaitForExit();
+                    Process.Start(Workspace.GetBatchFilePath(envimetFolder));
                 }
                 catch (System.IO.DirectoryNotFoundException dirNotFound)
                 {
