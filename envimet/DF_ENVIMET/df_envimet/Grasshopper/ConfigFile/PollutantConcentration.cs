@@ -14,7 +14,7 @@ namespace df_envimet.Grasshopper.ConfigFile
               "Set the pollutant concentration. Similar to the CO2 background concentration in the atmosphere (400 ppm), there might be a specific pollutant background concentration for your simulated area. EXPERT SETTINGS.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;

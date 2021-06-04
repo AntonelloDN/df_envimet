@@ -14,7 +14,7 @@ namespace df_envimet.Grasshopper.Modeling
               "Use this component to generate 3d trees for \"Dragonfly Envimet Spaces\". ENVI_MET has a big library of 3d tree divided into Coniferous and Deciduous",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

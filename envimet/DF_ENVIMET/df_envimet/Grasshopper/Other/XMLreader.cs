@@ -17,7 +17,7 @@ namespace df_envimet.Grasshopper.Other
               "Use this component to see details about materials.\nConnect \"XML\" output of \"DF Library Reader\" and keywords to extract details. E.g. \"Density\", \"Description\"...",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.senary;

@@ -14,7 +14,7 @@ namespace df_envimet.Grasshopper.ConfigFile
               "Advance radiation transfer schema to use. IVS allows a detailed analysis and calculation of shortwave and longwave radiation fluxes with taking into account multiple interactions between surfaces.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;

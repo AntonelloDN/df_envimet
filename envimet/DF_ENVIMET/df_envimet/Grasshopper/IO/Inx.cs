@@ -23,7 +23,7 @@ namespace df_envimet.Grasshopper.IO
               "Use this component to generate ENVI-Met v4.4.4 3D geometry models.\nAnalyze parametric models with ENVI - Met!\nSave the model in the ENVI_MET Workspace, create a simulation file with \"DF Envimet Config\" and run the simulation.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;

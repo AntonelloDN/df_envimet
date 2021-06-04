@@ -15,7 +15,7 @@ namespace df_envimet.Grasshopper.ConfigFile
               "This component let you force climate condition of the simulation. You can connect lists of values or data which comes from EPW file.\nUse outputs of DF Envimet Simple Force by EPW.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;

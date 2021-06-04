@@ -19,7 +19,7 @@ namespace df_envimet.Grasshopper.Other
               "Use this component to edit building materials. You can use it to generate windows.\nYou need to use both Curve and Shapes inputs for windows. Check where the points are using\"DFvisualizeBuildings\"",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.senary;

@@ -14,7 +14,7 @@ namespace df_envimet.Grasshopper.ConfigFile
               "EXPERT SETTINGS: Active SOR mode. If you active it pressure field is calculated via red-black-tree algorithm which allows parallel computation of pressure field.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;

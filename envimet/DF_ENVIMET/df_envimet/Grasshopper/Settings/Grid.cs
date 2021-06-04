@@ -14,7 +14,7 @@ namespace df_envimet.Grasshopper.Settings
               "Use this component to generate inputs for \"Envimet Spaces\". Each Point of grid represent a centroid of an envimet cube.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.primary;

@@ -5,7 +5,7 @@ namespace df_envimet_lib.IO
 {
     public class Workspace
     {
-        public const string DEFAULT_FOLDER = "ENVImet445";
+        public const string DEFAULT_FOLDER = "ENVImet446";
 
         private string _workspaceFolder;
         private string _projectFolderName;

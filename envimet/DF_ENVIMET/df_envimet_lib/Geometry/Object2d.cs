@@ -24,7 +24,7 @@ namespace df_envimet_lib.Geometry
                 ray = new Ray3d(pt, Vector3d.ZAxis);
 
                 var intersection = Rhino.Geometry.Intersect.Intersection.MeshRay(_geometry, ray);
-                if (intersection != -1.0)
+                if (intersection == 0)
                     grid2d[valX, valY] = index;
             }
 

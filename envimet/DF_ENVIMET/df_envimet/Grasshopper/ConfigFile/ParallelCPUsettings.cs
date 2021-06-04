@@ -14,7 +14,7 @@ namespace df_envimet.Grasshopper.ConfigFile
               "Set parallel calculation with your CPU.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
 

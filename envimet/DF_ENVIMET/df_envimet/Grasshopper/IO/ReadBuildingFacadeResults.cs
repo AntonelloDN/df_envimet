@@ -18,7 +18,7 @@ namespace df_envimet.Grasshopper.IO
               "Use this component to read building facade results.\nConnect output of this component to LB Recolor Mesh to visualize data.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quinary;

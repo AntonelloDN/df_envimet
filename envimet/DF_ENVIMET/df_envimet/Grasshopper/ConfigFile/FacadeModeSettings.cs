@@ -16,7 +16,7 @@ namespace df_envimet.Grasshopper.ConfigFile
               "EXPERT SETTINGS: Set wind resistance model at facede. DIN 6946 includes a higher Z0 value.",
               "DF-Legacy", "3 | Envimet")
         {
-            this.Message = "VER 0.0.03\nMAR_27_2020";
+            this.Message = "VER 0.0.04\nJUN_06_2021";
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;
