@@ -1,0 +1,30 @@
+<ENVI-MET_Datafile>
+<Header>
+<filetype>DATA</filetype>
+<version>1</version>
+<revisiondate>2021-10-21 12:39:41</revisiondate>
+<remark>Envi-Data</remark>
+<encryptionlevel>1701377</encryptionlevel>
+</Header>
+
+<GREENING>
+     <ID> 01CUST </ID>
+     <Name> green + mixed substrate custom </Name>
+     <HasSubstrate> 1 </HasSubstrate>
+     <SoilID> 0000SL,0000SL,0000SY </SoilID>
+     <ThicknessLayers> 0.05,0.05,0.05 </ThicknessLayers>
+     <subEmissivity> 0.95000 </subEmissivity>
+     <subAlbedo> 0.20000 </subAlbedo>
+     <subWaterCoeff> 0.50000 </subWaterCoeff>
+     <SimplePlantID> 0100FU </SimplePlantID>
+     <LAI> 1.50000 </LAI>
+     <SimplePlantThickness> 0.30000 </SimplePlantThickness>
+     <LeafAngleDistribution> 0.50000 </LeafAngleDistribution>
+     <AirGap> 0.10000 </AirGap>
+     <Color> 7642616 </Color>
+     <Group> Default Greenings with air gap </Group>
+     <AddValue1> 0.00000 </AddValue1>
+     <AddValue2> 0.00000 </AddValue2>
+  </GREENING>
+
+</ENVI-MET_Datafile>
