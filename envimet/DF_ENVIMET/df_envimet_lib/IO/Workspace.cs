@@ -5,7 +5,7 @@ namespace df_envimet_lib.IO
 {
     public class Workspace
     {
-        public const string DEFAULT_FOLDER = "ENVImet446";
+        public const string DEFAULT_FOLDER = "ENVImet5";
 
         private string _workspaceFolder;
         private string _projectFolderName;
@@ -131,7 +131,7 @@ namespace df_envimet_lib.IO
             $"cd {unit}\n" +
             $"cd {mainFolderWithBase}\n" +
             $"if errorlevel 1 goto :failed\n" +
-            $"\"{mainFolderWithBase}\\envimet4_console.exe\" \"{parentFolder}\" \"{projectFolderName}\" \"{simulationFileName}\"\n" +
+            $"\"{mainFolderWithBase}\\envicore_console.exe\" \"{parentFolder}\" \"{projectFolderName}\" \"{simulationFileName}\"\n" +
             $": failed\n" +
             $"echo If Envimet is not in default unit 'C:\' connect installation folder.\n" +
             $"pause\n";
