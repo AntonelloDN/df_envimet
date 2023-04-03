@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using df_envimet_lib.Geometry;
+using System;
 
 namespace df_envimet_lib.IO
 {
@@ -15,9 +16,13 @@ namespace df_envimet_lib.IO
         private string ReadEdxFile()
         {
             string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
-            Encoding isoLatin1 = Encoding.GetEncoding(28591); ;
-            string text = System.IO.File.ReadAllText(Metaname, isoLatin1);
+            Encoding encoding = Encoding.UTF8;
 
+            if (!System.IO.File.Exists(Metaname))
+                throw new Exception($"{Metaname} not found.");
+            string text = System.IO.File.ReadAllText(Metaname, encoding);
+
+            text = System.Net.WebUtility.HtmlDecode(text);
             Regex.Replace(characters, "", text);
 
             return text.Replace("&", "").Replace("<Remark for this Source Type>", "");
