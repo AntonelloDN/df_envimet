@@ -15,17 +15,15 @@ namespace df_envimet_lib.IO
 
         private string ReadEdxFile()
         {
-            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
-            Encoding encoding = Encoding.UTF8;
+            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""\P{IsBasicLatin}\p{IsLatin-1Supplement}]+";
 
+            //var isoLatin1 = Encoding.GetEncoding(28591);
             if (!System.IO.File.Exists(Metaname))
                 throw new Exception($"{Metaname} not found.");
-            string text = System.IO.File.ReadAllText(Metaname, encoding);
+            string text = System.IO.File.ReadAllText(Metaname);
+            string res = Regex.Replace(text, characters, "");
 
-            text = System.Net.WebUtility.HtmlDecode(text);
-            Regex.Replace(characters, "", text);
-
-            return text.Replace("&", "").Replace("<Remark for this Source Type>", "");
+            return res.Replace("<Remark for this Source Type>", "");
         }
 
         public string WriteCleanXml(string path, string variableName = "ENVI", string fileType = ".EDX")
